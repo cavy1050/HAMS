@@ -10,9 +10,9 @@ user interaction,SQLite provide the data persistence support.
   The communication message format adopts Json string format.  
 
 ### Naming Principle  
-- All of the framework components is started with "HAMS.Frame" prefix,which  
-  used for user interaction is followed by "Control" word.The extension  
-  components contain "Extension" word inject into framework.
+- All of the framework components is started with "HAMS.Frame" prefix,which
+  used for user interaction is followed by "Control" word.The extension
+  components contain "Extension" word inject into framework.  
 - The simple type only contain property definition is named with "Kind" suffix.  
 - The enumeration type is named with "Part" suffix.  
 
