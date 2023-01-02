@@ -1,6 +1,6 @@
 ## Development Design Principle Definition  
 
-HAMS is base on Microsoft Prism Library,MaterialDesign Controls is used for 
+HAMS is base on Microsoft Prism Library,MaterialDesign Controls is used for
 user interaction,SQLite provide the data persistence support.
 
 ### Design principle
