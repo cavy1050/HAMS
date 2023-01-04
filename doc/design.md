@@ -3,7 +3,7 @@
 HAMS is base on Microsoft Prism Library,MaterialDesign Controls is used for
 user interaction,SQLite provide the data persistence support.
 
-### Design principle
+### Design Principle
 - The interaction relationship between the layer of MVVM pattern is shown as below  
   View => ViewModel => Model => Service.
 - The communication message between modules is based on `String` type adopts Json
