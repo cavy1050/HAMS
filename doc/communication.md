@@ -3,7 +3,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 
 ### Request Message Format  
 | Serial Number | Identification | Name | Type | Length | Memo |
-| :----         | :----          | :----| :----| :----  | :----|
+| :--           | :--            | :--  | :--  | :--    | :--  |
 | 1 | svc_code      | request service number  | string | 4    | see the service difinition     |
 | 2 | msg_id        | message number          | string | 30   | time(yyyyMMddHHmmss)+random No.(4) |
 | 3 | souc_mod_name | source module name      | string | 50   |      |
@@ -12,7 +12,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 
 ### Response Message Format  
 | Serial Number | Identification | Name | Type | Length | Memo |
-| :----         | :----          | :----| :----| :----  | :----|
+| :--           | :--            | :--  | :--  | :--    | :--  |
 | 1 | svc_code      | response service number  | string       | 4    |      |
 | 2 | msg_id        | message number           | string       | 30   |      |
 | 3 | souc_mod_name | source module name       | string       | 50   |      |
@@ -26,7 +26,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | :--           | :--  | :--  | :--         |
 | 1 | 1101 | ApplictionVerificationService  | validate app licence |
 | 2 | 1201 | ApplicationStatusService       | change app status    |
-___
+|___|
 | 2 | 2101 | AccountVerificationService   | validate account password  |
 | 3 | 2201 | AccountAuthenticationService | get account rights | 
 
