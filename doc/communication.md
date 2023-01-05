@@ -26,7 +26,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | :--           | :--  | :--  | :--         |
 | 1 | 1101 | ApplictionVerificationService  | validate app licence |
 | 2 | 1201 | ApplicationStatusService       | change app status    |
-|___|
-| 2 | 2101 | AccountVerificationService   | validate account password  |
-| 3 | 2201 | AccountAuthenticationService | get account rights | 
+|   |
+| 3 | 2101 | AccountVerificationService   | validate account password  |
+| 4 | 2201 | AccountAuthenticationService | get account rights | 
 
