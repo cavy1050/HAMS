@@ -25,6 +25,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | Serial Number | Code | Name | Description |
 | :--           | :--  | :--  | :--         |
 | 1 | 1101 | ApplictionVerificationService  | validate app licence |
+| 2 | 1201 | ApplicationStatusService       | change app status    |
 ___
 | 2 | 2101 | AccountVerificationService   | validate account password  |
 | 3 | 2201 | AccountAuthenticationService | get account rights | 
