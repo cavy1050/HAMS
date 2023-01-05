@@ -13,8 +13,8 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 ### Response Message Format  
 | Serial Number | Identification | Name | Type | Length | Memo |
 | :----         | :----          | :----| :----| :----  | :----|
-| 1 | svc_code      | response service number  | string       | 4    | see the service difinition     |
-| 2 | msg_id        | message number           | string       | 30   | time(yyyyMMddHHmmss)+random No.(4) |
+| 1 | svc_code      | response service number  | string       | 4    |      |
+| 2 | msg_id        | message number           | string       | 30   |      |
 | 3 | souc_mod_name | source module name       | string       | 50   |      |
 | 4 | tagt_mod_name | target module name       | string array | 50   |      |
 | 5 | ret_code      | response service number  | string       | 4    | 1:success 0:fail |
@@ -22,3 +22,10 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 7 | svc_cont      | response service content | string       | 8000 |      |
  
 ### Module Communication Service Definition
+| Serial Number | Code | Name | Description |
+| :--           | :--  | :--  | :--  | :--         |
+| 1 | 1101 | ApplictionVerificationService  | validate app licence |
+___
+| 2 | 2101 | AccountVerificationService   | validate account password  |
+| 3 | 2201 | AccountAuthenticationService | get account rights | 
+
