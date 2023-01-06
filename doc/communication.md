@@ -47,14 +47,16 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 Empty
 
 ##  Module Communication Service Dictionary Definition  
-- `app_ctl_type` (application control type)
+- `app_ctl_type` (application control type)  
+
 | Code Value | Code Name |
 | :--        | :--       |
 | 01 | LoginWindow     |
 | 02 | MainWindow      |
 | 03 | MainLeftDrawer  |
 
-- `app_act_flag` (application control active flag)
+- `app_act_flag` (application control active flag)  
+
 | Code Value | Code Name |
 | :--        | :--       |
 | 0 | InActive |
