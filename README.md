@@ -1,8 +1,8 @@
-##  Introduction  
+#  Introduction  
 
 Hospital Auxiliary Management System (HAMS) is Windows Presentation Foundation(WPF) application that provide modular development.It can easily extension by using loosely coupled components.  
 
-##  Documentation  
+#  Documentation  
 
 - For the development environment introduction to see the documentation at: [environment.md](doc/environment.md)  
 

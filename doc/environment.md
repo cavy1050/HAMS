@@ -1,4 +1,4 @@
-## Development Environment Introduction  
+#  Development Environment Introduction  
 
 The basic development platform is shown as below
 | Kit   | Version | 

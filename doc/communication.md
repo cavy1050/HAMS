@@ -1,7 +1,7 @@
-## Module Communication Protocol Definition  
+#  Module Communication Protocol Definition  
 The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubEvent<string>` provide module communication support.The detail is as follow.
 
-### Request Message Format  
+##  Request Message Format  
 | Serial Number | Identification | Name | Type | Length | Memo |
 | :--           | :--            | :--  | :--  | :--    | :--  |
 | 1 | svc_code      | request service number  | string | 4    | see the service difinition |
@@ -10,7 +10,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 4 | tagt_mod_name | target module name      | string | 50   |      |
 | 5 | svc_cont      | request service content | string | 8000 | see the service content difinition     |
 
-### Response Message Format  
+##  Response Message Format  
 | Serial Number | Identification | Name | Type | Length | Memo |
 | :--           | :--            | :--  | :--  | :--    | :--  |
 | 1 | svc_code      | response service number  | string       | 4    |      |
@@ -21,11 +21,11 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 6 | ret_msg       | error message            | string       | 500  |      |
 | 7 | svc_cont      | response service content | string       | 8000 |      |
  
-### Module Communication Service Definition
+##  Module Communication Service Definition
 | Serial Number | Code | Name | Description |
 | :--           | :--  | :--  | :--         |
-| 1 | 1101 | ApplictionVerificationService  | validate app licence |
-| 2 | 1102 | ApplicationStatusService       | change app status    |
+| 1 | 1101 | ApplicationStatusService      | change app status    |
+| 2 | 1102 | ApplictionVerificationService | validate app licence |
 |   |
 | 3 | 2101 | AccountVerificationService   | validate account password  |
 | 4 | 2102 | AccountAuthenticationService | get account rights         | 
@@ -33,10 +33,29 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 5 | 3101 | MenuListService | get account authorized menu list | 
 | 6 | 3102 | MenuItemService | active menu item                 | 
 
-### Module Communication Service Content Definition
-####  `1101` ApplictionVerificationService
+##   Module Communication Service Content Definition
+###  `1101` ApplictionVerificationService
 - Request String Format  
 
 | Serial Number | Parameter Code | Parameter Type | Parameter Length | Description |
 | :--           | :--            | :--            | :--              | :--         |
-| 1 | acct_id  | string | 8  |   |
+| 1 | app_ctl_type | string | 2 | |
+| 2 | app_act_flag | string | 2 | |
+
+- Response String Format  
+
+Empty
+
+##  Module Communication Service Dictionary Definition  
+- `app_ctl_type` (application control type)
+| Code Value | Code Name |
+| :--        | :--       |
+| 01 | LoginWindow     |
+| 02 | MainWindow      |
+| 03 | MainLeftDrawer  |
+
+- `app_act_flag` (application control active flag)
+| Code Value | Code Name |
+| :--        | :--       |
+| 0 | InActive |
+| 1 | Active   |
