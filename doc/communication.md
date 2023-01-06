@@ -38,3 +38,4 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 
 | Serial Number | Parameter Code | Parameter Type | Parameter Length | Description |
 | :--           | :--            | :--            | :--              | :--         |
+| 1 | acct_id  | string | 8  |   |
