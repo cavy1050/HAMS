@@ -37,10 +37,11 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 ###  `1101` ApplicationStatusService
 - Request String Format  
 
-| Serial Number | Parameter Code | Parameter Type | Parameter Length | Description |
-| :--           | :--            | :--            | :--              | :--         |
-| 1 | app_ctl_type | string | 2 | |
-| 2 | app_act_flag | string | 2 | |
+| Serial Number | Parameter Code | Parameter Type | Parameter Length | Dictionary Identification | Description |
+| :--           | :--            | :--            | :--              | :--       
+               | :--         |
+| 1 | app_ctl_type | string | 2 | Y | |
+| 2 | app_act_flag | string | 2 | Y | |
 
 - Response String Format  
 
