@@ -35,7 +35,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 
 ### Module Communication Service Content Definition
 ####  1101 ApplictionVerificationService
-- Request String Format 
+- Request String Format  
 | Serial Number | Parameter Code | Parameter Type | Parameter Length | Description |
 | :--           | :--            | :--            | :--              | :--         |
 | 1 | acct_id  | string | 8  |   |
