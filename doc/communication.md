@@ -34,7 +34,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 6 | 3102 | MenuItemService | active menu item                 | 
 
 ### Module Communication Service Content Definition
-#### __1101__ ApplictionVerificationService
+####  `1101` ApplictionVerificationService
 - Request String Format  
 | Serial Number | Parameter Code | Parameter Type | Parameter Length | Description |
 | :--           | :--            | :--            | :--              | :--         |
@@ -46,3 +46,4 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | :--           | :--            | :--            | :--              | :--         |
 | 1 | acct_id   | string | 8  |   |
 | 2 | acct_name | string | 8  |   |
+| 3 | acct_pwd  | string | 20 |   |
