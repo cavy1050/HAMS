@@ -38,8 +38,7 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 - Request String Format  
 
 | Serial Number | Parameter Code | Parameter Type | Parameter Length | Dictionary Identification | Description |
-| :--           | :--            | :--            | :--              | :--       
-               | :--         |
+| :-- | :-- | :-- | :-- | :-- | :-- |
 | 1 | app_ctl_type | string | 2 | Y | |
 | 2 | app_act_flag | string | 2 | Y | |
 
