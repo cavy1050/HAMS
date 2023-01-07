@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0D45E77F-F0C2-489F-9943-2F04F2025F66}</ProjectGuid>
+    <ProjectGuid>{5545C54A-E42A-4CF8-B37E-BF7FBCDF5E5D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HAMS</RootNamespace>
     <AssemblyName>HAMS</AssemblyName>
