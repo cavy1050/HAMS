@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HAMS.Kernel.Properties
+namespace HAMS.Frame.Kernel.Properties
 {
     
     

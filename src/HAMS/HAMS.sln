@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.33130.400
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS", "HAMS.csproj", "{5545C54A-E42A-4CF8-B37E-BF7FBCDF5E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Kernel", "..\HAMS.Kernel\HAMS.Kernel.csproj", "{0949437D-6162-4DCF-A3BD-A3596113635B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel", "..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj", "{754A02F3-71B3-43DD-8239-3D039205F8D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{5545C54A-E42A-4CF8-B37E-BF7FBCDF5E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5545C54A-E42A-4CF8-B37E-BF7FBCDF5E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5545C54A-E42A-4CF8-B37E-BF7FBCDF5E5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0949437D-6162-4DCF-A3BD-A3596113635B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0949437D-6162-4DCF-A3BD-A3596113635B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0949437D-6162-4DCF-A3BD-A3596113635B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0949437D-6162-4DCF-A3BD-A3596113635B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
