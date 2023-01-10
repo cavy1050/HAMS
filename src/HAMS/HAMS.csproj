@@ -100,6 +100,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HAMSBootstrapper.cs" />
+    <Compile Include="Models\LoginWindowModel.cs" />
+    <Compile Include="Models\MainWindowModel.cs" />
+    <Compile Include="ViewModels\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
