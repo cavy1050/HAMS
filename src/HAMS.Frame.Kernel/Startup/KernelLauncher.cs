@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HAMS.Frame.Kernel
 {
-    internal class KernelLauncher
+    public class KernelLauncher
     {
         public KernelLauncher(IContainerProvider containerProviderArgs)
         {

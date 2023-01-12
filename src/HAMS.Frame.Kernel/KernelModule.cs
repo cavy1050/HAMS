@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Modularity;
+using HAMS.Frame.Kernel.Core;
 
 namespace HAMS.Frame.Kernel
 {
@@ -17,7 +18,7 @@ namespace HAMS.Frame.Kernel
 
         public void RegisterTypes(IContainerRegistry containerRegistryArgs)
         {
-
+            containerRegistryArgs.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
         }
     }
 }

@@ -87,6 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CloseTabItemAction.cs" />
+    <Compile Include="Core\Collecters\PathCollecter.cs" />
+    <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
+    <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
+    <Compile Include="Core\Kinds\BaseKind.cs" />
+    <Compile Include="Core\Kinds\CategoryKind.cs" />
+    <Compile Include="Core\Kinds\NestKind.cs" />
+    <Compile Include="Core\Parts\PathPart.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
     <Compile Include="KernelModule.cs" />
@@ -103,6 +110,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\Basic\IManager.cs" />
+    <Compile Include="Services\Basic\LogManager.cs" />
+    <Compile Include="Services\Basic\PathService\PathManager.cs" />
+    <Compile Include="Services\Basic\PathService\PathValidator.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
