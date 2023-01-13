@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Extensions;
 
 namespace HAMS.Frame.Kernel.Services
 {
@@ -27,19 +28,64 @@ namespace HAMS.Frame.Kernel.Services
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
         }
 
-        private void InnerLoad(PathPart pathPartArg)
+        public void Initialize(PathPart pathPartArg)
         {
+            switch (pathPartArg)
+            {
+                case PathPart.ApplictionCatalogue:
+                    DefaultApplictionCatalogue = AppDomain.CurrentDomain.BaseDirectory;
+                    break;
 
+                case PathPart.NativeDataBaseFilePath:
+                    DefaultNativeDataBaseFilePath = AppDomain.CurrentDomain.BaseDirectory + AppDomain.CurrentDomain.FriendlyName.Replace("exe", "db");
+                    break;
+
+                case PathPart.All:
+                    Initialize(PathPart.ApplictionCatalogue);
+                    Initialize(PathPart.NativeDataBaseFilePath);
+                    break;
+            }
         }
 
         public void Load(PathPart pathPartArg)
         {
-            
-        }
+            switch (pathPartArg)
+            {
+                case PathPart.ApplictionCatalogue:
+                    if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GPKA6WE841SE31MQWH3Y5WNF"))
+                    {
+                        environmentMonitor.PathSetting.Add(new BaseKind
+                        {
+                            Code = "01GPKA6WE841SE31MQWH3Y5WNF",
+                            Item = PathPart.ApplictionCatalogue.ToString(),
+                            Name = EnumExtension.GetDescription(PathPart.ApplictionCatalogue),
+                            Content = DefaultApplictionCatalogue,
+                            Rank = Convert.ToInt32(PathPart.ApplictionCatalogue),
+                            Flag = true
+                        }) ;
+                    }
+                    break;
 
-        private void InnerSave(PathPart pathPartArg)
-        {
+                case PathPart.NativeDataBaseFilePath:
+                    if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GPKA6WE85VSFC0S16CF7MCBJ"))
+                    {
+                        environmentMonitor.PathSetting.Add(new BaseKind
+                        {
+                            Code = "01GPKA6WE85VSFC0S16CF7MCBJ",
+                            Item = PathPart.NativeDataBaseFilePath.ToString(),
+                            Name = EnumExtension.GetDescription(PathPart.NativeDataBaseFilePath),
+                            Content = DefaultApplictionCatalogue,
+                            Rank = Convert.ToInt32(PathPart.NativeDataBaseFilePath),
+                            Flag = true
+                        });
+                    }
+                    break;
 
+                case PathPart.All:
+                    Initialize(PathPart.ApplictionCatalogue);
+                    Initialize(PathPart.NativeDataBaseFilePath);
+                    break;
+            }
         }
 
         public void Save(PathPart pathPartArg)

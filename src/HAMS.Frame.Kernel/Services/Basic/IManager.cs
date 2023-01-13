@@ -12,6 +12,11 @@ namespace HAMS.Frame.Kernel.Services
     public interface IManager<T> where T : Enum
     {
         /// <summary>
+        /// 初始化设置
+        /// </summary>
+        void Initialize(T t);
+
+        /// <summary>
         /// 对IEnvironmentMonitor加载数据
         /// </summary>
         void Load(T t);

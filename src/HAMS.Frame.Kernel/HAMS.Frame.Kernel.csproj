@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CloseTabItemAction.cs" />
+    <Compile Include="Core\Collecters\ICollecter.cs" />
     <Compile Include="Core\Collecters\PathCollecter.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Core\Parts\PathPart.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="KernelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

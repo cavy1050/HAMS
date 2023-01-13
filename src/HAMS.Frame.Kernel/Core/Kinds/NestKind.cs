@@ -26,8 +26,8 @@ namespace HAMS.Frame.Kernel.Core
 
         }
 
-        public NestKind(string codeArg, string nameArg, string referNameArg, string contentArg, string descriptionArg, string noteArg,
-                        string superCodeArg, string superNameArg, int rankArg, bool flagArg) : base(codeArg, nameArg, referNameArg, contentArg, descriptionArg, noteArg, rankArg, flagArg)
+        public NestKind(string codeArg, string itemArg, string nameArg, string referNameArg, string contentArg, string descriptionArg, string noteArg,
+                        string superCodeArg, string superNameArg, int rankArg, bool flagArg) : base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, flagArg)
         {
             SuperCode = superCodeArg;
             SuperName = superCodeArg;

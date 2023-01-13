@@ -26,11 +26,11 @@ namespace HAMS.Frame.Kernel.Core
 
         }
 
-        public CategoryKind(string codeArgs, string nameArgs, string contentArgs, string descriptionArgs, string noteArg,
-                                string categoryCodeArgs, string categoryNameArgs, int rankArgs, bool flagArgs) : base(codeArgs, nameArgs, contentArgs, descriptionArgs, noteArg, rankArgs, flagArgs)
+        public CategoryKind(string codeArg,string itemArg,string nameArg, string contentArg, string descriptionArg, string noteArg,
+                                string categoryCodeArg, string categoryNameArg, int rankArg, bool flagArg) : base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, flagArg)
         {
-            CategoryCode = categoryCodeArgs;
-            CategoryName = categoryNameArgs;
+            CategoryCode = categoryCodeArg;
+            CategoryName = categoryNameArg;
         }
     }
 }

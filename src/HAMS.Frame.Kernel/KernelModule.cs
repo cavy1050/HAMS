@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Modularity;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Kernel
 {
     public class KernelModule : IModule
     {
-        public void OnInitialized(IContainerProvider containerProviderArgs)
-        {
+        KernelLauncher kernelLauncher;
 
+        public void OnInitialized(IContainerProvider containerProviderArg)
+        {
+            kernelLauncher = new KernelLauncher(containerProviderArg);
+            kernelLauncher.Initialize();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistryArgs)
         {
             containerRegistryArgs.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
+
+            containerRegistryArgs.Register<IManager<PathPart>, PathManager>();
         }
     }
 }
