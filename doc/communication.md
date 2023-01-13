@@ -4,12 +4,12 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 ##  Request Message Format  
 | Number | Identification | Name | Type | Length | Description |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1 | svc_code | request service number | string | 4  | see the service difinition |
-| 2 | svc_name | request service name   | string | 50 | |
+| 1 | svc_code | request service number | string | 4  | see the service definition |
+| 2 | svc_name | request service name   | string | 50 | used for filter service |
 | 3 | msg_code | message number         | string | 30 | ULID number |
 | 4 | souc_mod_name | source module name | string | 50 | |
 | 5 | tagt_mod_name | target module name | string | 50 | |
-| 6 | svc_cont | request service content | string | 8000 | see the service content difinition     |
+| 6 | svc_cont | request service content | string | 8000 | see the service content definition     |
 
 ##  Response Message Format  
 | Number | Identification | Name | Type | Length | Memo |
