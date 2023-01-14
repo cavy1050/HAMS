@@ -1,4 +1,9 @@
-![logo](/image/logo.jpg)
+<h1 align="left">
+	<br>
+	<img width="60" src="image/logo.jpg" alt="HAMS">
+	<b>&nbsp &nbsp &nbsp Hospital Auxiliary Management System</b>
+	<br>
+</h1>
 
 #  Introduction  
 
