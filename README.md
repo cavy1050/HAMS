@@ -1,8 +1,6 @@
 <h1 align="left">
-	<br>
 	<img width="60" src="image/logo.jpg" alt="HAMS">
-	<b>&nbsp &nbsp &nbsp Hospital Auxiliary Management System</b>
-	<br>
+	<b>&nbsp &nbsp Hospital Auxiliary Management System</b>
 </h1>
 
 #  Introduction  
@@ -17,4 +15,4 @@ Hospital Auxiliary Management System (HAMS) is Windows Presentation Foundation(W
 
 - For the module communication protocol definition to see the documentation at: [communication](doc/communication.md)  
 
-- For 
+- For the module communication protocol
