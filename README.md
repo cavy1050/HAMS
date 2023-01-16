@@ -5,7 +5,7 @@
 
 #  Introduction  
 
-Hospital Auxiliary Management System (HAMS) is Windows Presentation Foundation(WPF) application that provide modular development.It can easily extension by using loosely coupled components.  
+Hospital Auxiliary Management System (HAMS) is Windows Presentation Foundation(WPF) application that provides modular development.It can easily extension by using loosely coupled components.  
 
 #  Documentation  
 
@@ -15,4 +15,4 @@ Hospital Auxiliary Management System (HAMS) is Windows Presentation Foundation(W
 
 - For the module communication protocol definition to see the documentation at: [communication](doc/communication.md)  
 
-- For the module communication protocol
+- For the database definition script to see the site at:[HAMS-DataBase](https://github.com/cavytina/HAMS-DataBase)
