@@ -7,7 +7,6 @@ using Prism.Ioc;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Services;
 using FluentValidation.Results;
-using System.Windows;
 
 namespace HAMS.Frame.Kernel
 {
@@ -17,6 +16,7 @@ namespace HAMS.Frame.Kernel
 
         IEnvironmentMonitor environmentMonitor;
         IManager<PathPart> pathManager;
+        IManager<DataBasePart> dataBaseManager;
 
         public KernelLauncher(IContainerProvider containerProviderArg)
         {
@@ -27,16 +27,38 @@ namespace HAMS.Frame.Kernel
 
         public void Initialize()
         {
+            DefaultInitializeWithValidateServices();
             InitializeWithValidateServices();
+        }
+
+        private void DefaultInitializeWithValidateServices()
+        {
+            pathManager = containerProvider.Resolve<IManager<PathPart>>();
+            pathManager.DeInit(PathPart.All);
+
+            DefaultPathValidator defaultPathValidator = new DefaultPathValidator();
+            ValidationResult defaultPathResult = defaultPathValidator.Validate(pathManager as PathManager);
+            if (defaultPathResult.IsValid != true)
+                environmentMonitor.ValidationSetting.Errors.AddRange(defaultPathResult.Errors);
+            else
+            {
+                pathManager.Load(PathPart.All);
+
+                dataBaseManager = containerProvider.Resolve<IManager<DataBasePart>>();
+                dataBaseManager.DeInit(DataBasePart.Native);
+
+                DefaultDataBaseValidator defaultDataBaseValidator = new DefaultDataBaseValidator();
+                ValidationResult defaultDataBaseResult = defaultDataBaseValidator.Validate(dataBaseManager as DataBaseManager);
+                if (defaultDataBaseResult.IsValid != true)
+                    environmentMonitor.ValidationSetting.Errors.AddRange(defaultDataBaseResult.Errors);
+                else
+                    dataBaseManager.Load(DataBasePart.All);
+            }
         }
 
         private void InitializeWithValidateServices()
         {
-            pathManager = containerProvider.Resolve<IManager<PathPart>>();
-            pathManager.Initialize(PathPart.All);
-
-            PathValidator pathValidator = new PathValidator();
-            ValidationResult result = pathValidator.Validate(pathManager as PathManager);
+            pathManager.Init(PathPart.All);
         }
     }
 }

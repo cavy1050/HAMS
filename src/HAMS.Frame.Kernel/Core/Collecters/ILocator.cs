@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public interface ICollecter<Tin,Tout> where Tin : Enum
+    /// <summary>
+    /// 通过枚举存取Collector中数据
+    /// </summary>
+    public interface ILocator<Tin,Tout> where Tin : Enum
     {
         Tout GetContent(Tin t);
     }

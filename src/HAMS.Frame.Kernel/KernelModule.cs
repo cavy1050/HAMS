@@ -24,7 +24,14 @@ namespace HAMS.Frame.Kernel
         {
             containerRegistryArgs.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
 
+            containerRegistryArgs.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
+            containerRegistryArgs.Register<ISecurityController, SecurityController>();
+
             containerRegistryArgs.Register<IManager<PathPart>, PathManager>();
+            containerRegistryArgs.Register<IManager<DataBasePart>, DataBaseManager>();
+            containerRegistryArgs.Register<IManager<LogPart>, LogManager>();
+
+
         }
     }
 }

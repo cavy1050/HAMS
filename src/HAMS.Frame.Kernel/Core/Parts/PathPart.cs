@@ -9,13 +9,18 @@ namespace HAMS.Frame.Kernel.Core
 {
     public enum PathPart
     {
-        [Description("所有路径")]
+        /// <summary>
+        /// 用于快速加载、保存路径信息
+        /// </summary>
         All,
 
         [Description("程序运行目录")]
         ApplictionCatalogue,
 
         [Description("本地数据库文件路径")]
-        NativeDataBaseFilePath
+        NativeDataBaseFilePath,
+
+        [Description("日志文件目录")]
+        LogFileCatalogue
     }
 }
