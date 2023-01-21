@@ -14,7 +14,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         All,
 
-        [Description("本地数据库")]
+        [Description("本地配置数据库")]
         Native,
 
         [Description("病案管理数据库")]

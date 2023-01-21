@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using FluentValidation;
 
 namespace HAMS.Frame.Kernel.Services
 {
-    public class DefaultDataBaseValidator : AbstractValidator<DataBaseManager>
+    public class CostomDataBaseValidator : AbstractValidator<DataBaseManager>
     {
         IDbConnection dbConnection;
 
-        public DefaultDataBaseValidator()
+        public CostomDataBaseValidator()
         {
-            RuleFor(dataBase => dataBase.NativeConnectString).Must(NativeConnectStringValidate).WithMessage("本地数据库文件连接失败!");
+            RuleFor(dataBase => dataBase.BAGLDBConnectString).Must(BAGLDBConnectStringValidate).WithMessage("病案管理数据库连接失败!");
         }
 
-        private bool NativeConnectStringValidate(object nativeConnectStringArg)
+        private bool BAGLDBConnectStringValidate(object bagldbConnectStringArg)
         {
             bool ret = false;
 
-            dbConnection = new SQLiteConnection((string)nativeConnectStringArg);
+            dbConnection = new SqlConnection((string)bagldbConnectStringArg);
             dbConnection.Open();
             if (dbConnection.State == ConnectionState.Open)
                 ret = true;

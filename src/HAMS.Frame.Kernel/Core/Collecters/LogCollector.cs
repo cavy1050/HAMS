@@ -14,7 +14,7 @@ namespace HAMS.Frame.Kernel.Core
             set
             {
                 if (logIndex != LogPart.All)
-                    base[FindIndex(x => x.Name == logIndex.ToString())] = value;
+                    base[FindIndex(x => x.Item == logIndex.ToString())] = value;
                 else
                     throw new ArgumentException(nameof(logIndex));
             }
@@ -22,7 +22,7 @@ namespace HAMS.Frame.Kernel.Core
             get
             {
                 if (logIndex != LogPart.All)
-                    return Find(x => x.Name == logIndex.ToString());
+                    return Find(x => x.Item == logIndex.ToString());
                 else
                     throw new ArgumentException(nameof(logIndex));
             }
@@ -34,7 +34,7 @@ namespace HAMS.Frame.Kernel.Core
         public ILogController GetContent(LogPart logIndex)
         {
             if (logIndex != LogPart.All)
-                return Find(x => x.Name == logIndex.ToString()).LogController;
+                return Find(x => x.Item == logIndex.ToString()).LogController;
             else
                 throw new ArgumentException(nameof(logIndex));
         }

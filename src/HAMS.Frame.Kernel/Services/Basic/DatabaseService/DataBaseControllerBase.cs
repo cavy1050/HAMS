@@ -10,7 +10,7 @@ using HAMS.Frame.Kernel.Core;
 
 namespace HAMS.Frame.Kernel.Services
 {
-    public abstract class DataBaseControllerBase: IDataBaseController
+    public abstract class DataBaseControllerBase : IDataBaseController
     {
         IEnvironmentMonitor environmentMonitor;
         protected IDbConnection DBConnection { get; set; }

@@ -24,12 +24,12 @@ namespace HAMS.Frame.Kernel.Services
         static readonly byte[] aesKeyBytes = Encoding.Default.GetBytes("#>?q-j6T22Qv1H8u");
         static readonly byte[] aesIVBytes = Encoding.Default.GetBytes("m%95-6C)#^')8<TL");
 
-        public SecurityController(IContainerProvider containerProviderArgs)
+        public SecurityController(IContainerProvider containerProviderArg)
         {
 
         }
 
-        public string DataBaseConnectionStringEncrypt(string plainTextArgs)
+        public string DataBaseConnectionStringEncrypt(string plainTextArg)
         {
             DESCryptoServiceProvider desCryptoSrvPrv = new DESCryptoServiceProvider();
             MemoryStream desMemStream = new MemoryStream();
@@ -39,14 +39,14 @@ namespace HAMS.Frame.Kernel.Services
 
             try
             {
-                byte[] desTextArr = Encoding.Default.GetBytes(plainTextArgs);
+                byte[] desTextArr = Encoding.Default.GetBytes(plainTextArg);
                 CryptoStream desCryStream = new CryptoStream(desMemStream, desCryptoSrvPrv.CreateEncryptor(desKeyBytes, desIVBytes), CryptoStreamMode.Write);
                 desCryStream.Write(desTextArr, 0, desTextArr.Length);
                 desCryStream.FlushFinalBlock();
             }
             catch (Exception ex)
             {
-                
+                throw new CryptographicException(ex.Message, ex);
             }
 
             try
@@ -58,13 +58,13 @@ namespace HAMS.Frame.Kernel.Services
             }
             catch (Exception ex)
             {
-                
+                throw new CryptographicException(ex.Message, ex);
             }
 
             return Convert.ToBase64String(aesMemStream.ToArray());
         }
 
-        public string DataBaseConnectionStringDecrypt(string cipherTextArgs)
+        public string DataBaseConnectionStringDecrypt(string cipherTextArg)
         {
             AesCryptoServiceProvider aesCryptoSrvPrv = new AesCryptoServiceProvider();
             MemoryStream aesMemStream = new MemoryStream();
@@ -74,14 +74,14 @@ namespace HAMS.Frame.Kernel.Services
 
             try
             {
-                byte[] aesTextArr = Convert.FromBase64String(cipherTextArgs);
+                byte[] aesTextArr = Convert.FromBase64String(cipherTextArg);
                 CryptoStream aesCryStream = new CryptoStream(aesMemStream, aesCryptoSrvPrv.CreateDecryptor(aesKeyBytes, aesIVBytes), CryptoStreamMode.Write);
                 aesCryStream.Write(aesTextArr, 0, aesTextArr.Length);
                 aesCryStream.FlushFinalBlock();
             }
             catch (Exception ex)
             {
-                
+                throw new CryptographicException(ex.Message, ex);
             }
 
             try
@@ -93,7 +93,7 @@ namespace HAMS.Frame.Kernel.Services
             }
             catch (Exception ex)
             {
-                
+                throw new CryptographicException(ex.Message, ex);
             }
 
             return Encoding.Default.GetString(desMemStream.ToArray());

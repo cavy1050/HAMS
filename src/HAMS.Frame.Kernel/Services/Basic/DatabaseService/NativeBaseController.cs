@@ -15,9 +15,9 @@ namespace HAMS.Frame.Kernel.Services
         string nativeConnectionString;
         IEnvironmentMonitor environmentMonitor;
 
-        public NativeBaseController(IContainerProvider containerProviderArgs) : base(containerProviderArgs)
+        public NativeBaseController(IContainerProvider containerProviderArg) : base(containerProviderArg)
         {
-            environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
 
             nativeConnectionString = environmentMonitor.DataBaseSetting[DataBasePart.Native].Content;
             base.DBConnection = new SQLiteConnection(nativeConnectionString);

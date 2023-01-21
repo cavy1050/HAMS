@@ -126,16 +126,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\Basic\DataBaseService\BAGLDBBaseController.cs" />
+    <Compile Include="Services\Basic\DataBaseService\CostomDataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\DataBaseControllerBase.cs" />
     <Compile Include="Services\Basic\DataBaseService\DataBaseManager.cs" />
     <Compile Include="Services\Basic\DataBaseService\DefaultDataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\Basic\IManager.cs" />
+    <Compile Include="Services\Basic\LogService\CostomLogValidator.cs" />
+    <Compile Include="Services\Basic\LogService\DataBaseLogController.cs" />
+    <Compile Include="Services\Basic\LogService\ErrorLogController.cs" />
     <Compile Include="Services\Basic\LogService\ILogController.cs" />
+    <Compile Include="Services\Basic\LogService\LogControllerBase.cs" />
     <Compile Include="Services\Basic\LogService\LogManager.cs" />
+    <Compile Include="Services\Basic\LogService\ServiceEventLogController.cs" />
+    <Compile Include="Services\Basic\PathService\CostomPathValidator.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
-    <Compile Include="Services\Basic\PathService\PathValidator.cs" />
+    <Compile Include="Services\Basic\PathService\DefaultPathValidator.cs" />
     <Compile Include="Services\Basic\SecurityService\ISecurityController.cs" />
     <Compile Include="Services\Basic\SecurityService\SecurityController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />

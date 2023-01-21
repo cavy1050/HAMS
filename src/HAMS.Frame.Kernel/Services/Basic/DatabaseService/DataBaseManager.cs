@@ -14,6 +14,11 @@ namespace HAMS.Frame.Kernel.Services
         IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
+        IDataBaseController bagldbBaseController;
+        ISecurityController securityController;
+
+        string sqlSentence;
+        List<BaseKind> costomDataBaseSettingHub;
 
         /// <summary>
         /// 本地数据库连接字符串
@@ -29,19 +34,38 @@ namespace HAMS.Frame.Kernel.Services
         {
             containerProvider = containerProviderArg;
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
+            securityController= containerProviderArg.Resolve<ISecurityController>();
         }
 
         public void DeInit(DataBasePart dataBasePartArg)
         {
             if (dataBasePartArg != DataBasePart.Native)
-                throw new ArgumentException("初始化默认参数必须为本地数据库!", nameof(dataBasePartArg));
+                throw new ArgumentException("初始化参数必须为本地数据库!", nameof(dataBasePartArg));
             else
                 NativeConnectString = "Data Source= " + environmentMonitor.PathSetting.GetContent(PathPart.NativeDataBaseFilePath);
         }
 
         public void Init(DataBasePart dataBasePartArg)
         {
+            if (dataBasePartArg == DataBasePart.Native )
+                throw new ArgumentException("初始化参数不能为本地数据库!", nameof(dataBasePartArg));
+            else
+            {         
+                nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_DataBaseSetting WHERE Flag = False";
+                nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomDataBaseSettingHub);
 
+                switch (dataBasePartArg)
+                {
+                    case DataBasePart.BAGLDB:
+                        BAGLDBConnectString = securityController.DataBaseConnectionStringDecrypt(costomDataBaseSettingHub.FirstOrDefault(x=>x.Code== "01GQ4CXY72MZ7GZAFR9MSE99AW").Content);
+                        break;
+
+                    case DataBasePart.All:
+                        Init(DataBasePart.BAGLDB);
+                        break;
+                }
+            }
         }
 
         public void Load(DataBasePart dataBasePartArg)
@@ -64,8 +88,25 @@ namespace HAMS.Frame.Kernel.Services
                     environmentMonitor.DataBaseSetting[DataBasePart.Native].DataBaseController = nativeBaseController;
                     break;
 
+                case DataBasePart.BAGLDB:
+                    if (!environmentMonitor.DataBaseSetting.Exists(x => x.Code == "01GQ4CXY72MZ7GZAFR9MSE99AW"))
+                        environmentMonitor.DataBaseSetting.Add(new DataBaseKind
+                        {
+                            Code = "01GQ4CXY72MZ7GZAFR9MSE99AW",
+                            Item = DataBasePart.BAGLDB.ToString(),
+                            Name = EnumExtension.GetDescription(DataBasePart.BAGLDB),
+                            Content = BAGLDBConnectString,
+                            Rank = Convert.ToInt32(DataBasePart.BAGLDB),
+                            Flag = false
+                        });
+
+                    bagldbBaseController = containerProvider.Resolve<IDataBaseController>(DataBasePart.BAGLDB.ToString());
+                    environmentMonitor.DataBaseSetting[DataBasePart.BAGLDB].DataBaseController = bagldbBaseController;
+                    break;
+
                 case DataBasePart.All:
                     Load(DataBasePart.Native);
+                    Load(DataBasePart.BAGLDB);
                     break;
             }
         }

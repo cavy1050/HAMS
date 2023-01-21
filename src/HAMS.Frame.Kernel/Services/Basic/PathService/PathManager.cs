@@ -17,6 +17,7 @@ namespace HAMS.Frame.Kernel.Services
         IDataBaseController nativeBaseController;
 
         string sqlSentence;
+        List<BaseKind> costomPathSettingHub;
 
         /// <summary>
         /// 程序运行目录
@@ -65,15 +66,14 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Init(PathPart pathPartArg)
         {
-            List<BaseKind> costomSettingKind;
-            nativeBaseController = containerProvider.Resolve<IDataBaseController>(DataBasePart.Native.ToString());
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_PathSetting WHERE Code NOT IN ('01GPKA6WE841SE31MQWH3Y5WNF','01GPKA6WE85VSFC0S16CF7MCBJ')";
-            nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomSettingKind);
+            nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
+            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_PathSetting WHERE Flag = False";
+            nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomPathSettingHub);
 
             switch (pathPartArg)
             {
                 case PathPart.LogFileCatalogue:
-                    LogFileCatalogue = costomSettingKind.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+                    LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
                     break;
 
                 case PathPart.All:
@@ -121,7 +121,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(PathPart.LogFileCatalogue),
                             Content = LogFileCatalogue,
                             Rank = Convert.ToInt32(PathPart.LogFileCatalogue),
-                            Flag = true
+                            Flag = false
                         });
                     else
                         environmentMonitor.PathSetting[PathPart.LogFileCatalogue].Content = LogFileCatalogue;

@@ -20,16 +20,21 @@ namespace HAMS.Frame.Kernel
             kernelLauncher.Initialize();
         }
 
-        public void RegisterTypes(IContainerRegistry containerRegistryArgs)
+        public void RegisterTypes(IContainerRegistry containerRegistryArg)
         {
-            containerRegistryArgs.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
+            containerRegistryArg.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
 
-            containerRegistryArgs.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
-            containerRegistryArgs.Register<ISecurityController, SecurityController>();
+            containerRegistryArg.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
+            containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
+            containerRegistryArg.Register<ISecurityController, SecurityController>();
 
-            containerRegistryArgs.Register<IManager<PathPart>, PathManager>();
-            containerRegistryArgs.Register<IManager<DataBasePart>, DataBaseManager>();
-            containerRegistryArgs.Register<IManager<LogPart>, LogManager>();
+            containerRegistryArg.Register<ILogController, ErrorLogController>(LogPart.Error.ToString());
+            containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());
+            containerRegistryArg.Register<ILogController, ServiceEventLogController>(LogPart.ServicEvent.ToString());
+
+            containerRegistryArg.Register<IManager<PathPart>, PathManager>();
+            containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
+            containerRegistryArg.Register<IManager<LogPart>, LogManager>();
 
 
         }
