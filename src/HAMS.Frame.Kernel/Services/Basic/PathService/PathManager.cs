@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Extensions;
-using System.Windows;
 
 namespace HAMS.Frame.Kernel.Services
 {
@@ -66,19 +65,23 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Init(PathPart pathPartArg)
         {
-            nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_PathSetting WHERE Flag = False";
-            nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomPathSettingHub);
-
-            switch (pathPartArg)
+            if (pathPartArg == PathPart.ApplictionCatalogue || pathPartArg == PathPart.NativeDataBaseFilePath)
+                throw new ArgumentException("自定义参数不能是<程序运行目录>或<本地数据库文件路径>!", nameof(pathPartArg));
             {
-                case PathPart.LogFileCatalogue:
-                    LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
-                    break;
+                nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_PathSetting WHERE Flag = False";
+                nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomPathSettingHub);
 
-                case PathPart.All:
-                    Init(PathPart.LogFileCatalogue);
-                    break;
+                switch (pathPartArg)
+                {
+                    case PathPart.LogFileCatalogue:
+                        LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+                        break;
+
+                    case PathPart.All:
+                        Init(PathPart.LogFileCatalogue);
+                        break;
+                }
             }
         }
 

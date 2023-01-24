@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Prism.Ioc;
 using log4net.Core;
 using log4net.Layout;
@@ -17,24 +13,44 @@ namespace HAMS.Frame.Kernel.Services
 
         protected ILoggerRepository BaseLoggerRepository { get; set; }
         protected virtual ILayout TextLayout { get; set; }
-        protected bool GlobalLogEnabledFilter { get; set; }
+        protected bool GlobalLogEnabledFlag { get; set; }
 
         public LogControllerBase(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            GlobalLogEnabledFilter = environmentMonitor.LogSetting[LogPart.Global].Flag;
+            GlobalLogEnabledFlag = environmentMonitor.LogSetting[LogPart.Global].Flag;
 
             if (LoggerManager.GetAllRepositories().FirstOrDefault(x => x.Name == "Base") != null)
                 BaseLoggerRepository = LoggerManager.GetRepository("Base");
             else
                 BaseLoggerRepository = LoggerManager.CreateRepository("Base");
 
-            BaseLoggerRepository.Configured = GlobalLogEnabledFilter;
+            BaseLoggerRepository.Configured = GlobalLogEnabledFlag;
 
             TextLayout= new PatternLayout("%date{yyyy-MM-dd HH:mm:ss}  %message %logger %newline");
         }
 
-        public virtual void Write(string messageArg)
+        public virtual void WriteDebug(string messageArg)
+        {
+
+        }
+
+        public virtual void WriteInfo(string messageArg)
+        {
+
+        }
+
+        public virtual void WriteWarn(string messageArg)
+        {
+
+        }
+
+        public virtual void WriteError(string messageArg)
+        {
+
+        }
+
+        public virtual void WriteFatal(string messageArg)
         {
 
         }

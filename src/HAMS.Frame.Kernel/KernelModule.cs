@@ -28,15 +28,14 @@ namespace HAMS.Frame.Kernel
             containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
             containerRegistryArg.Register<ISecurityController, SecurityController>();
 
-            containerRegistryArg.Register<ILogController, ErrorLogController>(LogPart.Error.ToString());
+            containerRegistryArg.Register<ILogController, ApplicationLogController>(LogPart.Application.ToString());
             containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());
             containerRegistryArg.Register<ILogController, ServiceEventLogController>(LogPart.ServicEvent.ToString());
 
+            containerRegistryArg.Register<IManager<SeverityLevelPart>, SeverityManager>();
             containerRegistryArg.Register<IManager<PathPart>, PathManager>();
             containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
             containerRegistryArg.Register<IManager<LogPart>, LogManager>();
-
-
         }
     }
 }

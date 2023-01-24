@@ -17,8 +17,8 @@ namespace HAMS.Frame.Kernel.Core
         [Description("全局设置")]
         Global,
 
-        [Description("错误日志")]
-        Error,
+        [Description("程序运行日志")]
+        Application,
 
         [Description("数据库日志")]
         DataBase,

@@ -20,14 +20,14 @@ namespace HAMS.Frame.Kernel.Services
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
         }
 
-        public virtual bool QueryNoLog<T>(string queryTextArg, out List<T> tHub)
+        public virtual bool QueryNoLog<T>(string sqlSentenceArg, out List<T> tHub)
         {
             bool ret = false;
             tHub = default(List<T>);
 
-            if (environmentMonitor.ValidationSetting.IsValid)
+            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
             {
-                CommandDefinition commandDefinition = new CommandDefinition(queryTextArg);
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
                 DBConnection.Open();
                 tHub = SqlMapper.Query<T>(DBConnection, commandDefinition).AsList();
                 ret = true;

@@ -99,6 +99,7 @@
     <Compile Include="Core\Collecters\ILocator.cs" />
     <Compile Include="Core\Collecters\LogCollector.cs" />
     <Compile Include="Core\Collecters\PathCollector.cs" />
+    <Compile Include="Core\Collecters\SeverityCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
@@ -106,9 +107,12 @@
     <Compile Include="Core\Kinds\DataBaseKind.cs" />
     <Compile Include="Core\Kinds\LogKind.cs" />
     <Compile Include="Core\Kinds\NestKind.cs" />
+    <Compile Include="Core\Kinds\SeverityKind.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
+    <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />
     <Compile Include="Core\Parts\PathPart.cs" />
+    <Compile Include="Core\Parts\SeverityLevelPart.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
@@ -127,25 +131,24 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\Basic\DataBaseService\BAGLDBBaseController.cs" />
-    <Compile Include="Services\Basic\DataBaseService\CostomDataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\DataBaseControllerBase.cs" />
     <Compile Include="Services\Basic\DataBaseService\DataBaseManager.cs" />
-    <Compile Include="Services\Basic\DataBaseService\DefaultDataBaseValidator.cs" />
+    <Compile Include="Services\Basic\DataBaseService\DataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\Basic\IManager.cs" />
-    <Compile Include="Services\Basic\LogService\CostomLogValidator.cs" />
+    <Compile Include="Services\Basic\LogService\LogValidator.cs" />
     <Compile Include="Services\Basic\LogService\DataBaseLogController.cs" />
-    <Compile Include="Services\Basic\LogService\ErrorLogController.cs" />
+    <Compile Include="Services\Basic\LogService\ApplicationLogController.cs" />
     <Compile Include="Services\Basic\LogService\ILogController.cs" />
     <Compile Include="Services\Basic\LogService\LogControllerBase.cs" />
     <Compile Include="Services\Basic\LogService\LogManager.cs" />
     <Compile Include="Services\Basic\LogService\ServiceEventLogController.cs" />
-    <Compile Include="Services\Basic\PathService\CostomPathValidator.cs" />
+    <Compile Include="Services\Basic\PathService\PathValidator.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
-    <Compile Include="Services\Basic\PathService\DefaultPathValidator.cs" />
     <Compile Include="Services\Basic\SecurityService\ISecurityController.cs" />
     <Compile Include="Services\Basic\SecurityService\SecurityController.cs" />
+    <Compile Include="Services\Basic\SeverityService\SeverityManager.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

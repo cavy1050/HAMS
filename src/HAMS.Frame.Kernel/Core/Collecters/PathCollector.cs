@@ -16,7 +16,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (pathIndex != PathPart.All)
                     base[FindIndex(x => x.Item == pathIndex.ToString())] = value;
                 else
-                    throw new ArgumentException(nameof(pathIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(pathIndex));
             }
 
             get
@@ -24,7 +24,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (pathIndex != PathPart.All)
                     return Find(x => x.Item == pathIndex.ToString());
                 else
-                    throw new ArgumentException(nameof(pathIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(pathIndex));
             }
         }
 
@@ -36,7 +36,7 @@ namespace HAMS.Frame.Kernel.Core
             if (pathIndex != PathPart.All)
                 return Find(x => x.Item == pathIndex.ToString()).Content;
             else
-                throw new ArgumentException(nameof(pathIndex));
+                throw new ArgumentException("定位器只能单个存取!", nameof(pathIndex));
         }
     }
 }

@@ -47,6 +47,11 @@ namespace HAMS.Frame.Kernel.Core
         public int Rank { get; set; }
 
         /// <summary>
+        /// 是否默认设置
+        /// </summary>
+        //public bool DefaultFlag { get; set; }
+
+        /// <summary>
         /// 是否启用
         /// </summary>
         public bool Flag { get; set; }

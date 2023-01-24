@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Ioc;
 using log4net.Core;
 using HAMS.Frame.Kernel.Core;
@@ -26,9 +24,9 @@ namespace HAMS.Frame.Kernel.Services
         ILogController servicEventLogController;
 
         /// <summary>
-        /// 程序错误日志文件路径
+        /// 程序运行日志文件路径
         /// </summary>
-        public string ErrorLogFilePath { get; set; }
+        public string ApplicationLogFilePath { get; set; }
 
         /// <summary>
         /// 数据库日志文件路径
@@ -36,14 +34,14 @@ namespace HAMS.Frame.Kernel.Services
         public string DataBaseLogFilePath { get; set; }
 
         /// <summary>
-        /// 服务事件日志文件目录
+        /// 服务事件日志文件路径
         /// </summary>
         public string ServicEventLogFilePath { get; set; }
 
         /// <summary>
-        /// 全局日志启用设置
+        /// 全局日志启用标志
         /// </summary>
-        public bool GlobalLogEnabledFilter { get; set; }
+        public bool GlobalLogEnabledFlag { get; set; }
 
         /// <summary>
         /// 全局日志级别
@@ -63,12 +61,12 @@ namespace HAMS.Frame.Kernel.Services
             switch (logPartArg)
             {
                 case LogPart.Global:
-                    GlobalLogEnabledFilter = true;
+                    GlobalLogEnabledFlag = true;
                     GlobalLogLevel = Level.Debug;
                     break;
 
-                case LogPart.Error:
-                    ErrorLogFilePath = logFileCatalogue + "Error_" + DateTime.Now.ToString("d") + ".txt";
+                case LogPart.Application:
+                    ApplicationLogFilePath = logFileCatalogue + "Application_" + DateTime.Now.ToString("d") + ".txt";
                     break;
 
                 case LogPart.DataBase:
@@ -81,7 +79,7 @@ namespace HAMS.Frame.Kernel.Services
 
                 case LogPart.All:
                     DeInit(LogPart.Global);
-                    DeInit(LogPart.Error);
+                    DeInit(LogPart.Application);
                     DeInit(LogPart.DataBase);
                     DeInit(LogPart.ServicEvent);
                     break;
@@ -99,11 +97,11 @@ namespace HAMS.Frame.Kernel.Services
             switch (logPartArg)
             {
                 case LogPart.Global:
-                    GlobalLogEnabledFilter = costomLogSettingHub.FirstOrDefault(x=>x.Code== "01GPT3T83953EVANVTJ0ATFAK5").Flag;
+                    GlobalLogEnabledFlag = costomLogSettingHub.FirstOrDefault(x=>x.Code== "01GPT3T83953EVANVTJ0ATFAK5").Flag;
                     break;
 
-                case LogPart.Error:
-                    ErrorLogFilePath = logFileCatalogue + "Error_" + DateTime.Now.ToString("d") + ".txt";
+                case LogPart.Application:
+                    ApplicationLogFilePath = logFileCatalogue + "Error_" + DateTime.Now.ToString("d") + ".txt";
                     break;
 
                 case LogPart.DataBase:
@@ -116,7 +114,7 @@ namespace HAMS.Frame.Kernel.Services
 
                 case LogPart.All:
                     Init(LogPart.Global);
-                    Init(LogPart.Error);
+                    Init(LogPart.Application);
                     Init(LogPart.DataBase);
                     Init(LogPart.ServicEvent);
                     break;
@@ -136,32 +134,31 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(LogPart.Global),
                             Note = GlobalLogLevel.ToString(),
                             Rank = Convert.ToInt32(LogPart.Global),
-                            Flag = GlobalLogEnabledFilter
+                            Flag = GlobalLogEnabledFlag
                         });
                     else
                     {
-                        environmentMonitor.LogSetting[LogPart.Global].Flag = GlobalLogEnabledFilter;
+                        environmentMonitor.LogSetting[LogPart.Global].Flag = GlobalLogEnabledFlag;
                         environmentMonitor.LogSetting[LogPart.Global].Note = GlobalLogLevel.ToString();
                     }
                     break;
 
-                case LogPart.Error:
+                case LogPart.Application:
                     if (!environmentMonitor.LogSetting.Exists(x => x.Code == "01GPT3T839Q7VP6GAGQT12PBXK"))
                         environmentMonitor.LogSetting.Add(new LogKind
                         {
                             Code = "01GPT3T839Q7VP6GAGQT12PBXK",
-                            Item = LogPart.Error.ToString(),
-                            Name = EnumExtension.GetDescription(LogPart.Error),
-                            Content = ErrorLogFilePath,
-                            Rank = Convert.ToInt32(LogPart.Error),
+                            Item = LogPart.Application .ToString(),
+                            Name = EnumExtension.GetDescription(LogPart.Application),
+                            Content = ApplicationLogFilePath,
+                            Rank = Convert.ToInt32(LogPart.Application),
                             Flag = true
                         });
                     else
-                        environmentMonitor.LogSetting[LogPart.Error].Content = ErrorLogFilePath;
+                        environmentMonitor.LogSetting[LogPart.Application].Content = ApplicationLogFilePath;
 
-                    errorLogController = containerProvider.Resolve<ILogController>(LogPart.Error.ToString());
-                    environmentMonitor.LogSetting[LogPart.Error].LogController = null;
-                    environmentMonitor.LogSetting[LogPart.Error].LogController = errorLogController;
+                    errorLogController = containerProvider.Resolve<ILogController>(LogPart.Application.ToString());
+                    environmentMonitor.LogSetting[LogPart.Application].LogController = errorLogController;
 
                     break;
 
@@ -204,7 +201,7 @@ namespace HAMS.Frame.Kernel.Services
 
                 case LogPart.All:
                     Load(LogPart.Global);
-                    Load(LogPart.Error);
+                    Load(LogPart.Application);
                     Load(LogPart.DataBase);
                     Load(LogPart.ServicEvent);
                     break;

@@ -40,7 +40,7 @@ namespace HAMS.Frame.Kernel.Services
         public void DeInit(DataBasePart dataBasePartArg)
         {
             if (dataBasePartArg != DataBasePart.Native)
-                throw new ArgumentException("初始化参数必须为本地数据库!", nameof(dataBasePartArg));
+                throw new ArgumentException("默认参数必须为本地数据库!", nameof(dataBasePartArg));
             else
                 NativeConnectString = "Data Source= " + environmentMonitor.PathSetting.GetContent(PathPart.NativeDataBaseFilePath);
         }
@@ -48,7 +48,7 @@ namespace HAMS.Frame.Kernel.Services
         public void Init(DataBasePart dataBasePartArg)
         {
             if (dataBasePartArg == DataBasePart.Native )
-                throw new ArgumentException("初始化参数不能为本地数据库!", nameof(dataBasePartArg));
+                throw new ArgumentException("自定义参数不能为本地数据库!", nameof(dataBasePartArg));
             else
             {         
                 nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);

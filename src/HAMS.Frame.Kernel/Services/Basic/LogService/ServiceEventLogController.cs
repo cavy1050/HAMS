@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using log4net.Core;
 using log4net.Appender;
-using log4net.Repository;
 using log4net.Repository.Hierarchy;
 using HAMS.Frame.Kernel.Core;
 
@@ -31,7 +25,7 @@ namespace HAMS.Frame.Kernel.Services
 
             serviceEventLogger = (Logger)LoggerManager.GetLogger("Base", "ServiceEvent");
 
-            if (base.GlobalLogEnabledFilter == true)
+            if (base.GlobalLogEnabledFlag == true)
             {
                 serviceEventFileAppender.ActivateOptions();
 
@@ -44,7 +38,7 @@ namespace HAMS.Frame.Kernel.Services
             }
         }
 
-        public override void Write(string messageArg)
+        public override void WriteDebug(string messageArg)
         {
             serviceEventLogger.Log(Level.Debug, messageArg, null);
         }

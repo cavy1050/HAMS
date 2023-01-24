@@ -23,8 +23,13 @@ namespace HAMS.Frame.Kernel.Services
         //bool Exec(string execStingArgs);
 
         /// <summary>
-        /// 提供对简单查询操作的基本支持，不记录操作日志，用于程序初始化设置
+        /// 提供对简单数据查询操作的基本支持,不记录操作日志,用于程序初始化设置
         /// </summary>
-        bool QueryNoLog<T>(string queryStingArgs, out List<T> tHub);
+        bool QueryNoLog<T>(string sqlSentenceArg, out List<T> tHub);
+
+        /// <summary>
+        /// 提供对简单数据操作的基本支持,不记录操作日志,用于程序初始化设置保存
+        /// </summary>
+        //bool ExecNoLog(string sqlSentenceArg);
     }
 }

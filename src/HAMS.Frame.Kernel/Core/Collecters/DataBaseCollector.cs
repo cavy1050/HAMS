@@ -16,7 +16,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (dataBaseIndex != DataBasePart.All)
                     base[FindIndex(x => x.Item == dataBaseIndex.ToString())] = value;
                 else
-                    throw new ArgumentException(nameof(dataBaseIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(dataBaseIndex));
             }
 
             get
@@ -24,7 +24,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (dataBaseIndex != DataBasePart.All)
                     return Find(x => x.Item == dataBaseIndex.ToString());
                 else
-                    throw new ArgumentException(nameof(dataBaseIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(dataBaseIndex));
             }
         }
 
@@ -36,7 +36,7 @@ namespace HAMS.Frame.Kernel.Core
             if (dataBaseIndex != DataBasePart.All)
                 return Find(x => x.Item == dataBaseIndex.ToString()).DataBaseController;
             else
-                throw new ArgumentException(nameof(dataBaseIndex));
+                throw new ArgumentException("定位器只能单个存取!", nameof(dataBaseIndex));
         }
     }
 }

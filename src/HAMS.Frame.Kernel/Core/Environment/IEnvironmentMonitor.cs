@@ -12,8 +12,7 @@ namespace HAMS.Frame.Kernel.Core
     /// </summary>
     public interface IEnvironmentMonitor
     {
-        ValidationResult ValidationSetting { get; set; }
-
+        SeverityCollector SeveritySetting { get; set; }
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }
         LogCollector LogSetting { get; set; }

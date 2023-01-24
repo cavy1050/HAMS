@@ -16,7 +16,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (logIndex != LogPart.All)
                     base[FindIndex(x => x.Item == logIndex.ToString())] = value;
                 else
-                    throw new ArgumentException(nameof(logIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(logIndex));
             }
 
             get
@@ -24,7 +24,7 @@ namespace HAMS.Frame.Kernel.Core
                 if (logIndex != LogPart.All)
                     return Find(x => x.Item == logIndex.ToString());
                 else
-                    throw new ArgumentException(nameof(logIndex));
+                    throw new ArgumentException("索引器只能单个存取!", nameof(logIndex));
             }
         }
 
@@ -36,7 +36,7 @@ namespace HAMS.Frame.Kernel.Core
             if (logIndex != LogPart.All)
                 return Find(x => x.Item == logIndex.ToString()).LogController;
             else
-                throw new ArgumentException(nameof(logIndex));
+                throw new ArgumentException("定位器只能单个存取!", nameof(logIndex));
         }
     }
 }
