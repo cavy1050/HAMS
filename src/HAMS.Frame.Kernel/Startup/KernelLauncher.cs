@@ -1,14 +1,18 @@
-﻿using Prism.Ioc;
-using HAMS.Frame.Kernel.Core;
-using HAMS.Frame.Kernel.Services;
+﻿using System;
+using Prism.Ioc;
+using Prism.Modularity;
 using FluentValidation;
 using FluentValidation.Results;
+using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Services;
+using HAMS.Frame.Kernel.Extensions;
 
 namespace HAMS.Frame.Kernel
 {
     public class KernelLauncher
     {
         IContainerProvider containerProvider;
+        IModuleManager moduleManager;
         IEnvironmentMonitor environmentMonitor;
 
         IManager<SeverityLevelPart> severityManager;
@@ -19,12 +23,14 @@ namespace HAMS.Frame.Kernel
         public KernelLauncher(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
+            moduleManager = containerProviderArg.Resolve<IModuleManager>();
             environmentMonitor = containerProvider.Resolve<IEnvironmentMonitor>();
         }
 
         public void Initialize()
         {
             InitializeServices();
+            LoadFrameModuleCatalog();
         }
 
         private void InitializeServices()
@@ -117,6 +123,14 @@ namespace HAMS.Frame.Kernel
             pathManager.Save(PathPart.NativeDataBaseFilePath);
 
             dataBaseManager.Save(DataBasePart.Native);
+        }
+
+        private void LoadFrameModuleCatalog()
+        {
+            FrameModuleCatalogExtension frameModuleCatalogExtension = new FrameModuleCatalogExtension(containerProvider);
+            frameModuleCatalogExtension.Load();
+
+            moduleManager.Run();
         }
     }
 }

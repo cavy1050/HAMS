@@ -118,6 +118,7 @@
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\FrameModuleCatalogExtension.cs" />
     <Compile Include="KernelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

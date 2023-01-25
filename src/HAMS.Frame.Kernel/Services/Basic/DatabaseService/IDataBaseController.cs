@@ -10,7 +10,7 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 提供对简单查询操作的基本支持，并记录操作日志
         /// </summary>
-        //bool Query<T>(string queryStingArgs, out List<T> tHub);
+        bool Query<T>(string queryStingArgs, out List<T> tHub);
 
         /// <summary>
         /// 提供对简单数据操作的基本支持，并记录操作日志

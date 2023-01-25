@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Prism.Ioc;
 using Dapper;
@@ -10,6 +11,7 @@ namespace HAMS.Frame.Kernel.Services
     {
         IEnvironmentMonitor environmentMonitor;
         protected IDbConnection DBConnection { get; set; }
+        ILogController dataBaseLogController;
 
         public DataBaseControllerBase(IContainerProvider containerProviderArg)
         {
@@ -45,6 +47,36 @@ namespace HAMS.Frame.Kernel.Services
                 retVal = SqlMapper.Execute(DBConnection, commandDefinition);
                 ret = true;
                 DBConnection.Close();
+            }
+
+            return ret;
+        }
+
+        public virtual bool Query<T>(string queryStringArg, out List<T> tHub)
+        {
+            bool ret = false;
+            tHub = default(List<T>);
+            dataBaseLogController= environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
+
+            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(queryStringArg);
+
+                try
+                {
+                    DBConnection.Open();
+                    tHub = SqlMapper.Query<T>(DBConnection, commandDefinition).AsList();
+                }
+                catch (Exception ex)
+                {
+                    dataBaseLogController.WriteDebug(ex.Message);
+                }
+                finally
+                {
+                    ret = true;
+                    dataBaseLogController.WriteDebug(queryStringArg);
+                    DBConnection.Close();
+                }
             }
 
             return ret;
