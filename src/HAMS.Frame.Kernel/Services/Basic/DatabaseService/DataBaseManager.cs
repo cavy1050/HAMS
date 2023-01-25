@@ -111,7 +111,23 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Save(DataBasePart dataBasePartArg)
         {
+            switch (dataBasePartArg)
+            {
+                case DataBasePart.Native:
+                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + securityController.DataBaseConnectionStringEncrypt(NativeConnectString) + "' WHERE Code='01GQ4CXY72MR4SKSJG7664B1HS'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
 
+                case DataBasePart.BAGLDB:
+                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + securityController.DataBaseConnectionStringEncrypt(BAGLDBConnectString) + "' WHERE Code='01GQ4CXY72MZ7GZAFR9MSE99AW'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case DataBasePart.All:
+                    Save(DataBasePart.Native);
+                    Save(DataBasePart.BAGLDB);
+                    break;
+            }
         }
     }
 }

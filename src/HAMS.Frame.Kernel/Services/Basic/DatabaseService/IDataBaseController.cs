@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HAMS.Frame.Kernel.Core;
+﻿using System.Collections.Generic;
 
 namespace HAMS.Frame.Kernel.Services
 {
@@ -30,6 +25,6 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 提供对简单数据操作的基本支持,不记录操作日志,用于程序初始化设置保存
         /// </summary>
-        //bool ExecNoLog(string sqlSentenceArg);
+        bool ExecNoLog(string sqlSentenceArg);
     }
 }

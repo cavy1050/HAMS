@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Ioc;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Extensions;
@@ -140,7 +138,29 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Save(PathPart pathPartArg)
         {
-            
+            switch (pathPartArg)
+            {
+                case PathPart.ApplictionCatalogue:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + ApplictionCatalogue + "' WHERE Code='01GPKA6WE841SE31MQWH3Y5WNF'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case PathPart.NativeDataBaseFilePath:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + NativeDataBaseFilePath + "' WHERE Code='01GPKA6WE85VSFC0S16CF7MCBJ'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case PathPart.LogFileCatalogue:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + LogFileCatalogue + "' WHERE Code='01GPSK8EY3VD74Y0508D7KP2Z4'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case PathPart.All:
+                    Save(PathPart.ApplictionCatalogue);
+                    Save(PathPart.NativeDataBaseFilePath);
+                    Save(PathPart.LogFileCatalogue);
+                    break;
+            }
         }
     }
 }

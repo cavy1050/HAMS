@@ -24,6 +24,8 @@ namespace HAMS.Frame.Kernel.Services
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
 
+            Include(new PathValidator());
+
             RuleFor(path => path.LogFileCatalogue)
                 .NotEqual(environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue)).WithMessage("日志文件目录与默认设置相同!");
         }

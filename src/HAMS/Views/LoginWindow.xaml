@@ -33,7 +33,7 @@
                 <ContentControl prism:RegionManager.RegionName="LoginContentRegion"/>
 
                 <md:Snackbar Margin="0 4 0 0"
-                                         MessageQueue="{Binding LoginMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                             MessageQueue="{Binding LoginMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
     </md:DialogHost>

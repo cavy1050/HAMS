@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Data;
 using Prism.Ioc;
 using Dapper;
@@ -30,6 +26,23 @@ namespace HAMS.Frame.Kernel.Services
                 CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
                 DBConnection.Open();
                 tHub = SqlMapper.Query<T>(DBConnection, commandDefinition).AsList();
+                ret = true;
+                DBConnection.Close();
+            }
+
+            return ret;
+        }
+
+        public virtual bool ExecNoLog(string sqlSentenceArg)
+        {
+            bool ret = false;
+            int retVal;
+
+            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
+                DBConnection.Open();
+                retVal = SqlMapper.Execute(DBConnection, commandDefinition);
                 ret = true;
                 DBConnection.Close();
             }

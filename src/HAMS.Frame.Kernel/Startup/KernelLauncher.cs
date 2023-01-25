@@ -19,7 +19,6 @@ namespace HAMS.Frame.Kernel
         public KernelLauncher(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
-
             environmentMonitor = containerProvider.Resolve<IEnvironmentMonitor>();
         }
 
@@ -71,10 +70,10 @@ namespace HAMS.Frame.Kernel
                     logManager.DeInit(LogPart.All);
                     LogValidator logValidator = new LogValidator();
                     ValidationResult logResult = logValidator.Validate(logManager as LogManager);
-                    if (dataBaseResult.IsValid != true)
-                        environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(dataBaseResult.Errors);
-                    else
-                        logManager.Load(LogPart.All);
+                    if (logResult.IsValid != true)
+                        environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(logResult.Errors);
+                        
+                    logManager.Load(LogPart.All);
                 }
             }
         }
@@ -82,42 +81,42 @@ namespace HAMS.Frame.Kernel
         private void InitializeWithValidateCustomServices()
         {
             pathManager.Init(PathPart.All);
-
             PathValidator pathValidator = new PathValidator(containerProvider);
             ValidationResult pathResult = pathValidator.Validate(pathManager as PathManager);
-
             if (pathResult.IsValid != true)
                 environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(pathResult.Errors);
             else
-            {
                 pathManager.Load(PathPart.All);
-                dataBaseManager.Init(DataBasePart.All);
 
-                DataBaseValidator dataBaseValidator = new DataBaseValidator();
-                ValidationResult dataBaseResult = dataBaseValidator.Validate(dataBaseManager as DataBaseManager,options=>
-                    {
-                        options.IncludeRuleSets("BAGLDBValidateRule");
-                    });
-                if (dataBaseResult.IsValid != true)
-                    environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(dataBaseResult.Errors);
-                else
+            dataBaseManager.Init(DataBasePart.All);
+            DataBaseValidator dataBaseValidator = new DataBaseValidator();
+            ValidationResult dataBaseResult = dataBaseValidator.Validate(dataBaseManager as DataBaseManager,options=>
                 {
-                    dataBaseManager.Load(DataBasePart.All);
+                    options.IncludeRuleSets("BAGLDBValidateRule");
+                });
+            if (dataBaseResult.IsValid != true)
+                environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(dataBaseResult.Errors);
+            else
+                dataBaseManager.Load(DataBasePart.All);
 
-                    logManager.Init(LogPart.All);
-                    LogValidator logValidator = new LogValidator();
-                    ValidationResult logResult = logValidator.Validate(logManager as LogManager);
-                    if (logResult.IsValid != true)
-                        environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(logResult.Errors);
-                    else
-                        logManager.Load(LogPart.All);
-                }
-            }
+            logManager.Init(LogPart.All);
+            LogValidator logValidator = new LogValidator();
+            ValidationResult logResult = logValidator.Validate(logManager as LogManager);
+            if (logResult.IsValid != true)
+                environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(logResult.Errors);
+            else
+                logManager.Load(LogPart.All);
         }
 
+        /// <summary>
+        /// 初始化完成只保存默认值项目，自定义项目不做改动
+        /// </summary>
         private void SaveDefaultServices()
         {
+            pathManager.Save(PathPart.ApplictionCatalogue);
+            pathManager.Save(PathPart.NativeDataBaseFilePath);
 
+            dataBaseManager.Save(DataBasePart.Native);
         }
     }
 }

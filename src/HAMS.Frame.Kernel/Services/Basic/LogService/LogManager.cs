@@ -213,7 +213,35 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Save(LogPart logPartArg)
         {
+            switch (logPartArg)
+            {
+                case LogPart.Global:
+                    sqlSentence = "UPDATE System_LogSetting SET EnabledFlag=" + GlobalLogEnabledFlag + ",GlobalLogLevel='"+GlobalLogLevel.ToString()+"' WHERE Code='01GPT3T83953EVANVTJ0ATFAK5'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
 
+                case LogPart.Application:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + ApplicationLogFilePath + "' WHERE Code='01GPT3T839Q7VP6GAGQT12PBXK'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case LogPart.DataBase:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + DataBaseLogFilePath + "' WHERE Code='01GPT3T839BDKG6EA03W22MX0K'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case LogPart.ServicEvent:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + ServicEventLogFilePath + "' WHERE Code='01GPT3T839QKWK6A7GHVV2PH8E'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
+                case LogPart.All:
+                    Save(LogPart.Global);
+                    Save(LogPart.Application);
+                    Save(LogPart.DataBase);
+                    Save(LogPart.ServicEvent);
+                    break;
+            }
         }
     }
 }
