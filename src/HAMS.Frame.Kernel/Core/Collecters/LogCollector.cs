@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class LogCollector : List<LogKind>, ILocator<LogPart, ILogController>
+    public class LogCollector : List<LogKind> , ILocator<LogPart, ILogController>
     {
         public LogKind this[LogPart logIndex]
         {

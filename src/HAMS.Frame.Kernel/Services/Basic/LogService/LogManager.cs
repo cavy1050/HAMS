@@ -14,7 +14,8 @@ namespace HAMS.Frame.Kernel.Services
     public class LogManager : IManager<LogPart>
     {
         string sqlSentence, logFileCatalogue;
-        List<BaseKind> costomLogSettingHub;
+        List<SettingKind> costomLogSettingHub;
+        LogLevelConverter logLevelConverter;
 
         IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;
@@ -88,20 +89,22 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Init(LogPart logPartArg)
         {
+            logLevelConverter = new LogLevelConverter();
             logFileCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue);
 
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_LogSetting WHERE Code = '01GPT3T83953EVANVTJ0ATFAK5'";
-            nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomLogSettingHub);
+            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_LogSetting WHERE EnabledFlag = True AND DefaultFlag = False";
+            nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomLogSettingHub);
 
             switch (logPartArg)
             {
                 case LogPart.Global:
-                    GlobalLogEnabledFlag = costomLogSettingHub.FirstOrDefault(x=>x.Code== "01GPT3T83953EVANVTJ0ATFAK5").Flag;
+                    GlobalLogLevel= (Level)logLevelConverter.ConvertFrom(costomLogSettingHub.FirstOrDefault(x => x.Code == "01GPT3T83953EVANVTJ0ATFAK5").Note);
+                    GlobalLogEnabledFlag = costomLogSettingHub.FirstOrDefault(x=>x.Code== "01GPT3T83953EVANVTJ0ATFAK5").EnabledFlag;
                     break;
 
                 case LogPart.Application:
-                    ApplicationLogFilePath = logFileCatalogue + "Error_" + DateTime.Now.ToString("d") + ".txt";
+                    ApplicationLogFilePath = logFileCatalogue + "Application_" + DateTime.Now.ToString("d") + ".txt";
                     break;
 
                 case LogPart.DataBase:
@@ -134,11 +137,11 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(LogPart.Global),
                             Note = GlobalLogLevel.ToString(),
                             Rank = Convert.ToInt32(LogPart.Global),
-                            Flag = GlobalLogEnabledFlag
+                            EnabledFlag = GlobalLogEnabledFlag
                         });
                     else
                     {
-                        environmentMonitor.LogSetting[LogPart.Global].Flag = GlobalLogEnabledFlag;
+                        environmentMonitor.LogSetting[LogPart.Global].EnabledFlag = GlobalLogEnabledFlag;
                         environmentMonitor.LogSetting[LogPart.Global].Note = GlobalLogLevel.ToString();
                     }
                     break;
@@ -152,7 +155,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(LogPart.Application),
                             Content = ApplicationLogFilePath,
                             Rank = Convert.ToInt32(LogPart.Application),
-                            Flag = true
+                            EnabledFlag = true
                         });
                     else
                         environmentMonitor.LogSetting[LogPart.Application].Content = ApplicationLogFilePath;
@@ -171,7 +174,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(LogPart.DataBase),
                             Content = DataBaseLogFilePath,
                             Rank = Convert.ToInt32(LogPart.DataBase),
-                            Flag = true
+                            EnabledFlag = true
                         });
                     else
                         environmentMonitor.LogSetting[LogPart.DataBase].Content = DataBaseLogFilePath;
@@ -190,7 +193,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(LogPart.ServicEvent),
                             Content = ServicEventLogFilePath,
                             Rank = Convert.ToInt32(LogPart.ServicEvent),
-                            Flag = true
+                            EnabledFlag = true
                         });
                         environmentMonitor.LogSetting[LogPart.ServicEvent].Content = ServicEventLogFilePath;
 

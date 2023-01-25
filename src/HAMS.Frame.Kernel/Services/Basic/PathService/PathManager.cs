@@ -16,7 +16,7 @@ namespace HAMS.Frame.Kernel.Services
         IDataBaseController nativeBaseController;
 
         string sqlSentence;
-        List<BaseKind> costomPathSettingHub;
+        List<SettingKind> costomPathSettingHub;
 
         /// <summary>
         /// 程序运行目录
@@ -69,8 +69,8 @@ namespace HAMS.Frame.Kernel.Services
                 throw new ArgumentException("自定义参数不能是<程序运行目录>或<本地数据库文件路径>!", nameof(pathPartArg));
             {
                 nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_PathSetting WHERE Flag = False";
-                nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomPathSettingHub);
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_PathSetting WHERE EnabledFlag = True AND DefaultFlag = False";
+                nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomPathSettingHub);
 
                 switch (pathPartArg)
                 {
@@ -91,40 +91,40 @@ namespace HAMS.Frame.Kernel.Services
             {
                 case PathPart.ApplictionCatalogue:
                     if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GPKA6WE841SE31MQWH3Y5WNF"))
-                        environmentMonitor.PathSetting.Add(new BaseKind
+                        environmentMonitor.PathSetting.Add(new SettingKind
                         {
                             Code = "01GPKA6WE841SE31MQWH3Y5WNF",
                             Item = PathPart.ApplictionCatalogue.ToString(),
                             Name = EnumExtension.GetDescription(PathPart.ApplictionCatalogue),
                             Content = ApplictionCatalogue,
                             Rank = Convert.ToInt32(PathPart.ApplictionCatalogue),
-                            Flag = true
+                            EnabledFlag = true
                         });
                     break;
 
                 case PathPart.NativeDataBaseFilePath:
                     if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GPKA6WE85VSFC0S16CF7MCBJ"))
-                        environmentMonitor.PathSetting.Add(new BaseKind
+                        environmentMonitor.PathSetting.Add(new SettingKind
                         {
                             Code = "01GPKA6WE85VSFC0S16CF7MCBJ",
                             Item = PathPart.NativeDataBaseFilePath.ToString(),
                             Name = EnumExtension.GetDescription(PathPart.NativeDataBaseFilePath),
                             Content = NativeDataBaseFilePath,
                             Rank = Convert.ToInt32(PathPart.NativeDataBaseFilePath),
-                            Flag = true
+                            EnabledFlag = true
                         });
                     break;
 
                 case PathPart.LogFileCatalogue:
                     if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4"))
-                        environmentMonitor.PathSetting.Add(new BaseKind
+                        environmentMonitor.PathSetting.Add(new SettingKind
                         {
                             Code = "01GPSK8EY3VD74Y0508D7KP2Z4",
                             Item = PathPart.LogFileCatalogue.ToString(),
                             Name = EnumExtension.GetDescription(PathPart.LogFileCatalogue),
                             Content = LogFileCatalogue,
                             Rank = Convert.ToInt32(PathPart.LogFileCatalogue),
-                            Flag = false
+                            EnabledFlag = false
                         });
                     else
                         environmentMonitor.PathSetting[PathPart.LogFileCatalogue].Content = LogFileCatalogue;

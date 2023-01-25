@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
-    /// 嵌套型字典设置类型
+    /// 嵌套字典设置类型
     /// </summary>
-    public class NestKind : BaseKind
+    public class NestKind : SettingKind
     {
         /// <summary>
         /// 上级代码
@@ -17,20 +17,21 @@ namespace HAMS.Frame.Kernel.Core
         public string SuperCode { get; set; }
 
         /// <summary>
-        /// 上级名称
+        /// 上级项
         /// </summary>
-        public string SuperName { get; set; }
+        public string SupeItem { get; set; }
 
         public NestKind() : base()
         {
 
         }
 
-        public NestKind(string codeArg, string itemArg, string nameArg, string referNameArg, string contentArg, string descriptionArg, string noteArg,
-                        string superCodeArg, string superNameArg, int rankArg, bool flagArg) : base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, flagArg)
+        public NestKind(string codeArg, string itemArg, string nameArg, string contentArg, string descriptionArg,
+                                        string noteArg, string categoryCodeArg, string categoryNameArg, int rankArg, string superCodeArg, string supeItemArg, bool defaultFlag, bool enabledFlag) :
+                                            base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, defaultFlag, enabledFlag)
         {
             SuperCode = superCodeArg;
-            SuperName = superCodeArg;
+            SupeItem = supeItemArg;
         }
     }
 }

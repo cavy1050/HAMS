@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Ioc;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Extensions;
@@ -18,7 +16,7 @@ namespace HAMS.Frame.Kernel.Services
         ISecurityController securityController;
 
         string sqlSentence;
-        List<BaseKind> costomDataBaseSettingHub;
+        List<SettingKind> costomDataBaseSettingHub;
 
         /// <summary>
         /// 本地数据库连接字符串
@@ -52,8 +50,8 @@ namespace HAMS.Frame.Kernel.Services
             else
             {         
                 nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,Flag FROM System_DataBaseSetting WHERE Flag = False";
-                nativeBaseController.QueryNoLog<BaseKind>(sqlSentence, out costomDataBaseSettingHub);
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_DataBaseSetting WHERE EnabledFlag = True AND DefaultFlag = False";
+                nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomDataBaseSettingHub);
 
                 switch (dataBasePartArg)
                 {
@@ -81,7 +79,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(DataBasePart.Native),
                             Content = NativeConnectString,
                             Rank = Convert.ToInt32(DataBasePart.Native),
-                            Flag = true
+                            EnabledFlag = true
                         });
 
                     nativeBaseController = containerProvider.Resolve<IDataBaseController>(DataBasePart.Native.ToString());
@@ -97,7 +95,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(DataBasePart.BAGLDB),
                             Content = BAGLDBConnectString,
                             Rank = Convert.ToInt32(DataBasePart.BAGLDB),
-                            Flag = false
+                            EnabledFlag = false
                         });
 
                     bagldbBaseController = containerProvider.Resolve<IDataBaseController>(DataBasePart.BAGLDB.ToString());

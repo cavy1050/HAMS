@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Ioc;
 using FluentValidation.Results;
 using HAMS.Frame.Kernel.Core;
@@ -41,7 +37,7 @@ namespace HAMS.Frame.Kernel.Services
                             Item = SeverityLevelPart.Info.ToString(),
                             Name = EnumExtension.GetDescription(SeverityLevelPart.Info),
                             Rank = Convert.ToInt32(SeverityLevelPart.Info),
-                            Flag = true
+                            EnabledFlag = true
                         });
 
                     environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results = new ValidationResult();
@@ -55,7 +51,7 @@ namespace HAMS.Frame.Kernel.Services
                             Item = SeverityLevelPart.Error.ToString(),
                             Name = EnumExtension.GetDescription(SeverityLevelPart.Error),
                             Rank = Convert.ToInt32(SeverityLevelPart.Error),
-                            Flag = true
+                            EnabledFlag = true
                         });
 
                     environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results = new ValidationResult();

@@ -1,76 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HAMS.Frame.Kernel.Core
+﻿namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
-    /// 基础型字典设置类型
+    /// 根类型
     /// </summary>
     public class BaseKind
     {
         /// <summary>
-        /// 代码--标识项
+        /// 标识项,采用ULID编码
         /// </summary>
+        /// 
+        /// <remarks>
+        /// ULID是JavaScript原生编码，26位字符格式.
+        /// 更多信息请参见<seealso cref="ULID" href="https://github.com/ulid"/>
+        /// 程序采用ULID-C#实现库：<seealso cref="NUlid" href="https://github.com/RobThree/NUlid"/>
+        /// </remarks>
         public string Code { get; set; }
 
         /// <summary>
-        /// 名称(英文)--标识项
+        /// 有效标志
         /// </summary>
-        public string Item { get; set; }
-
-        /// <summary>
-        /// 名称(中文)
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 设置值
-        /// </summary>
-        public string Content { get; set; }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string Note { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int Rank { get; set; }
-
-        /// <summary>
-        /// 是否默认设置
-        /// </summary>
-        //public bool DefaultFlag { get; set; }
-
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        public bool Flag { get; set; }
+        /// 
+        /// <remarks>
+        /// 1：有效 0：无效
+        /// </remarks>
+        public bool EnabledFlag { get; set; }
 
         public BaseKind()
         {
 
         }
 
-        public BaseKind(string codeArg, string nameArg, string referNameArg, string contentArg, string descriptionArg,string noteArg, int rankArgs, bool flagArg)
+        public BaseKind(string codeArg, bool enabledFlagArg)
         {
             Code = codeArg;
-            Item = nameArg;
-            Name = referNameArg;
-            Content = contentArg;
-            Description = descriptionArg;
-            Note = noteArg;
-            Rank = rankArgs;
-            Flag = flagArg;
+            EnabledFlag = enabledFlagArg;
         }
     }
 }

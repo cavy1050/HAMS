@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class PathCollector : List<BaseKind>, ILocator<PathPart, string>
+    public class PathCollector : List<SettingKind>, ILocator<PathPart, string>
     {
-        public BaseKind this[PathPart pathIndex]
+        public SettingKind this[PathPart pathIndex]
         {
             set
             {

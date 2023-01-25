@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CloseTabItemAction.cs" />
+    <Compile Include="Core\Collecters\CollectorBase.cs" />
     <Compile Include="Core\Collecters\DataBaseCollector.cs" />
     <Compile Include="Core\Collecters\ILocator.cs" />
     <Compile Include="Core\Collecters\LogCollector.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
+    <Compile Include="Core\Kinds\SettingKind.cs" />
     <Compile Include="Core\Kinds\CategoryKind.cs" />
     <Compile Include="Core\Kinds\DataBaseKind.cs" />
     <Compile Include="Core\Kinds\LogKind.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\Basic\IManager.cs" />
+    <Compile Include="Services\Basic\LogService\LogLevelConverter.cs" />
     <Compile Include="Services\Basic\LogService\LogValidator.cs" />
     <Compile Include="Services\Basic\LogService\DataBaseLogController.cs" />
     <Compile Include="Services\Basic\LogService\ApplicationLogController.cs" />

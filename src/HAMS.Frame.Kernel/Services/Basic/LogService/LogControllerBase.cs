@@ -18,7 +18,7 @@ namespace HAMS.Frame.Kernel.Services
         public LogControllerBase(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            GlobalLogEnabledFlag = environmentMonitor.LogSetting[LogPart.Global].Flag;
+            GlobalLogEnabledFlag = environmentMonitor.LogSetting[LogPart.Global].EnabledFlag;
 
             if (LoggerManager.GetAllRepositories().FirstOrDefault(x => x.Name == "Base") != null)
                 BaseLoggerRepository = LoggerManager.GetRepository("Base");

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS", "HAMS.csproj", "{554
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel", "..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj", "{754A02F3-71B3-43DD-8239-3D039205F8D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel.Test", "..\HAMS.Frame.Kernel.Test\HAMS.Frame.Kernel.Test.csproj", "{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
