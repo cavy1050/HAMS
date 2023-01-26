@@ -17,10 +17,15 @@ user interaction,SQLite provide the data persistence support.
 - The enumeration type is named with `Part` suffix.  
 
 ##  MaterialDesign Controls Style Definition  
-| Control Type  | Default Style | Whether to Specify Default Style |
-| :----         | :----         | :----                            |
-| Window        | MaterialDesignWindow                          | True  |
-| TextBlock     | MaterialDesignTextBlock                       | False |
-| ComboBox      | MaterialDesignComboBox                        | False |
-| ListBox       | MaterialDesignChoiceChipPrimaryOutlineListBox | True  |
-| Button        | MaterialDesignOutlinedLightButton             | True  |
+| Control Type  | Alias | Default Style | Whether to Specify Default Style |
+| :-- | :-- | :-- | :-- |
+| Window       | WIN | MaterialDesignWindow                          | True  |
+| TextBlock    | TXT | MaterialDesignTextBlock                       | False |
+| Button       | BTN | MaterialDesignOutlinedLightButton             | True  |
+| ToggleButton | TGB | MaterialDesignSwitchToggleButton              | False |
+| RadioButton  | RDB | MaterialDesignRadioButton                     | False |
+| CheckBox     | CKB | MaterialDesignCheckBox                        | False |
+| TextBox      | TXB | MaterialDesignTextBox                         | False |
+| ComboBox     | CMB | MaterialDesignComboBox                        | False |
+| ListBox      | LSB | MaterialDesignChoiceChipPrimaryOutlineListBox | True  |
+| TreeView     | TRV | MaterialDesignTreeView                        | False |
