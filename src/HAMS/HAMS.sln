@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel", "..\HAM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel.Test", "..\HAMS.Frame.Kernel.Test\HAMS.Frame.Kernel.Test.csproj", "{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Service", "..\HAMS.Frame.Service\HAMS.Frame.Service.csproj", "{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Control.Login", "..\HAMS.Frame.Control.Login\HAMS.Frame.Control.Login.csproj", "{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Control.MainHeader", "..\HAMS.Frame.Control.MainHeader\HAMS.Frame.Control.MainHeader.csproj", "{61235AAD-497E-4364-977A-8B9DEC8FEF6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Control.MainLeftDrawer", "..\HAMS.Frame.Control.MainLeftDrawer\HAMS.Frame.Control.MainLeftDrawer.csproj", "{E3B1A583-92E0-41B6-838C-4AE62DD49169}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +35,22 @@ Global
 		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61235AAD-497E-4364-977A-8B9DEC8FEF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61235AAD-497E-4364-977A-8B9DEC8FEF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61235AAD-497E-4364-977A-8B9DEC8FEF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61235AAD-497E-4364-977A-8B9DEC8FEF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B1A583-92E0-41B6-838C-4AE62DD49169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B1A583-92E0-41B6-838C-4AE62DD49169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B1A583-92E0-41B6-838C-4AE62DD49169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B1A583-92E0-41B6-838C-4AE62DD49169}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
