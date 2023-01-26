@@ -80,6 +80,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Views\LoginConfigView.xaml.cs">
+      <DependentUpon>LoginConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginContentView.xaml.cs">
+      <DependentUpon>LoginContentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginHeaderView.xaml.cs">
       <DependentUpon>LoginHeaderView.xaml</DependentUpon>
     </Compile>
@@ -94,14 +100,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\LoginConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginHeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
+    <ProjectReference Include="..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj">
+      <Project>{754a02f3-71b3-43dd-8239-3d039205f8d7}</Project>
+      <Name>HAMS.Frame.Kernel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

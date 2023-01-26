@@ -4,9 +4,181 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HAMS.Frame.Control.Login.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="STY_LOGIN_BTN_DELAYCONFIGCOMMAND" 
+                   TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MaterialDesignToolButton}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsConfigViewLoaded}" 
+                                 Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.Opacity)" BeginTime="0:0:0" Duration="0:0:1">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Duration="0:0:1">
+                                    <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Hidden</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.Opacity)" BeginTime="0:0:0" Duration="0:0:1">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Duration="0:0:1">
+                                    <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Hidden</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="STY_LOGIN_BTN_DELAYBACKCOMMAND" 
+                   TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MaterialDesignToolButton}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsConfigViewLoaded}" 
+                                 Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.Opacity)" BeginTime="0:0:0" Duration="0:0:1">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Duration="0:0:1">
+                                    <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Hidden</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.Opacity)" BeginTime="0:0:0" Duration="0:0:1">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Duration="0:0:1">
+                                    <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Hidden</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <md:ColorZone Padding="20"
+                                  md:ShadowAssist.ShadowDepth="Depth2"
+                                  Mode="PrimaryDark">
+            <DockPanel>
+                <Button WindowChrome.IsHitTestVisibleInChrome="True" 
+                        DockPanel.Dock="Left"
+                        Margin="8 0 0 0" 
+                        Style="{StaticResource  STY_LOGIN_BTN_DELAYBACKCOMMAND}"
+                        Content="{md:PackIcon Kind=ArrowLeft, Size=24}"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
+                        Command="{Binding NavigateToContentViewCommand}"
+                        CommandParameter="LoginContentView">
+                </Button>
+                <StackPanel Orientation="Horizontal"
+                            DockPanel.Dock="Right"
+                            HorizontalAlignment="Right">
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True"
+                        Margin="0 0 8 0" 
+                        Style="{DynamicResource STY_LOGIN_BTN_DELAYCONFIGCOMMAND}"
+                        Content="{md:PackIcon Kind=Cog, Size=24}"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
+                        Command="{Binding NavigateToConfigViewCommand}"
+                        CommandParameter="LoginConfigView" >
+                    </Button>
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True"
+                        Margin="0 0 8 0" 
+                        Style="{DynamicResource MaterialDesignToolButton}"
+                        Content="{md:PackIcon Kind=WindowMinimize, Size=24}"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
+                        Command="{Binding MinimizeWindowCommand}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    </Button>
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True"
+                        Margin="0 0 8 0" 
+                        Style="{DynamicResource MaterialDesignToolButton}" 
+                        Content="{md:PackIcon Kind=Power, Size=24}"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
+                        Command="{Binding CloseWindowCommand}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </md:ColorZone>
     </Grid>
 </UserControl>

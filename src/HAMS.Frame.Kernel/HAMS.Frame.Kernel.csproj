@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CloseTabItemAction.cs" />
+    <Compile Include="Controls\PasswordTextBox.cs" />
+    <Compile Include="Controls\PasswordTextConverter.cs" />
     <Compile Include="Core\Collecters\CollectorBase.cs" />
     <Compile Include="Core\Collecters\DataBaseCollector.cs" />
     <Compile Include="Core\Collecters\ILocator.cs" />
