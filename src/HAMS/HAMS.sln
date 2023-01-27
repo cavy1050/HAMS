@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS", "HAMS.csproj", "{554
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel", "..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj", "{754A02F3-71B3-43DD-8239-3D039205F8D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Kernel.Test", "..\HAMS.Frame.Kernel.Test\HAMS.Frame.Kernel.Test.csproj", "{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Service", "..\HAMS.Frame.Service\HAMS.Frame.Service.csproj", "{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Frame.Control.Login", "..\HAMS.Frame.Control.Login\HAMS.Frame.Control.Login.csproj", "{ADF4A29A-FEAF-4423-BA5F-49B9B1EF20F4}"
@@ -31,10 +29,6 @@ Global
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754A02F3-71B3-43DD-8239-3D039205F8D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4CDB1D9-BE7F-453E-BEB8-6C78BE450A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A6F2252-23CB-44A3-84F5-2F64C0A8F510}.Release|Any CPU.ActiveCfg = Release|Any CPU
