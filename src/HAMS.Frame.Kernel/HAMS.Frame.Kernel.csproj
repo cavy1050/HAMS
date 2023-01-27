@@ -116,6 +116,9 @@
     <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\UserKind.cs" />
+    <Compile Include="Core\Parts\ControlActivePart.cs" />
+    <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
     <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />

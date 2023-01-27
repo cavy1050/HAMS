@@ -38,6 +38,7 @@ namespace HAMS.Frame.Kernel
             InitializeWithValidateDefaultServices();
             InitializeWithValidateCustomServices();
             SaveDefaultServices();
+            InitializeApplicationControlActiveFlag();
         }
 
         private void InitializeWithValidateDefaultServices()
@@ -123,6 +124,13 @@ namespace HAMS.Frame.Kernel
             pathManager.Save(PathPart.NativeDataBaseFilePath);
 
             dataBaseManager.Save(DataBasePart.Native);
+        }
+
+        private void InitializeApplicationControlActiveFlag()
+        {
+            environmentMonitor.ApplicationControlSetting.Add(ControlTypePart.LoginWindow, ControlActivePart.InActive);
+            environmentMonitor.ApplicationControlSetting.Add(ControlTypePart.MainWindow, ControlActivePart.InActive);
+            environmentMonitor.ApplicationControlSetting.Add(ControlTypePart.MainLeftDrawer, ControlActivePart.InActive);
         }
 
         private void LoadFrameModuleCatalog()

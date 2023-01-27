@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation.Results;
 
 namespace HAMS.Frame.Kernel.Core
 {
@@ -12,9 +8,12 @@ namespace HAMS.Frame.Kernel.Core
     /// </summary>
     public interface IEnvironmentMonitor
     {
+        Dictionary<ControlTypePart,ControlActivePart> ApplicationControlSetting { get; set; }
         SeverityCollector SeveritySetting { get; set; }
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }
         LogCollector LogSetting { get; set; }
+
+        UserKind UserSetting { get; set; }
     }
 }
