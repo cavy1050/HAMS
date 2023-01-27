@@ -22,7 +22,8 @@ namespace HAMS.Frame.Kernel
 
             containerRegistryArg.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
             containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
-            containerRegistryArg.RegisterMany<SecurityController>(typeof(ICipherColltroller), typeof(ICertificateController));
+
+            containerRegistryArg.Register<ICipherColltroller,CipherColltroller>();
 
             containerRegistryArg.Register<ILogController, ApplicationLogController>(LogPart.Application.ToString());
             containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());

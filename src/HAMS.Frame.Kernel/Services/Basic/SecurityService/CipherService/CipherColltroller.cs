@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
-using Prism.Ioc;
 
 namespace HAMS.Frame.Kernel.Services
 {
-    public class SecurityController : ICipherColltroller, ICertificateController
+    public class CipherColltroller : ICipherColltroller
     {
         /// <summary>
         /// DES加解密 密钥和向量必须为8字节数据
@@ -21,11 +20,6 @@ namespace HAMS.Frame.Kernel.Services
         /// </summary>
         static readonly byte[] aesKeyBytes = Encoding.Default.GetBytes("#>?q-j6T22Qv1H8u");
         static readonly byte[] aesIVBytes = Encoding.Default.GetBytes("m%95-6C)#^')8<TL");
-
-        public SecurityController(IContainerProvider containerProviderArg)
-        {
-
-        }
 
         public string DataBaseConnectionStringEncrypt(string plainTextArg)
         {
@@ -95,13 +89,6 @@ namespace HAMS.Frame.Kernel.Services
             }
 
             return Encoding.Default.GetString(desMemStream.ToArray());
-        }
-
-        public bool ApplictionCertificateValidate(byte[] certificateDataArg, out DateTime validTimeArg)
-        {
-            validTimeArg = DateTime.Now;
-
-            return true;
         }
     }
 }

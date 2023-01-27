@@ -3,7 +3,7 @@
     /// <summary>
     /// 根类型
     /// </summary>
-    public class BaseKind
+    public abstract class BaseKind
     {
         /// <summary>
         /// 标识项,采用ULID编码
@@ -14,7 +14,17 @@
         /// 更多信息请参见<seealso cref="ULID" href="https://github.com/ulid"/>
         /// 程序采用ULID-C#实现库：<seealso cref="NUlid" href="https://github.com/RobThree/NUlid"/>
         /// </remarks>
-        public string Code { get; set; }
+        public virtual string Code { get; set; }
+
+        /// <summary>
+        /// 内容项
+        /// </summary>
+        public virtual string Content { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public virtual string Note { get; set; }
 
         /// <summary>
         /// 有效标志
@@ -23,16 +33,18 @@
         /// <remarks>
         /// 1：有效 0：无效
         /// </remarks>
-        public bool EnabledFlag { get; set; }
+        public virtual bool EnabledFlag { get; set; }
 
         public BaseKind()
         {
 
         }
 
-        public BaseKind(string codeArg, bool enabledFlagArg)
+        public BaseKind(string codeArg, string contentArg,string noteArg, bool enabledFlagArg)
         {
             Code = codeArg;
+            Content = contentArg;
+            Note = noteArg;
             EnabledFlag = enabledFlagArg;
         }
     }

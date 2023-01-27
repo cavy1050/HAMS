@@ -16,19 +16,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// 设置值
-        /// </summary>
-        public string Content { get; set; }
-
-        /// <summary>
         /// 描述
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string Note { get; set; }
 
         /// <summary>
         /// 排序
@@ -46,13 +36,11 @@
         }
 
         public SettingKind(string codeArg, string itemarg, string nameArg, string contentArg, string descriptionArg,
-                                    string noteArg, int rankArgs, bool defaultFlag, bool enabledFlag) : base(codeArg, enabledFlag)
+                                    string noteArg, int rankArgs, bool defaultFlag, bool enabledFlag) : base(codeArg, contentArg, noteArg, enabledFlag)
         {
             Item = itemarg;
             Name = nameArg;
-            Content = contentArg;
             Description = descriptionArg;
-            Note = noteArg;
             Rank = rankArgs;
             DefaultFlag = defaultFlag;
         }

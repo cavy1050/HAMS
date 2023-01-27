@@ -13,7 +13,7 @@ namespace HAMS.Frame.Kernel.Services
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
         IDataBaseController bagldbBaseController;
-        SecurityController securityController;
+        ICipherColltroller cipherColltroller;
 
         string sqlSentence;
         List<SettingKind> costomDataBaseSettingHub;
@@ -32,7 +32,7 @@ namespace HAMS.Frame.Kernel.Services
         {
             containerProvider = containerProviderArg;
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            securityController = containerProviderArg.Resolve<SecurityController>();
+            cipherColltroller = containerProviderArg.Resolve<ICipherColltroller>();
         }
 
         public void DeInit(DataBasePart dataBasePartArg)
@@ -56,7 +56,7 @@ namespace HAMS.Frame.Kernel.Services
                 switch (dataBasePartArg)
                 {
                     case DataBasePart.BAGLDB:
-                        BAGLDBConnectString = securityController.DataBaseConnectionStringDecrypt(costomDataBaseSettingHub.FirstOrDefault(x=>x.Code== "01GQ4CXY72MZ7GZAFR9MSE99AW").Content);
+                        BAGLDBConnectString = cipherColltroller.DataBaseConnectionStringDecrypt(costomDataBaseSettingHub.FirstOrDefault(x=>x.Code== "01GQ4CXY72MZ7GZAFR9MSE99AW").Content);
                         break;
 
                     case DataBasePart.All:
@@ -114,12 +114,12 @@ namespace HAMS.Frame.Kernel.Services
             switch (dataBasePartArg)
             {
                 case DataBasePart.Native:
-                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + securityController.DataBaseConnectionStringEncrypt(NativeConnectString) + "' WHERE Code='01GQ4CXY72MR4SKSJG7664B1HS'";
+                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + cipherColltroller.DataBaseConnectionStringEncrypt(NativeConnectString) + "' WHERE Code='01GQ4CXY72MR4SKSJG7664B1HS'";
                     nativeBaseController.ExecNoLog(sqlSentence);
                     break;
 
                 case DataBasePart.BAGLDB:
-                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + securityController.DataBaseConnectionStringEncrypt(BAGLDBConnectString) + "' WHERE Code='01GQ4CXY72MZ7GZAFR9MSE99AW'";
+                    sqlSentence = "UPDATE System_DataBaseSetting SET Content='" + cipherColltroller.DataBaseConnectionStringEncrypt(BAGLDBConnectString) + "' WHERE Code='01GQ4CXY72MZ7GZAFR9MSE99AW'";
                     nativeBaseController.ExecNoLog(sqlSentence);
                     break;
 

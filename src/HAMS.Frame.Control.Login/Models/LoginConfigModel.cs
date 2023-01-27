@@ -20,7 +20,6 @@ namespace HAMS.Frame.Control.Login.Models
 
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeDataBaseController;
-        SecurityController securityController;
 
         string versionNumber;
         public string VersionNumber
@@ -67,7 +66,6 @@ namespace HAMS.Frame.Control.Login.Models
         public LoginConfigModel(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            securityController = containerProviderArg.Resolve<SecurityController>();
         }
 
         public void LoadVersionData()
@@ -83,22 +81,6 @@ namespace HAMS.Frame.Control.Login.Models
             OpenSourceAddress = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZMR71N1XAXT0QCNP02").Content;
             OpenSourceProtocol = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJBMRJ81MQAE06EPAH").Content;
             Email = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJFVY0RYXVEFA9M32C").Content;
-        }
-
-        public void VelidateData()
-        {
-            string crtFilePath = environmentMonitor.PathSetting.GetContent(PathPart.ApplictionCatalogue) + "standard.crt";
-            byte[] crtFileData = File.ReadAllBytes(crtFilePath);
-            X509Certificate2 crt = new X509Certificate2(crtFileData);
-            MessageBox.Show("到期日期:"+ crt.GetExpirationDateString());
-            MessageBox.Show("有效日期:"+ crt.GetEffectiveDateString());
-            MessageBox.Show("序列号:" + crt.GetSerialNumberString());
-            MessageBox.Show("名称:" + crt.GetNameInfo(X509NameType.SimpleName,true));
-            MessageBox.Show("bitKey:"+BitConverter.ToString(crt.GetPublicKey()));
-            MessageBox.Show("strKey:"+ crt.GetPublicKeyString());
-            MD5CryptoServiceProvider md5CryptoServiceProvider = new MD5CryptoServiceProvider();
-            byte[] md5Data = md5CryptoServiceProvider.ComputeHash((crt.GetPublicKey()));
-            MessageBox.Show("MD5Key:" + BitConverter.ToString(md5Data).Replace("-", ""));
         }
     }
 }

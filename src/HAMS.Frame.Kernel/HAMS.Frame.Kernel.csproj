@@ -49,6 +49,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\HAMS\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NUlid, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\HAMS\packages\NUlid.1.7.1\lib\netstandard2.0\NUlid.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\HAMS\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
@@ -106,12 +109,13 @@
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
-    <Compile Include="Core\Kinds\SettingKind.cs" />
-    <Compile Include="Core\Kinds\CategoryKind.cs" />
-    <Compile Include="Core\Kinds\DataBaseKind.cs" />
-    <Compile Include="Core\Kinds\LogKind.cs" />
-    <Compile Include="Core\Kinds\NestKind.cs" />
-    <Compile Include="Core\Kinds\SeverityKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\CertificateKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\SettingKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\CategoryKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\DataBaseKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
     <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />
@@ -142,6 +146,7 @@
     <Compile Include="Services\Basic\DataBaseService\DataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
+    <Compile Include="Services\Basic\IFactory.cs" />
     <Compile Include="Services\Basic\IManager.cs" />
     <Compile Include="Services\Basic\LogService\LogLevelConverter.cs" />
     <Compile Include="Services\Basic\LogService\LogValidator.cs" />
@@ -153,15 +158,19 @@
     <Compile Include="Services\Basic\LogService\ServiceEventLogController.cs" />
     <Compile Include="Services\Basic\PathService\PathValidator.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
-    <Compile Include="Services\Basic\SecurityService\ICertificateController.cs" />
-    <Compile Include="Services\Basic\SecurityService\ICipherColltroller.cs" />
-    <Compile Include="Services\Basic\SecurityService\SecurityController.cs" />
+    <Compile Include="Services\Basic\SecurityService\CertificateService\CertificateController.cs" />
+    <Compile Include="Services\Basic\SecurityService\CertificateService\CertificateValidator.cs" />
+    <Compile Include="Services\Basic\SecurityService\CipherService\CipherColltroller.cs" />
+    <Compile Include="Services\Basic\SecurityService\CertificateService\ICertificateController.cs" />
+    <Compile Include="Services\Basic\SecurityService\CipherService\ICipherColltroller.cs" />
+    <Compile Include="Services\Basic\SecurityService\SecurityFactory.cs" />
     <Compile Include="Services\Basic\SeverityService\SeverityManager.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Include="Core\Kinds\InfoKinds\InfoKind.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
