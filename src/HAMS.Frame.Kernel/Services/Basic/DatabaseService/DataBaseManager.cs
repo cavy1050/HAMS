@@ -13,7 +13,7 @@ namespace HAMS.Frame.Kernel.Services
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
         IDataBaseController bagldbBaseController;
-        ISecurityController securityController;
+        SecurityController securityController;
 
         string sqlSentence;
         List<SettingKind> costomDataBaseSettingHub;
@@ -32,7 +32,7 @@ namespace HAMS.Frame.Kernel.Services
         {
             containerProvider = containerProviderArg;
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            securityController= containerProviderArg.Resolve<ISecurityController>();
+            securityController = containerProviderArg.Resolve<SecurityController>();
         }
 
         public void DeInit(DataBasePart dataBasePartArg)

@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 using Prism.Ioc;
-using HAMS.Frame.Kernel.Core;
 
 namespace HAMS.Frame.Kernel.Services
 {
-    public class SecurityController: ISecurityController
+    public class SecurityController : ICipherColltroller, ICertificateController
     {
         /// <summary>
         /// DES加解密 密钥和向量必须为8字节数据
@@ -97,6 +95,13 @@ namespace HAMS.Frame.Kernel.Services
             }
 
             return Encoding.Default.GetString(desMemStream.ToArray());
+        }
+
+        public bool ApplictionCertificateValidate(byte[] certificateDataArg, out DateTime validTimeArg)
+        {
+            validTimeArg = DateTime.Now;
+
+            return true;
         }
     }
 }

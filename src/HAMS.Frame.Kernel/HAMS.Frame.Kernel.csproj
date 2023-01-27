@@ -116,6 +116,7 @@
     <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />
     <Compile Include="Core\Parts\PathPart.cs" />
+    <Compile Include="Core\Parts\SecurityPart.cs" />
     <Compile Include="Core\Parts\SeverityLevelPart.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
@@ -152,7 +153,8 @@
     <Compile Include="Services\Basic\LogService\ServiceEventLogController.cs" />
     <Compile Include="Services\Basic\PathService\PathValidator.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
-    <Compile Include="Services\Basic\SecurityService\ISecurityController.cs" />
+    <Compile Include="Services\Basic\SecurityService\ICertificateController.cs" />
+    <Compile Include="Services\Basic\SecurityService\ICipherColltroller.cs" />
     <Compile Include="Services\Basic\SecurityService\SecurityController.cs" />
     <Compile Include="Services\Basic\SeverityService\SeverityManager.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />

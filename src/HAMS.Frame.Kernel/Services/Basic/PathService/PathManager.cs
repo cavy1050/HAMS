@@ -122,7 +122,7 @@ namespace HAMS.Frame.Kernel.Services
                             Name = EnumExtension.GetDescription(PathPart.LogFileCatalogue),
                             Content = LogFileCatalogue,
                             Rank = Convert.ToInt32(PathPart.LogFileCatalogue),
-                            EnabledFlag = false
+                            EnabledFlag = true
                         });
                     else
                         environmentMonitor.PathSetting[PathPart.LogFileCatalogue].Content = LogFileCatalogue;

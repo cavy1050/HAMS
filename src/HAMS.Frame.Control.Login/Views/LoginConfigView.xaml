@@ -3,17 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HAMS.Frame.Control.Login.Views"
-             xmlns:ctl="clr-namespace:HAMS.Frame.Kernel.Controls;assembly=HAMS.Frame.Kernel"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800">
-
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoginConfigLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid Margin="0 8 0 0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -27,30 +34,35 @@
 
         <StackPanel Grid.Row="1" Margin="0 8 0 0" Orientation="Horizontal">
             <TextBlock Margin="8 0 0 0" Text="版本号"/>
-            <TextBlock Margin="60 0 0 0" Text="22.12"/>
+            <TextBlock Margin="60 0 0 0" Text="{Binding LoginConfigModel.VersionNumber}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0 8 0 0" Orientation="Horizontal">
-            <TextBlock Margin="8 0 0 0" Text="开发代号"/>
-            <TextBlock Margin="46 0 0 0" Text="Alpha"/>
+            <TextBlock Margin="8 0 0 0" Text="当前版本"/>
+            <TextBlock Margin="46 0 0 0" Text="{Binding LoginConfigModel.VersionCode}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Margin="0 8 0 0" Orientation="Horizontal">
-            <TextBlock Margin="8 0 0 0" Text="开源地址"/>
-            <TextBlock Margin="48 0 0 0" Text="https://github.com/cavytina/HQMS"/>
+            <TextBlock Margin="8 0 0 0" Text="有效时间"/>
+            <TextBlock Margin="46 0 0 0" Text="{Binding LoginConfigModel.ValidTime}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Margin="0 8 0 0" Orientation="Horizontal">
-            <TextBlock Margin="8 0 0 0" Text="开源协议"/>
-            <TextBlock Margin="48 0 0 0" Text="MIT"/>
+            <TextBlock Margin="8 0 0 0" Text="开源地址"/>
+            <TextBlock Margin="48 0 0 0" Text="{Binding LoginConfigModel.OpenSourceAddress}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="5" Margin="0 8 0 0" Orientation="Horizontal">
-            <TextBlock Margin="8 0 0 0" Text="邮箱"/>
-            <TextBlock Margin="74 0 0 0" Text="cavy1010@163.com"/>
+            <TextBlock Margin="8 0 0 0" Text="开源协议"/>
+            <TextBlock Margin="48 0 0 0" Text="{Binding LoginConfigModel.OpenSourceProtocol}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="6" Margin="8 32 0 0">
+        <StackPanel Grid.Row="6" Margin="0 8 0 0" Orientation="Horizontal">
+            <TextBlock Margin="8 0 0 0" Text="邮箱"/>
+            <TextBlock Margin="74 0 0 0" Text="{Binding LoginConfigModel.Email}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="7" Margin="8 32 0 0">
             <TextBlock Text="本软件由作者收集开源产品并进行制作,软件唯一发布途径为GitHub,"/>
             <TextBlock Margin="0 8 0 0" Text="任何非发布途径所做的修改,作者概不负责."/>
         </StackPanel>
