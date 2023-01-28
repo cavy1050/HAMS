@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Events;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Events;
 using HAMS.Frame.Kernel.Services;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows;
 
 namespace HAMS.Frame.Control.Login.Models
 {
     public class LoginConfigModel : BindableBase
     {
         string sqlSentence;
-        List<SettingKind> versionSettingHub;
+        List<SettingKind> environmentSettingHub;
 
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeDataBaseController;
+        IEventAggregator eventAggregator;
 
         string versionNumber;
         public string VersionNumber
@@ -65,22 +63,23 @@ namespace HAMS.Frame.Control.Login.Models
 
         public LoginConfigModel(IContainerProvider containerProviderArg)
         {
+            eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
         }
 
-        public void LoadVersionData()
+        public void LoadEnvironmentData()
         {
             nativeDataBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
 
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,DefaultFlag,EnabledFlag FROM System_VersionSetting WHERE EnabledFlag=True";
-            nativeDataBaseController.Query<SettingKind>(sqlSentence, out versionSettingHub);
+            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,DefaultFlag,EnabledFlag FROM System_EnvironmentSetting WHERE EnabledFlag=True";
+            nativeDataBaseController.Query<SettingKind>(sqlSentence, out environmentSettingHub);
 
-            VersionNumber = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZKV8DHK6AQDPY1B97T").Content;
-            VersionCode= versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZK7H2W407TSQY8VM03").Content;
-            ValidTime = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZMTTET8PECQT9X2X8N").Content;
-            OpenSourceAddress = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZMR71N1XAXT0QCNP02").Content;
-            OpenSourceProtocol = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJBMRJ81MQAE06EPAH").Content;
-            Email = versionSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJFVY0RYXVEFA9M32C").Content;
+            VersionNumber = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZKV8DHK6AQDPY1B97T").Content;
+            VersionCode= environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZK7H2W407TSQY8VM03").Content;
+            ValidTime = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZMTTET8PECQT9X2X8N").Content;
+            OpenSourceAddress = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZMR71N1XAXT0QCNP02").Content;
+            OpenSourceProtocol = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJBMRJ81MQAE06EPAH").Content;
+            Email = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV9FGJFVY0RYXVEFA9M32C").Content;
         }
     }
 }

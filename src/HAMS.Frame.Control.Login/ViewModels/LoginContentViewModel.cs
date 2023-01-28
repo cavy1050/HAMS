@@ -28,6 +28,7 @@ namespace HAMS.Frame.Control.Login.ViewModels
         private void OnLoginContentLoaded()
         {
             LoginContentModel.ShowInitializeServiceMessage();
+            loginContentModel.RequestApplicationAlterationService();
         }
 
         private void OnLogin(object obj)

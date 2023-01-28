@@ -8,6 +8,7 @@ namespace HAMS.Frame.Kernel.Core
 {
     public class UserKind : SettingKind
     {
+        public string Account { get; set; }
         public string PassWord { get; set; }
 
         public UserKind()
@@ -15,11 +16,12 @@ namespace HAMS.Frame.Kernel.Core
 
         }
 
-        public UserKind(string codeArg, string itemarg, string nameArg, string passWordArg, string contentArg, string descriptionArg,
+        public UserKind(string codeArg, string itemarg, string accountArg, string nameArg, string passWordArg, string contentArg, string descriptionArg,
                             string noteArg, int rankArgs, bool defaultFlag, bool enabledFlag) :
                                 base(codeArg, itemarg, nameArg, contentArg, descriptionArg, noteArg, rankArgs, defaultFlag, enabledFlag)
         {
             PassWord = passWordArg;
+            Account = accountArg;
         }
     }
 }

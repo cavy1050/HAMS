@@ -33,6 +33,8 @@ namespace HAMS.Frame.Kernel
             containerRegistryArg.Register<IManager<PathPart>, PathManager>();
             containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
             containerRegistryArg.Register<IManager<LogPart>, LogManager>();
+
+            containerRegistryArg.Register<IEventServiceController, EventServiceController>();
         }
     }
 }

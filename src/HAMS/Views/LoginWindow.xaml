@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HAMS.Views"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Style="{DynamicResource MaterialDesignWindow}" 
@@ -17,6 +18,12 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoginWindowLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <md:DialogHost Identifier="LoginDialog"
                    DialogTheme="Inherit">

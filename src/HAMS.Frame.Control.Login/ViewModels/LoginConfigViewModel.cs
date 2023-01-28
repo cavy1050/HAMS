@@ -25,7 +25,7 @@ namespace HAMS.Frame.Control.Login.ViewModels
 
         private void OnLoginConfigLoaded()
         {
-            LoginConfigModel.LoadVersionData();
+            LoginConfigModel.LoadEnvironmentData();
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Newtonsoft.Json;
 
 namespace HAMS.Frame.Kernel.Core
 {
@@ -11,9 +8,17 @@ namespace HAMS.Frame.Kernel.Core
     /// </summary>
     public class InfoKind : BaseKind
     {
+        /// <summary>
+        /// 记录时间 时间格式为yyyy-MM-dd HHmmss
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// EventServiceJsonText.svc_time
+        /// </remarks>
+        [JsonProperty(PropertyName = "svc_time")]
         public string RecordTime { get; set; }
 
-        public InfoKind()
+        public InfoKind() : base()
         {
 
         }
