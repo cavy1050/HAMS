@@ -108,20 +108,20 @@
     <Compile Include="Core\Collecters\SeverityCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
-    <Compile Include="Core\Kinds\Basic\BaseKind.cs" />
-    <Compile Include="Core\Kinds\Basic\InfoKind\CertificateKind.cs" />
-    <Compile Include="Core\Kinds\Basic\InfoKind\EventServiceKind.cs" />
-    <Compile Include="Core\Kinds\Basic\InfoKind\RequestServiceKind.cs" />
-    <Compile Include="Core\Kinds\Basic\InfoKind\ResponseServiceKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\SettingKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\CategoryKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\DataBaseKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\LogKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\NestKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\SeverityKind.cs" />
-    <Compile Include="Core\Kinds\Basic\SettingKind\UserKind.cs" />
-    <Compile Include="Core\Kinds\Basic\IServiceContent.cs" />
-    <Compile Include="Core\Kinds\EmptyServiceContentKind.cs" />
+    <Compile Include="Core\Kinds\BaseKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\CertificateKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\EventServiceKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\RequestServiceKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\ResponseServiceKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\SettingKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\CategoryKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\DataBaseKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
+    <Compile Include="Core\Kinds\SettingKinds\UserKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\IServiceContent.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\EmptyServiceContentKind.cs" />
     <Compile Include="Core\Parts\ControlActivePart.cs" />
     <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
@@ -182,7 +182,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Core\Kinds\Basic\InfoKind\InfoKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\InfoKind.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

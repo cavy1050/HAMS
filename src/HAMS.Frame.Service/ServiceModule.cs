@@ -8,7 +8,7 @@ namespace HAMS.Frame.Service
     {
         public void OnInitialized(IContainerProvider containerProviderArg)
         {
-            
+            ServiceLauncher serviceLauncher = new ServiceLauncher(containerProviderArg);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistryArg)

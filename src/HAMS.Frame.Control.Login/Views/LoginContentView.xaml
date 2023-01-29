@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:HAMS.Frame.Control.Login.Views"
              xmlns:ctl="clr-namespace:HAMS.Frame.Kernel.Controls;assembly=HAMS.Frame.Kernel"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -37,17 +37,17 @@
 
         <StackPanel Grid.Row="2" Margin="120 8 0 0">
             <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
-                <materialDesign:PackIcon Kind="Account" Margin="0 12 0 0" Foreground="{Binding ElementName=accountTextBox, Path=BorderBrush}"/>
-                <TextBox x:Name="accountTextBox" materialDesign:HintAssist.Hint="请输入用户" Margin="4 0 0 0" FontSize="15" Width="140"
+                <md:PackIcon Kind="Account" Margin="0 12 0 0" Foreground="{Binding ElementName=accountTextBox, Path=BorderBrush}"/>
+                <TextBox x:Name="accountTextBox" md:HintAssist.Hint="请输入用户" Margin="4 0 0 0" FontSize="15" Width="140"
                          VerticalContentAlignment="Bottom"
                                         Text="{Binding LoginContentModel.Account,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0 24 0 0">
-                <materialDesign:PackIcon Kind="Lock" Margin="0 4 0 0" Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"/>
-                <ctl:PasswordTextBox x:Name="passwordTextBox" Style="{StaticResource MaterialDesignTextBox}" materialDesign:HintAssist.Hint="请输入密码" Margin="4 0 0 0" FontSize="15" Width="140"
+                <md:PackIcon Kind="Lock" Margin="0 4 0 0" Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"/>
+                <ctl:PasswordTextBox x:Name="passwordTextBox" Style="{StaticResource MaterialDesignTextBox}" md:HintAssist.Hint="请输入密码" Margin="4 0 0 0" FontSize="15" Width="140"
                                             PasswordText="{Binding LoginContentModel.Password,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </StackPanel>
-            <Button Style="{DynamicResource MaterialDesignRaisedButton}" Margin="-108 32 0 0" materialDesign:ButtonAssist.CornerRadius="10" Height="36" Width="200" Command="{Binding LoginCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+            <Button Style="{DynamicResource MaterialDesignRaisedButton}" Margin="-108 32 0 0" md:ButtonAssist.CornerRadius="10" Height="36" Width="200" Command="{Binding LoginCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                 <TextBlock Text="登录" FontSize="20"/>
             </Button>
         </StackPanel>

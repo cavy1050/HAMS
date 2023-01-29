@@ -9,7 +9,8 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 3 | msg_code | message number         | string | 30 | ULID number |
 | 4 | souc_mod_name | source module name | string | 50 | |
 | 5 | tagt_mod_name | target module name | string | 50 | |
-| 6 | svc_cont | request service content | string | 8000 | see the service content definition     |
+| 6 | svc_time | request service time | string | 20 | YYYY-MM-DD mm:hh:ss |
+| 7 | svc_cont | request service content | string | 8000 | see the service content definition     |
 
 ##  Response Message Format  
 | Number | Identification | Name | Type | Length | Memo |
@@ -19,9 +20,10 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 | 3 | msg_code      | message number           | string       | 30   |      |
 | 4 | souc_mod_name | source module name       | string       | 50   |      |
 | 5 | tagt_mod_name | target module name       | string array | 50   |      |
-| 6 | svc_cont      | response service content | string       | 8000 |      |
-| 7 | ret_code      | response service number  | string       | 4    | 1:success 0:fail |
-| 8 | ret_msg       | error message            | string       | 500  |      |
+| 6 | svc_time      | response service time     | string      | 20   | YYYY-MM-DD mm:hh:ss |
+| 7 | svc_cont      | response service content | string       | 8000 |      |
+| 8 | ret_code      | response service number  | string       | 4    | 1:success 0:fail |
+| 9 | ret_msg       | error message            | string       | 500  |      |
 
  
 ##  Module Communication Service Definition

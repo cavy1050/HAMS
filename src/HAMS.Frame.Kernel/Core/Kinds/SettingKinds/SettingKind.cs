@@ -1,7 +1,7 @@
 ﻿namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
-    /// 字典设置类型
+    /// 程序框架设置基本类型
     /// </summary>
     public class SettingKind : BaseKind
     {

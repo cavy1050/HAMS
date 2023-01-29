@@ -20,7 +20,7 @@ namespace HAMS.Frame.Kernel.Core
         /// EventServiceJsonText.msg_code ULID编码
         /// </para>
         /// </remarks>
-        [JsonProperty(PropertyName = "msg_code")]
+        [JsonProperty(PropertyName = "msg_code", Order = 3)]
         public virtual string Code { get; set; }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace HAMS.Frame.Kernel.Core
 
         }
 
-        public BaseKind(string codeArg, string contentArg,string noteArg, bool enabledFlagArg)
+        public BaseKind(string codeArg, string contentArg, string noteArg, bool enabledFlagArg)
         {
             Code = codeArg;
             Content = contentArg;

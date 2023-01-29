@@ -8,6 +8,7 @@ namespace HAMS.Frame.Kernel.Core
 {
     public enum FrameModulePart
     {
+        All,
         ApplictionModule,
         KernelModule,
         ServiceModule,
