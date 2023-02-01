@@ -23,18 +23,10 @@ namespace HAMS.ViewModels
             set => SetProperty(ref messageQueue, value);
         }
 
-        public DelegateCommand LoginWindowLoadedCommand { get; private set; }
-
         public LoginWindowViewModel(IContainerProvider containerProviderArg)
         {
             LoginWindowModel = new LoginWindowModel(containerProviderArg);
             LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
-            LoginWindowLoadedCommand = new DelegateCommand(OnLoginWindowLoaded);
-        }
-
-        private void OnLoginWindowLoaded()
-        {
-            
         }
     }
 }

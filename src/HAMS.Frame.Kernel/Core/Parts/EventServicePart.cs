@@ -9,6 +9,11 @@ namespace HAMS.Frame.Kernel.Core
     public enum EventServicePart
     {
         /// <summary>
+        /// 事件初始化服务
+        /// </summary>
+        EventInitializationService,
+
+        /// <summary>
         /// 程序变更服务
         /// </summary>
         ApplicationAlterationService,

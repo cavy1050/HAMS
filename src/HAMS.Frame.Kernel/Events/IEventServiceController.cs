@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HAMS.Frame.Kernel.Core;
 
-namespace HAMS.Frame.Kernel.Services
+namespace HAMS.Frame.Kernel.Events
 {
     public interface IEventServiceController
     {

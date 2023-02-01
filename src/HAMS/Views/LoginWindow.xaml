@@ -19,12 +19,6 @@
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoginWindowLoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <md:DialogHost Identifier="LoginDialog"
                    DialogTheme="Inherit">
         <Grid>

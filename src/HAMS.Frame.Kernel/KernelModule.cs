@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Events;
 using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Kernel

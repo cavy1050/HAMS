@@ -5,7 +5,7 @@ namespace HAMS.Frame.Kernel.Core
 {
     public class EnvironmentMonitor : IEnvironmentMonitor
     {
-        public Dictionary<ControlTypePart, ControlActivePart> ApplicationControlSetting { get; set; }
+        public Dictionary<ControlTypePart, ActiveFlagPart> ApplicationControlSetting { get; set; }
 
         public SeverityCollector SeveritySetting { get; set; }
         public PathCollector PathSetting { get; set; }
@@ -16,7 +16,7 @@ namespace HAMS.Frame.Kernel.Core
 
         public EnvironmentMonitor()
         {
-            ApplicationControlSetting = new Dictionary<ControlTypePart, ControlActivePart>();
+            ApplicationControlSetting = new Dictionary<ControlTypePart, ActiveFlagPart>();
 
             SeveritySetting = new SeverityCollector();
             PathSetting = new PathCollector();

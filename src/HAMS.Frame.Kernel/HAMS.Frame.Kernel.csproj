@@ -100,7 +100,6 @@
     <Compile Include="Controls\CloseTabItemAction.cs" />
     <Compile Include="Controls\PasswordTextBox.cs" />
     <Compile Include="Controls\PasswordTextConverter.cs" />
-    <Compile Include="Core\Collecters\CollectorBase.cs" />
     <Compile Include="Core\Collecters\DataBaseCollector.cs" />
     <Compile Include="Core\Collecters\ILocator.cs" />
     <Compile Include="Core\Collecters\LogCollector.cs" />
@@ -108,6 +107,7 @@
     <Compile Include="Core\Collecters\SeverityCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\ApplicationAlterationServiceContentKind.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\CertificateKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\EventServiceKind.cs" />
@@ -122,7 +122,7 @@
     <Compile Include="Core\Kinds\SettingKinds\UserKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\IServiceContent.cs" />
     <Compile Include="Core\Kinds\InfoKinds\EmptyServiceContentKind.cs" />
-    <Compile Include="Core\Parts\ControlActivePart.cs" />
+    <Compile Include="Core\Parts\ActiveFlagPart.cs" />
     <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
     <Compile Include="Core\Parts\EventServicePart.cs" />
@@ -175,8 +175,8 @@
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherColltroller.cs" />
     <Compile Include="Services\Basic\SecurityService\SecurityFactory.cs" />
     <Compile Include="Services\Basic\SeverityService\SeverityManager.cs" />
-    <Compile Include="Services\Peripherals\EventServiceController.cs" />
-    <Compile Include="Services\Peripherals\IEventServiceController.cs" />
+    <Compile Include="Events\EventServiceController.cs" />
+    <Compile Include="Events\IEventServiceController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

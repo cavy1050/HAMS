@@ -8,8 +8,9 @@ using NUlid;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Services;
 
-namespace HAMS.Frame.Kernel.Services
+namespace HAMS.Frame.Kernel.Events
 {
     public class EventServiceController : IEventServiceController
     {

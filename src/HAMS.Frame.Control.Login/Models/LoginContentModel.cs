@@ -61,7 +61,7 @@ namespace HAMS.Frame.Control.Login.Models
             targetFrameModules.Add(FrameModulePart.LoginModule);
             targetFrameModules.Add(FrameModulePart.MainHeaderModule);
 
-            eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, targetFrameModules,true,"", new EmptyServiceContentKind());
+            //eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, targetFrameModules,true,"", new EmptyServiceContentKind());
         }
     }
 }

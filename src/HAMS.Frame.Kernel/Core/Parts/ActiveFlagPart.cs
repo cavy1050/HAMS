@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public enum ControlActivePart
+    public enum ActiveFlagPart
     {
         InActive,
         Active

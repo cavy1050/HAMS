@@ -8,7 +8,7 @@ namespace HAMS.Frame.Kernel.Core
     /// </summary>
     public interface IEnvironmentMonitor
     {
-        Dictionary<ControlTypePart,ControlActivePart> ApplicationControlSetting { get; set; }
+        Dictionary<ControlTypePart, ActiveFlagPart> ApplicationControlSetting { get; set; }
         SeverityCollector SeveritySetting { get; set; }
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }
