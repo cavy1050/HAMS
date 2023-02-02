@@ -8,7 +8,6 @@ using MaterialDesignThemes.Wpf;
 using FluentValidation.Results;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
-using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Control.Login.Models
 {
@@ -20,6 +19,7 @@ namespace HAMS.Frame.Control.Login.Models
         IEventServiceController eventServiceController;
 
         ValidationResult infoSeverityResult, errorSeverityResult;
+        string eventServiceJsonText;
 
         string account;
         public string Account
@@ -55,13 +55,19 @@ namespace HAMS.Frame.Control.Login.Models
                 errorSeverityResult.Errors.ForEach(x => messageQueue.Enqueue(x.ErrorMessage));
         }
 
-        public void RequestApplicationAlterationService()
+        public void RequestAccountVerificationServiceService()
         {
-            ICollection<FrameModulePart> targetFrameModules = new List<FrameModulePart>();
-            targetFrameModules.Add(FrameModulePart.LoginModule);
-            targetFrameModules.Add(FrameModulePart.MainHeaderModule);
+            LoginContentModelValidator loginContentModelValidator = new LoginContentModelValidator();
+            ValidationResult validationResult = loginContentModelValidator.Validate(this);
+            if (validationResult.IsValid)
+            {
+                AccountVerificationServiceRequestContentKind requestServiceContent = new AccountVerificationServiceRequestContentKind();
+                requestServiceContent.Account = Account;
+                requestServiceContent.Password = Password;
 
-            //eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, targetFrameModules,true,"", new EmptyServiceContentKind());
+                eventServiceJsonText = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, requestServiceContent);
+                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
+            }
         }
     }
 }

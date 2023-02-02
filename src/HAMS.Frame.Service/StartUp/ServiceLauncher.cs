@@ -38,7 +38,7 @@ namespace HAMS.Frame.Service
         {
             if (args.ModuleInfo.ModuleName == "LoginModule")
             {
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.EventInitializationService, FrameModulePart.ServiceModule, FrameModulePart.All, new EmptyServiceContentKind());
+                eventServiceJsonText = eventServiceController.Request(EventServicePart.EventInitializationService, FrameModulePart.ServiceModule, FrameModulePart.All, new EmptyContentKind());
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
             }
         }

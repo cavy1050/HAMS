@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace HAMS.Frame.Kernel.Core
@@ -10,10 +11,12 @@ namespace HAMS.Frame.Kernel.Core
     {
         Dictionary<ControlTypePart, ActiveFlagPart> ApplicationControlSetting { get; set; }
         SeverityCollector SeveritySetting { get; set; }
+        Queue<string> MessageSetting { get; set; }
+
+
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }
         LogCollector LogSetting { get; set; }
-
         UserKind UserSetting { get; set; }
     }
 }

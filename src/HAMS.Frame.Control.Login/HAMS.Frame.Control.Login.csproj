@@ -81,6 +81,7 @@
     <Compile Include="LoginModule.cs" />
     <Compile Include="Models\LoginConfigModel.cs" />
     <Compile Include="Models\LoginContentModel.cs" />
+    <Compile Include="Models\LoginContentModelValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
