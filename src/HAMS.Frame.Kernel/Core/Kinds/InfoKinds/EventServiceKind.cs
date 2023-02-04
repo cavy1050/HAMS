@@ -16,6 +16,17 @@ namespace HAMS.Frame.Kernel.Core
         public string Item { get; set; }
 
         /// <summary>
+        /// 服务类型
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// EventServiceJsonText.svc_type
+        /// </remarks>
+        [JsonProperty(PropertyName = "svc_type", Order = 3)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public EventServiceTypePart Type { get; set; }
+
+        /// <summary>
         /// 服务名称
         /// </summary>
         /// 
@@ -32,7 +43,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.souc_mod_name
         /// </remarks>
-        [JsonProperty(PropertyName = "souc_mod_name", Order = 4)]
+        [JsonProperty(PropertyName = "souc_mod_name", Order = 5)]
         [JsonConverter(typeof(StringEnumConverter))]
         public FrameModulePart SourceModuleName { get; set; }
 
@@ -43,7 +54,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.svc_cont
         /// </remarks>
-        [JsonProperty(PropertyName = "svc_cont", Order = 7)]
+        [JsonProperty(PropertyName = "svc_cont", Order = 8)]
         public IServiceContent ServiceContent { get; set; }
 
         public EventServiceKind() : base()

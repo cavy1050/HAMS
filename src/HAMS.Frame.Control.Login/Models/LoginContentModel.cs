@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using FluentValidation.Results;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
@@ -20,6 +23,7 @@ namespace HAMS.Frame.Control.Login.Models
 
         ValidationResult infoSeverityResult, errorSeverityResult;
         string eventServiceJsonText;
+        object currentWindow;
 
         string account;
         public string Account
@@ -41,6 +45,14 @@ namespace HAMS.Frame.Control.Login.Models
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+        }
+
+        public void Login(object windowArg)
+        {
+            currentWindow = windowArg;
+            RequestAccountVerificationService();
         }
 
         public void ShowInitializeServiceMessage()
@@ -55,7 +67,7 @@ namespace HAMS.Frame.Control.Login.Models
                 errorSeverityResult.Errors.ForEach(x => messageQueue.Enqueue(x.ErrorMessage));
         }
 
-        public void RequestAccountVerificationServiceService()
+        private void RequestAccountVerificationService()
         {
             LoginContentModelValidator loginContentModelValidator = new LoginContentModelValidator();
             ValidationResult validationResult = loginContentModelValidator.Validate(this);
@@ -67,6 +79,18 @@ namespace HAMS.Frame.Control.Login.Models
 
                 eventServiceJsonText = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, requestServiceContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
+            }
+        }
+
+        private void OnAccountVerificationResponseService(string responseServiceTextArg)
+        {
+            JObject responseObj = JObject.Parse(responseServiceTextArg);
+            if (responseObj["ret_code"].ToString() != "1")
+                messageQueue.Enqueue(responseObj["ret_msg"].ToString());
+            else
+            {
+                if (currentWindow != null)
+                    SystemCommands.CloseWindow(currentWindow as Window);
             }
         }
     }

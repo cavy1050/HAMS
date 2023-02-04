@@ -16,7 +16,7 @@ namespace HAMS.Frame.Control.Login.Models
         List<SettingKind> environmentSettingHub;
 
         IEnvironmentMonitor environmentMonitor;
-        IDataBaseController nativeDataBaseController;
+        IDataBaseController nativeBaseController;
         IEventAggregator eventAggregator;
 
         string versionNumber;
@@ -69,10 +69,10 @@ namespace HAMS.Frame.Control.Login.Models
 
         public void LoadEnvironmentData()
         {
-            nativeDataBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
+            nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
 
             sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,DefaultFlag,EnabledFlag FROM System_EnvironmentSetting WHERE EnabledFlag=True";
-            nativeDataBaseController.Query<SettingKind>(sqlSentence, out environmentSettingHub);
+            nativeBaseController.Query<SettingKind>(sqlSentence, out environmentSettingHub);
 
             VersionNumber = environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZKV8DHK6AQDPY1B97T").Content;
             VersionCode= environmentSettingHub.FirstOrDefault(x => x.Code == "01GPGV56ZK7H2W407TSQY8VM03").Content;

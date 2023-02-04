@@ -108,6 +108,7 @@
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Core\Kinds\InfoKinds\AccountVerificationServiceRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\InfoKinds\AccountVerificationServiceResponseContentKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\ApplicationAlterationServiceContentKind.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\CertificateKind.cs" />
@@ -120,13 +121,13 @@
     <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
-    <Compile Include="Core\Kinds\SettingKinds\UserKind.cs" />
     <Compile Include="Core\Kinds\InfoKinds\IServiceContent.cs" />
     <Compile Include="Core\Kinds\InfoKinds\EmptyContentKind.cs" />
     <Compile Include="Core\Parts\ActiveFlagPart.cs" />
     <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
     <Compile Include="Core\Parts\EventServicePart.cs" />
+    <Compile Include="Core\Parts\EventServiceTypePart.cs" />
     <Compile Include="Core\Parts\FrameModulePart.cs" />
     <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />
@@ -158,7 +159,7 @@
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\Basic\IFactory.cs" />
-    <Compile Include="Services\Basic\IManager.cs" />
+    <Compile Include="Services\IManager.cs" />
     <Compile Include="Services\Basic\LogService\LogLevelConverter.cs" />
     <Compile Include="Services\Basic\LogService\LogValidator.cs" />
     <Compile Include="Services\Basic\LogService\DataBaseLogController.cs" />

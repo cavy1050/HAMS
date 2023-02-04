@@ -61,6 +61,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Peripherals\AccountVerificationService\AccountAuthenticationControler.cs" />
+    <Compile Include="Peripherals\AccountVerificationService\IAccountAuthenticationControler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,9 +94,7 @@
       <Name>HAMS.Frame.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Peripherals\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)bin\Debug\"  /S /E /Y</PostBuildEvent>

@@ -15,7 +15,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.svc_time
         /// </remarks>
-        [JsonProperty(PropertyName = "svc_time",Order =6)]
+        [JsonProperty(PropertyName = "svc_time", Order = 7)]
         public string RecordTime { get; set; }
 
         public InfoKind() : base()

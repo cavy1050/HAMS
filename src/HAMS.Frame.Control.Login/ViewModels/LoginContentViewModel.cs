@@ -30,9 +30,9 @@ namespace HAMS.Frame.Control.Login.ViewModels
             LoginContentModel.ShowInitializeServiceMessage();
         }
 
-        private void OnLogin(object obj)
+        private void OnLogin(object currentWindow)
         {
-            loginContentModel.RequestAccountVerificationServiceService();
+            LoginContentModel.Login(currentWindow);
         }
     }
 }

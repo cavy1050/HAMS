@@ -13,7 +13,7 @@ namespace HAMS.Frame.Kernel.Core
         public DataBaseCollector DataBaseSetting { get; set; }
         public LogCollector LogSetting { get; set; }
 
-        public UserKind UserSetting { get; set; }
+        public SettingKind UserSetting { get; set; }
 
         public EnvironmentMonitor()
         {
@@ -25,7 +25,7 @@ namespace HAMS.Frame.Kernel.Core
             DataBaseSetting = new DataBaseCollector();
             LogSetting = new LogCollector();
 
-            UserSetting = new UserKind();
+            UserSetting = new SettingKind();
         }
     }
 }

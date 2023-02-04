@@ -14,7 +14,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.tagt_mod_name
         /// </remarks>
-        [JsonProperty(PropertyName = "tagt_mod_name", ItemConverterType = typeof(StringEnumConverter), Order = 5)]
+        [JsonProperty(PropertyName = "tagt_mod_name", ItemConverterType = typeof(StringEnumConverter), Order = 6)]
         public IEnumerable<FrameModulePart> TargetModuleName { get; set; }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.ret_code
         /// </remarks>
-        [JsonProperty(PropertyName = "ret_code", Order = 8)]
+        [JsonProperty(PropertyName = "ret_code", Order = 9)]
         public string ReturnCode { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace HAMS.Frame.Kernel.Core
         /// <remarks>
         /// EventServiceJsonText.ret_msg
         /// </remarks>
-        [JsonProperty(PropertyName = "ret_msg", Order = 9)]
+        [JsonProperty(PropertyName = "ret_msg", Order = 10)]
         public string ReturnMessage { get; set; }
 
         public ResponseServiceKind() : base()

@@ -4,39 +4,40 @@ The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubE
 ##  Request Message Format  
 | Number | Identification | Name | Type | Length | Description |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1 | svc_code | request service number | string | 4  | see the service definition |
-| 2 | svc_name | request service name   | string | 50 | used for filter service |
-| 3 | msg_code | message number         | string | 30 | ULID number |
-| 4 | souc_mod_name | source module name | string | 50 | |
-| 5 | tagt_mod_name | target module name | string | 50 | |
-| 6 | svc_time | request service time | string | 20 | YYYY-MM-DD mm:hh:ss |
-| 7 | svc_cont | request service content | string | 8000 | see the service content definition     |
+| 1 | svc_code      | event service number  | string | 4    | see the service definition |
+| 2 | svc_name      | event service name    | string | 50   | used for filter service |
+| 3 | svc_type      | event service type    | string | 10   | |
+| 4 | msg_code      | message number        | string | 30   | ULID number |
+| 5 | souc_mod_name | source module name    | string | 50   | |
+| 6 | tagt_mod_name | target module name    | string | 50   | |
+| 7 | svc_time      | event service time    | string | 20   | YYYY-MM-DD mm:hh:ss |
+| 8 | svc_cont      | event service content | string | 8000 | see the service content definition |
 
 ##  Response Message Format  
 | Number | Identification | Name | Type | Length | Memo |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1 | svc_code      | response service number  | string       | 4    |      |
-| 2 | svc_name      | request service name     | string       | 50   |      |
-| 3 | msg_code      | message number           | string       | 30   |      |
-| 4 | souc_mod_name | source module name       | string       | 50   |      |
-| 5 | tagt_mod_name | target module name       | string array | 50   |      |
-| 6 | svc_time      | response service time     | string      | 20   | YYYY-MM-DD mm:hh:ss |
-| 7 | svc_cont      | response service content | string       | 8000 |      |
-| 8 | ret_code      | response service number  | string       | 4    | 1:success 0:fail |
-| 9 | ret_msg       | error message            | string       | 500  |      |
+| 1  | svc_code      | event service number  | string       | 4    | |
+| 2  | svc_name      | event service name    | string       | 50   | |
+| 3  | svc_type      | event service type    | string       | 10   | |
+| 4  | msg_code      | message number        | string       | 30   | |
+| 5  | souc_mod_name | source module name    | string       | 50   | |
+| 6  | tagt_mod_name | target module name    | string array | 100  | |
+| 7  | svc_time      | event service time    | string       | 20   | |
+| 8  | svc_cont      | event service content | string       | 8000 | |
+| 9  | ret_code      | event service number  | string       | 4    | 1:success 0:fail |
+| 10 | ret_msg       | error message         | string       | 500  | |
 
  
 ##  Module Communication Service Definition
 | Number | Code | Name | Description |
 | :-- | :-- | :-- | :-- |
-| 1 | 1101 | ApplicationAlterationService  | change app status    |
-| 2 | 1102 | ApplictionVerificationService | validate app licence |
-|   |
-| 3 | 2101 | AccountVerificationService   | validate account password  |
-| 4 | 2102 | AccountAuthenticationService | get account rights         | 
-|   |
-| 5 | 3101 | MenuInitializationService | get account authorized menu list | 
-| 6 | 3102 | MenuActivationService     | active menu item                 | 
+| 1 | 1101 | EventInitializationService    | give framework modules notice that eventservice is initialzed |
+| 2 | 2101 | ApplicationAlterationService  | change appliction status                                      |
+| 3 | 2102 | ApplictionVerificationService | validate app licence                                          |
+| 4 | 3101 | AccountVerificationService    | validate account password                                     |
+| 5 | 3102 | AccountAuthenticationService  | get account rights                                            | 
+| 6 | 4101 | MenuInitializationService     | get account authorized menu list                              | 
+| 7 | 4102 | MenuActivationService         | active menu item                                              | 
 
 ##   Module Communication Service Content Definition
 ###  `1101` ApplicationAlterationService
