@@ -23,8 +23,8 @@ namespace HAMS.Frame.Kernel.Core
         }
 
         public RequestServiceKind(string codeArg, string itemArg, string nameArg, FrameModulePart sourceModuleNameArg, FrameModulePart targetModuleNameArg,
-                                        IServiceContent serviceContentArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
-                                            base(codeArg, itemArg, nameArg, sourceModuleNameArg, serviceContentArg, contentArg, noteArg, recordTimeArg, enabledFlagArg)
+                                        IEventServiceContent eventServiceContentArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
+                                            base(codeArg, itemArg, nameArg, sourceModuleNameArg, eventServiceContentArg, contentArg, noteArg, recordTimeArg, enabledFlagArg)
         {
             TargetModuleName = targetModuleNameArg;
         }

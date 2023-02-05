@@ -27,6 +27,7 @@ namespace HAMS.Frame.Service
 
         string eventServiceJsonText, sqlSentence;
         List<SettingKind> userSettingHub;
+        IEventServiceContent eventServiceContent;
 
         public ServiceLauncher(IContainerProvider containerProviderArg)
         {
@@ -50,8 +51,9 @@ namespace HAMS.Frame.Service
         {
             if (args.ModuleInfo.ModuleName == "LoginModule")
             {
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.EventInitializationService, FrameModulePart.ServiceModule, FrameModulePart.All, new EmptyContentKind());
+                eventServiceJsonText = eventServiceController.Request(EventServicePart.EventInitializationService, FrameModulePart.ServiceModule, FrameModulePart.All, eventServiceContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
+                eventServiceContent = new EventInitializationRequestContentKind { ApplicationControlType = ControlTypePart.MainWindow };
             }
         }
 
@@ -88,25 +90,25 @@ namespace HAMS.Frame.Service
 
         private void OnRequestAccountVerificationService(string requestServiceTextArg)
         {
-            string errorMessage=string.Empty;
+            string errorMessage = string.Empty;
             List<FrameModulePart> targetFrameModules = new List<FrameModulePart>() { FrameModulePart.ApplictionModule, FrameModulePart.LoginModule, FrameModulePart.KernelModule };
 
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            AccountVerificationServiceRequestContentKind accountVerificationServiceRequestContent = JsonConvert.DeserializeObject<AccountVerificationServiceRequestContentKind>(requestObj["svc_cont"].ToString());
+            AccountVerificationRequestContentKind accountVerificationRequestContent = JsonConvert.DeserializeObject<AccountVerificationRequestContentKind>(requestObj["svc_cont"].ToString());
 
             accountAuthenticationControler = containerProvider.Resolve<IAccountAuthenticationControler>();
 
-            if (accountAuthenticationControler.Validate(accountVerificationServiceRequestContent, out errorMessage))
+            if (accountAuthenticationControler.Validate(accountVerificationRequestContent, out errorMessage))
             {
-                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_UserSetting WHERE Item='" + accountVerificationServiceRequestContent.Account + "'";
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_UserSetting WHERE Item='" + accountVerificationRequestContent.Account + "'";
                 nativeBaseController.Query<SettingKind>(sqlSentence, out userSettingHub);
 
-                AccountVerificationServiceResponseContentKind accountVerificationServiceResponseContent = new AccountVerificationServiceResponseContentKind();
-                accountVerificationServiceResponseContent.Account = accountVerificationServiceRequestContent.Account;
-                accountVerificationServiceResponseContent.Password = accountVerificationServiceRequestContent.Password;
-                accountVerificationServiceResponseContent.Name = userSettingHub.FirstOrDefault().Name;
+                AccountVerificationResponseContentKind accountVerificationResponseContent = new AccountVerificationResponseContentKind();
+                accountVerificationResponseContent.Account = accountVerificationRequestContent.Account;
+                accountVerificationResponseContent.Password = accountVerificationRequestContent.Password;
+                accountVerificationResponseContent.Name = userSettingHub.FirstOrDefault().Name;
 
-                eventServiceJsonText = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, true, errorMessage, accountVerificationServiceResponseContent);
+                eventServiceJsonText = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, true, errorMessage, accountVerificationResponseContent);
             }
             else
                 eventServiceJsonText = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, false, errorMessage, new EmptyContentKind());

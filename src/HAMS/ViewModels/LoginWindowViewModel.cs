@@ -2,7 +2,6 @@
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Commands;
-using MaterialDesignThemes.Wpf;
 using HAMS.Models;
 
 namespace HAMS.ViewModels
@@ -16,17 +15,10 @@ namespace HAMS.ViewModels
             set => SetProperty(ref loginWindowModel, value);
         }
 
-        ISnackbarMessageQueue messageQueue;
-        public ISnackbarMessageQueue LoginMessageQueue
-        {
-            get => messageQueue;
-            set => SetProperty(ref messageQueue, value);
-        }
-
         public LoginWindowViewModel(IContainerProvider containerProviderArg)
         {
             LoginWindowModel = new LoginWindowModel(containerProviderArg);
-            LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
+            
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
-using Prism.Modularity;
 using Prism.Ioc;
+using Prism.Modularity;
+using Prism.Regions;
+using HAMS.Frame.Control.MainHeader.Views;
 
 namespace HAMS.Frame.Control.MainHeader
 {
@@ -8,7 +10,8 @@ namespace HAMS.Frame.Control.MainHeader
     {
         public void OnInitialized(IContainerProvider containerProviderArg)
         {
-
+            IRegionManager regionManager = containerProviderArg.Resolve<IRegionManager>();
+            regionManager.RegisterViewWithRegion("MainHeaderRegion", typeof(MainHeaderView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistryArg)

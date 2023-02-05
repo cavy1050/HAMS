@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class AccountVerificationServiceRequestContentKind : IServiceContent
+    public class AccountVerificationRequestContentKind : IEventServiceContent
     {
         [JsonProperty(PropertyName = "acct_code", Order = 1)]
         public string Account { get; set; }

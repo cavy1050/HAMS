@@ -43,8 +43,8 @@ namespace HAMS.Frame.Kernel.Core
         }
 
         public ResponseServiceKind(string codeArg, string itemArg, string nameArg, FrameModulePart sourceModuleNameArg, IEnumerable<FrameModulePart> targetModuleNameArgs,
-                                        IServiceContent serviceContentArg, string returnCodeArg, string returnMessageArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
-                                            base(codeArg, itemArg, nameArg, sourceModuleNameArg, serviceContentArg, contentArg, noteArg, recordTimeArg, enabledFlagArg)
+                                        IEventServiceContent eventServiceContent, string returnCodeArg, string returnMessageArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
+                                            base(codeArg, itemArg, nameArg, sourceModuleNameArg, eventServiceContent, contentArg, noteArg, recordTimeArg, enabledFlagArg)
         {
             TargetModuleName = targetModuleNameArgs;
             ReturnCode = returnCodeArg;

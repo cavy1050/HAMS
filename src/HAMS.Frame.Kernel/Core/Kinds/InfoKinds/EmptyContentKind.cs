@@ -1,6 +1,6 @@
 ﻿namespace HAMS.Frame.Kernel.Core
 {
-    public class EmptyContentKind : IServiceContent
+    public class EmptyContentKind : IEventServiceContent
     {
 
     }

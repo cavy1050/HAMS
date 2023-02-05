@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HAMS.Views" 
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interaction="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:ctl="clr-namespace:HAMS.Frame.Kernel.Controls;assembly=HAMS.Frame.Kernel"
@@ -15,12 +16,18 @@
         WindowStyle="None" 
         WindowState="Maximized" 
         ResizeMode="NoResize"
-        MaxHeight="{Binding WorkAreaHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        MaxWidth="{Binding WorkAreaWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        MaxHeight="{Binding MainWindowModel.WorkAreaHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        MaxWidth="{Binding MainWindowModel.WorkAreaWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
     
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Initialized">
+            <i:InvokeCommandAction Command="{Binding WindowLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <md:DialogHost Identifier="MainDialog"
                                DialogTheme="Inherit">
@@ -47,7 +54,7 @@
                     TabStripPlacement="Top"
                     md:ColorZoneAssist.Mode="Standard"
                     SnapsToDevicePixels="True"
-                    prism:RegionManager.RegionManager="{Binding RegionManager}"
+                    prism:RegionManager.RegionManager="{Binding MainWindowModel.RegionManager}"
                     prism:RegionManager.RegionName="MainContentRegion">
                         <TabControl.ItemContainerStyle>
                             <Style TargetType="{x:Type TabItem}">
@@ -63,11 +70,11 @@
                                                 <Button DockPanel.Dock="Right"
                                                     Style="{DynamicResource MaterialDesignToolButton}" 
                                                     Content="{md:PackIcon Kind=Close}">
-                                                    <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="Click">
+                                                    <interaction:Interaction.Triggers>
+                                                        <interaction:EventTrigger EventName="Click">
                                                             <ctl:CloseTabItemAction/>
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
+                                                        </interaction:EventTrigger>
+                                                    </interaction:Interaction.Triggers>
                                                 </Button>
                                             </DockPanel>
                                         </DataTemplate>
@@ -78,7 +85,7 @@
                     </TabControl>
 
                     <md:Snackbar DockPanel.Dock="Bottom"
-                                         MessageQueue="{Binding MessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                         MessageQueue="{Binding MainWindowModel.MainMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
             </md:DrawerHost>
         </Grid>

@@ -24,7 +24,7 @@ namespace HAMS.Frame.Service.Peripherals
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
         }
 
-        public bool Validate(AccountVerificationServiceRequestContentKind requestContentArg, out string errorMessageArg)
+        public bool Validate(AccountVerificationRequestContentKind requestContentArg, out string errorMessageArg)
         {
             bool ret = false;
             errorMessageArg = string.Empty;

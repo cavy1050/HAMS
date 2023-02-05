@@ -73,11 +73,11 @@ namespace HAMS.Frame.Control.Login.Models
             ValidationResult validationResult = loginContentModelValidator.Validate(this);
             if (validationResult.IsValid)
             {
-                AccountVerificationServiceRequestContentKind requestServiceContent = new AccountVerificationServiceRequestContentKind();
-                requestServiceContent.Account = Account;
-                requestServiceContent.Password = Password;
+                AccountVerificationRequestContentKind requestContent = new AccountVerificationRequestContentKind();
+                requestContent.Account = Account;
+                requestContent.Password = Password;
 
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, requestServiceContent);
+                eventServiceJsonText = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, requestContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
             }
         }

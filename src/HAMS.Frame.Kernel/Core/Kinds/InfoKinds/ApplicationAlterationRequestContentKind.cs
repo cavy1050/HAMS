@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class ApplicationAlterationServiceContentKind : IServiceContent
+    public class ApplicationAlterationRequestContentKind : IEventServiceContent
     {
         [JsonProperty(PropertyName = "app_ctl_type")]
         [JsonConverter(typeof(StringEnumConverter))]

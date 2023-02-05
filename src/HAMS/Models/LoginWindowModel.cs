@@ -3,6 +3,7 @@ using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
 using HAMS.Views;
 using HAMS.Frame.Kernel.Core;
@@ -17,13 +18,21 @@ namespace HAMS.Models
         IEventServiceController eventServiceController;
 
         string eventServiceJsonText;
-        ApplicationAlterationServiceContentKind requestServiceContent;
+        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
+
+        ISnackbarMessageQueue messageQueue;
+        public ISnackbarMessageQueue LoginMessageQueue
+        {
+            get => messageQueue;
+            set => SetProperty(ref messageQueue, value);
+        }
 
         public LoginWindowModel(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
-            requestServiceContent = new ApplicationAlterationServiceContentKind();
+            LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
+            applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind();
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestEventInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("EventInitializationService"));
         }
 
@@ -36,10 +45,10 @@ namespace HAMS.Models
 
         private void PublishApplicationAlterationService()
         {
-            requestServiceContent.ApplicationControlType = ControlTypePart.LoginWindow;
-            requestServiceContent.ApplicationActiveFlag = ActiveFlagPart.Active;
+            applicationAlterationRequestContent.ApplicationControlType = ControlTypePart.LoginWindow;
+            applicationAlterationRequestContent.ApplicationActiveFlag = ActiveFlagPart.Active;
 
-            eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, requestServiceContent);
+            eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
         }
 
@@ -48,10 +57,10 @@ namespace HAMS.Models
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             if (responseObj["ret_code"].ToString() == "1")
             {
-                requestServiceContent.ApplicationControlType = ControlTypePart.LoginWindow;
-                requestServiceContent.ApplicationActiveFlag = ActiveFlagPart.InActive;
+                applicationAlterationRequestContent.ApplicationControlType = ControlTypePart.LoginWindow;
+                applicationAlterationRequestContent.ApplicationActiveFlag = ActiveFlagPart.InActive;
 
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, requestServiceContent);
+                eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
 
                 Window mainWindow = containerProvider.Resolve<MainWindow>();

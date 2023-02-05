@@ -55,7 +55,7 @@ namespace HAMS.Frame.Kernel.Core
         /// EventServiceJsonText.svc_cont
         /// </remarks>
         [JsonProperty(PropertyName = "svc_cont", Order = 8)]
-        public IServiceContent ServiceContent { get; set; }
+        public IEventServiceContent EventServiceContent { get; set; }
 
         public EventServiceKind() : base()
         {
@@ -63,7 +63,7 @@ namespace HAMS.Frame.Kernel.Core
         }
 
         public EventServiceKind(string codeArg, string itemArg, string nameArg, FrameModulePart sourceModuleNameArg,
-                                        IServiceContent serviceContentArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
+                                        IEventServiceContent eventServiceContentArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
                                             base(codeArg, contentArg, noteArg, recordTimeArg, enabledFlagArg)
         {
 

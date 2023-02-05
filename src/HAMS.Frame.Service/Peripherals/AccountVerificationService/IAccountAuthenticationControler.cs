@@ -5,6 +5,6 @@ namespace HAMS.Frame.Service.Peripherals
 {
     public interface IAccountAuthenticationControler
     {
-        bool Validate(AccountVerificationServiceRequestContentKind requestContentArg, out string errorMessageArg);
+        bool Validate(AccountVerificationRequestContentKind requestContentArg, out string errorMessageArg);
     }
 }

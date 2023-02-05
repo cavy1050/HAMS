@@ -31,7 +31,7 @@ namespace HAMS.Frame.Kernel.Events
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
         }
 
-        public string Request(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg, IServiceContent serviceContentArg)
+        public string Request(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg, IEventServiceContent eventServiceContentArg)
         {
             sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_ServiceEventSetting WHERE Item='" + eventServiceArg.ToString() + "' AND EnabledFlag = True";
             if (nativeBaseController.Query<SettingKind>(sqlSentence, out serviceEventSettingHub))
@@ -45,7 +45,7 @@ namespace HAMS.Frame.Kernel.Events
                     RecordTime = DateTime.Now.ToString("G"),
                     SourceModuleName = sourceModuleArg,
                     TargetModuleName = targetModuleArg,
-                    ServiceContent = serviceContentArg
+                    EventServiceContent = eventServiceContentArg
                 };
 
                 eventServiceJsonText = JsonConvert.SerializeObject(requestService);
@@ -57,7 +57,7 @@ namespace HAMS.Frame.Kernel.Events
 
         public string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, IEnumerable<FrameModulePart> targetModuleArgs,
                                 bool returnCodeArg, string returnMessageArg,
-                                 IServiceContent serviceContentArg)
+                                 IEventServiceContent eventServiceContentArg)
         {
             sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_ServiceEventSetting WHERE Item='" + eventServiceArg.ToString() + "' AND EnabledFlag = True";
             if (nativeBaseController.Query<SettingKind>(sqlSentence, out serviceEventSettingHub))
@@ -71,7 +71,7 @@ namespace HAMS.Frame.Kernel.Events
                     RecordTime = DateTime.Now.ToString("G"),
                     SourceModuleName = sourceModuleArg,
                     TargetModuleName = targetModuleArgs,
-                    ServiceContent = serviceContentArg,
+                    EventServiceContent = eventServiceContentArg,
                     ReturnCode = returnCodeArg == true ? "1" : "0",
                     ReturnMessage = returnMessageArg
                 };
