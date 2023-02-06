@@ -12,7 +12,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.tagt_mod_name
+        /// eventJsonSentence.tagt_mod_name
         /// </remarks>
         [JsonProperty(PropertyName = "tagt_mod_name", ItemConverterType = typeof(StringEnumConverter), Order = 6)]
         public IEnumerable<FrameModulePart> TargetModuleName { get; set; }
@@ -22,7 +22,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.ret_code
+        /// eventJsonSentence.ret_code
         /// </remarks>
         [JsonProperty(PropertyName = "ret_code", Order = 9)]
         public string ReturnCode { get; set; }
@@ -32,7 +32,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.ret_msg
+        /// eventJsonSentence.ret_msg
         /// </remarks>
         [JsonProperty(PropertyName = "ret_msg", Order = 10)]
         public string ReturnMessage { get; set; }

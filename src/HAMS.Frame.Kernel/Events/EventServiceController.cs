@@ -18,7 +18,7 @@ namespace HAMS.Frame.Kernel.Events
         IDataBaseController nativeBaseController;
         ILogController servicEventLogController;
 
-        string sqlSentence, eventServiceJsonText;
+        string sqlSentence, eventJsonSentence;
         List<SettingKind> serviceEventSettingHub;
         RequestServiceKind requestService;
         ResponseServiceKind responseService;
@@ -48,11 +48,11 @@ namespace HAMS.Frame.Kernel.Events
                     EventServiceContent = eventServiceContentArg
                 };
 
-                eventServiceJsonText = JsonConvert.SerializeObject(requestService);
-                servicEventLogController.WriteDebug(eventServiceJsonText);
+                eventJsonSentence = JsonConvert.SerializeObject(requestService);
+                servicEventLogController.WriteDebug(eventJsonSentence);
             }
 
-            return eventServiceJsonText;
+            return eventJsonSentence;
         }
 
         public string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, IEnumerable<FrameModulePart> targetModuleArgs,
@@ -76,11 +76,11 @@ namespace HAMS.Frame.Kernel.Events
                     ReturnMessage = returnMessageArg
                 };
 
-                eventServiceJsonText = JsonConvert.SerializeObject(responseService);
-                servicEventLogController.WriteDebug(eventServiceJsonText);
+                eventJsonSentence = JsonConvert.SerializeObject(responseService);
+                servicEventLogController.WriteDebug(eventJsonSentence);
             }
 
-            return eventServiceJsonText;
+            return eventJsonSentence;
         }
     }
 }

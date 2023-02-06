@@ -10,7 +10,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.tagt_mod_name
+        /// eventJsonSentence.tagt_mod_name
         /// </remarks>
         [JsonProperty(PropertyName = "tagt_mod_name", Order = 6)]
         [JsonConverter(typeof(StringEnumConverter))]

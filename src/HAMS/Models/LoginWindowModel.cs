@@ -6,7 +6,6 @@ using Prism.Events;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
 using HAMS.Views;
-using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
 
 namespace HAMS.Models
@@ -16,9 +15,6 @@ namespace HAMS.Models
         IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
         IEventServiceController eventServiceController;
-
-        string eventServiceJsonText;
-        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
 
         ISnackbarMessageQueue messageQueue;
         public ISnackbarMessageQueue LoginMessageQueue
@@ -32,24 +28,13 @@ namespace HAMS.Models
             containerProvider = containerProviderArg;
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
-            applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind();
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestEventInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("EventInitializationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnApplicationAlterationRequestService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
 
-        private void OnRequestEventInitializationService(string requestServiceTextArg)
+        private void OnApplicationAlterationRequestService(string requestServiceTextArg)
         {
             eventServiceController = containerProvider.Resolve<IEventServiceController>();
-            PublishApplicationAlterationService();
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
-        }
-
-        private void PublishApplicationAlterationService()
-        {
-            applicationAlterationRequestContent.ApplicationControlType = ControlTypePart.LoginWindow;
-            applicationAlterationRequestContent.ApplicationActiveFlag = ActiveFlagPart.Active;
-
-            eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
         }
 
         private void OnAccountVerificationResponseService(string responseServiceTextArg)
@@ -57,12 +42,6 @@ namespace HAMS.Models
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             if (responseObj["ret_code"].ToString() == "1")
             {
-                applicationAlterationRequestContent.ApplicationControlType = ControlTypePart.LoginWindow;
-                applicationAlterationRequestContent.ApplicationActiveFlag = ActiveFlagPart.InActive;
-
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
-
                 Window mainWindow = containerProvider.Resolve<MainWindow>();
                 mainWindow.Show();
             }

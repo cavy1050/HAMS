@@ -10,7 +10,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.svc_code
+        /// eventJsonSentence.svc_code
         /// </remarks>
         [JsonProperty(PropertyName = "svc_code", Order = 1)]
         public string Item { get; set; }
@@ -20,7 +20,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.svc_type
+        /// eventJsonSentence.svc_type
         /// </remarks>
         [JsonProperty(PropertyName = "svc_type", Order = 3)]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -31,7 +31,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.svc_name
+        /// eventJsonSentence.svc_name
         /// </remarks>
         [JsonProperty(PropertyName = "svc_name", Order = 2)]
         public string Name { get; set; }
@@ -41,7 +41,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.souc_mod_name
+        /// eventJsonSentence.souc_mod_name
         /// </remarks>
         [JsonProperty(PropertyName = "souc_mod_name", Order = 5)]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -52,7 +52,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.svc_cont
+        /// eventJsonSentence.svc_cont
         /// </remarks>
         [JsonProperty(PropertyName = "svc_cont", Order = 8)]
         public IEventServiceContent EventServiceContent { get; set; }

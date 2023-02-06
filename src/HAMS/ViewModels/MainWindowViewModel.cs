@@ -20,12 +20,6 @@ namespace HAMS.ViewModels
         public MainWindowViewModel(IContainerProvider containerProviderArg)
         {
             MainWindowModel = new MainWindowModel(containerProviderArg);
-            WindowLoadedCommand = new DelegateCommand(OnWindowLoaded);
-        }
-
-        private void OnWindowLoaded()
-        {
-            MainWindowModel.WindowLoaded();
         }
     }
 }

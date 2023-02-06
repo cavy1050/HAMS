@@ -5,15 +5,18 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Events;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json.Linq;
+using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
 
 namespace HAMS.Models
 {
     public class MainWindowModel : BindableBase
     {
-        IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
         IEventServiceController eventServiceController;
+
+        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
 
         ISnackbarMessageQueue mainMessageQueue;
         public ISnackbarMessageQueue MainMessageQueue
@@ -55,22 +58,17 @@ namespace HAMS.Models
             WorkAreaWidth = SystemParameters.WorkArea.Width;
             WorkAreaHeight = SystemParameters.WorkArea.Height;
 
-            containerProvider = containerProviderArg;
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             MainMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             RegionManager = containerProviderArg.Resolve<IRegionManager>();
+            eventServiceController= containerProviderArg.Resolve<IEventServiceController>();
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestEventInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnApplicationAlterationRequestService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
 
-        public void WindowLoaded()
+        private void OnApplicationAlterationRequestService(string serviceTextArg)
         {
-            
-        }
-
-        private void OnRequestEventInitializationService(string requestServiceTextArg)
-        {
-            MessageBox.Show("23");
+            MessageBox.Show(serviceTextArg);
         }
     }
 }

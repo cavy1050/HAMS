@@ -22,8 +22,10 @@ namespace HAMS.Frame.Control.Login.Models
         IEventServiceController eventServiceController;
 
         ValidationResult infoSeverityResult, errorSeverityResult;
-        string eventServiceJsonText;
+        string eventJsonSentence;
         object currentWindow;
+        AccountVerificationRequestContentKind AccountVerificationRequestContent;
+        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
 
         string account;
         public string Account
@@ -73,12 +75,14 @@ namespace HAMS.Frame.Control.Login.Models
             ValidationResult validationResult = loginContentModelValidator.Validate(this);
             if (validationResult.IsValid)
             {
-                AccountVerificationRequestContentKind requestContent = new AccountVerificationRequestContentKind();
-                requestContent.Account = Account;
-                requestContent.Password = Password;
+                AccountVerificationRequestContent = new AccountVerificationRequestContentKind
+                {
+                    Account = Account,
+                    Password = Password
+                };
 
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, requestContent);
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
+                eventJsonSentence = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, AccountVerificationRequestContent);
+                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
             }
         }
 
@@ -90,8 +94,23 @@ namespace HAMS.Frame.Control.Login.Models
             else
             {
                 if (currentWindow != null)
+                {
                     SystemCommands.CloseWindow(currentWindow as Window);
+                    RequestApplicationAlterationService();
+                }  
             }
+        }
+
+        private void RequestApplicationAlterationService()
+        {
+            applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind
+            {
+                ApplicationControlType = ControlTypePart.LoginWindow,
+                ApplicationActiveFlag = ActiveFlagPart.InActive
+            };
+
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
     }
 }

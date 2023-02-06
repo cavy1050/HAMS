@@ -18,16 +18,10 @@
         ResizeMode="NoResize"
         MaxHeight="{Binding MainWindowModel.WorkAreaHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         MaxWidth="{Binding MainWindowModel.WorkAreaWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
-
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Initialized">
-            <i:InvokeCommandAction Command="{Binding WindowLoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
 
     <md:DialogHost Identifier="MainDialog"
                                DialogTheme="Inherit">

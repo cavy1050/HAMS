@@ -13,7 +13,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText.svc_time
+        /// eventJsonSentence.svc_time
         /// </remarks>
         [JsonProperty(PropertyName = "svc_time", Order = 7)]
         public string RecordTime { get; set; }

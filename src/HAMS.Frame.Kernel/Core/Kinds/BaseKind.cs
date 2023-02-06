@@ -17,7 +17,7 @@ namespace HAMS.Frame.Kernel.Core
         /// 程序采用ULID-C#实现库：<seealso cref="NUlid" href="https://github.com/RobThree/NUlid"/>
         /// </para>
         /// <para>
-        /// EventServiceJsonText.msg_code ULID编码
+        /// eventJsonSentence.msg_code ULID编码
         /// </para>
         /// </remarks>
         [JsonProperty(PropertyName = "msg_code", Order = 4)]
@@ -28,7 +28,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText中忽略此项
+        /// eventJsonSentence中忽略此项
         /// </remarks>
         [JsonIgnore]
         public virtual string Content { get; set; }
@@ -38,7 +38,7 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         /// 
         /// <remarks>
-        /// EventServiceJsonText中忽略此项
+        /// eventJsonSentence中忽略此项
         /// </remarks>
         [JsonIgnore]
         public virtual string Note { get; set; }
@@ -49,7 +49,7 @@ namespace HAMS.Frame.Kernel.Core
         /// 
         /// <remarks>
         /// 1：有效 0：无效
-        /// EventServiceJsonText中忽略此项
+        /// eventJsonSentence中忽略此项
         /// </remarks>
         [JsonIgnore]
         public virtual bool EnabledFlag { get; set; }

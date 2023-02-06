@@ -25,9 +25,9 @@ namespace HAMS.Frame.Service
 
         IAccountAuthenticationControler accountAuthenticationControler;
 
-        string eventServiceJsonText, sqlSentence;
+        string eventJsonSentence, sqlSentence;
         List<SettingKind> userSettingHub;
-        IEventServiceContent eventServiceContent;
+        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
 
         public ServiceLauncher(IContainerProvider containerProviderArg)
         {
@@ -51,9 +51,14 @@ namespace HAMS.Frame.Service
         {
             if (args.ModuleInfo.ModuleName == "LoginModule")
             {
-                eventServiceJsonText = eventServiceController.Request(EventServicePart.EventInitializationService, FrameModulePart.ServiceModule, FrameModulePart.All, eventServiceContent);
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventServiceJsonText);
-                eventServiceContent = new EventInitializationRequestContentKind { ApplicationControlType = ControlTypePart.MainWindow };
+                applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind
+                {
+                    ApplicationControlType = ControlTypePart.LoginWindow,
+                    ApplicationActiveFlag = ActiveFlagPart.Active
+                };
+
+                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
+                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
             }
         }
 
@@ -108,12 +113,12 @@ namespace HAMS.Frame.Service
                 accountVerificationResponseContent.Password = accountVerificationRequestContent.Password;
                 accountVerificationResponseContent.Name = userSettingHub.FirstOrDefault().Name;
 
-                eventServiceJsonText = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, true, errorMessage, accountVerificationResponseContent);
+                eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, true, errorMessage, accountVerificationResponseContent);
             }
             else
-                eventServiceJsonText = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, false, errorMessage, new EmptyContentKind());
+                eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule, targetFrameModules, false, errorMessage, new EmptyContentKind());
 
-            eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventServiceJsonText);
+            eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
         }
     }
 }
