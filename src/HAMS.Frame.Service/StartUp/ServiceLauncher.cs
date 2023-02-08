@@ -23,11 +23,13 @@ namespace HAMS.Frame.Service
         IDataBaseController nativeBaseController;
         IEventServiceController eventServiceController;
 
+        IApplicationAlterationController applicationAlterationController;
         IAccountAuthenticationControler accountAuthenticationControler;
+        
 
         string eventJsonSentence, sqlSentence;
         List<SettingKind> userSettingHub;
-        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
+        ApplicationAlterationContentKind applicationAlterationContent;
 
         public ServiceLauncher(IContainerProvider containerProviderArg)
         {
@@ -51,13 +53,13 @@ namespace HAMS.Frame.Service
         {
             if (args.ModuleInfo.ModuleName == "LoginModule")
             {
-                applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind
+                applicationAlterationContent = new ApplicationAlterationContentKind
                 {
                     ApplicationControlType = ControlTypePart.LoginWindow,
                     ApplicationActiveFlag = ActiveFlagPart.Active
                 };
 
-                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
+                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, FrameModulePart.ServiceModule, applicationAlterationContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
             }
         }
@@ -65,31 +67,11 @@ namespace HAMS.Frame.Service
         private void OnRequestApplicationAlterationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            JObject requestContentObj = requestObj["svc_cont"].Value<JObject>();
-
-            ControlTypePart requestControlTypeObj = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), requestContentObj["app_ctl_type"].Value<string>());
-            ActiveFlagPart requestActiveFlagObj = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), requestContentObj["app_act_flag"].Value<string>());
-
-            switch (requestControlTypeObj)
+            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
             {
-                case ControlTypePart.LoginWindow:
-                    if (!environmentMonitor.ApplicationControlSetting.ContainsKey(ControlTypePart.LoginWindow))
-                        environmentMonitor.ApplicationControlSetting.Add(requestControlTypeObj, requestActiveFlagObj);
-                    else
-                        environmentMonitor.ApplicationControlSetting[ControlTypePart.LoginWindow] = requestActiveFlagObj;
-                    break;
-                case ControlTypePart.MainWindow:
-                    if (!environmentMonitor.ApplicationControlSetting.ContainsKey(ControlTypePart.MainWindow))
-                        environmentMonitor.ApplicationControlSetting.Add(requestControlTypeObj, requestActiveFlagObj);
-                    else
-                        environmentMonitor.ApplicationControlSetting[ControlTypePart.MainWindow] = requestActiveFlagObj;
-                    break;
-                case ControlTypePart.MainLeftDrawer:
-                    if (!environmentMonitor.ApplicationControlSetting.ContainsKey(ControlTypePart.MainLeftDrawer))
-                        environmentMonitor.ApplicationControlSetting.Add(requestControlTypeObj, requestActiveFlagObj);
-                    else
-                        environmentMonitor.ApplicationControlSetting[ControlTypePart.MainLeftDrawer] = requestActiveFlagObj;
-                    break;
+                applicationAlterationController = containerProvider.Resolve<IApplicationAlterationController>();
+                eventJsonSentence = applicationAlterationController.Response(requestServiceTextArg);
+                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
             }
         }
 

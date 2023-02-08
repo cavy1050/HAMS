@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -6,6 +7,7 @@ using Prism.Events;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
 using HAMS.Views;
+using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
 
 namespace HAMS.Models
@@ -14,7 +16,6 @@ namespace HAMS.Models
     {
         IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
-        IEventServiceController eventServiceController;
 
         ISnackbarMessageQueue messageQueue;
         public ISnackbarMessageQueue LoginMessageQueue
@@ -28,13 +29,23 @@ namespace HAMS.Models
             containerProvider = containerProviderArg;
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnApplicationAlterationRequestService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
+
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
 
-        private void OnApplicationAlterationRequestService(string requestServiceTextArg)
+        private void OnApplicationAlterationResponseService(string responseServiceTextArg)
         {
-            eventServiceController = containerProvider.Resolve<IEventServiceController>();
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+            JObject responseObj = JObject.Parse(responseServiceTextArg);
+            JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
+            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "ApplictionModule") != null)
+            {
+                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
+                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
+
+                if (responseControlType == ControlTypePart.LoginWindow && responseActiveFlag == ActiveFlagPart.Active)
+                    eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+            }
         }
 
         private void OnAccountVerificationResponseService(string responseServiceTextArg)

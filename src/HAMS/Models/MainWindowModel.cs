@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -16,7 +17,7 @@ namespace HAMS.Models
         IEventAggregator eventAggregator;
         IEventServiceController eventServiceController;
 
-        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
+        string eventJsonSentence;
 
         ISnackbarMessageQueue mainMessageQueue;
         public ISnackbarMessageQueue MainMessageQueue
@@ -61,14 +62,34 @@ namespace HAMS.Models
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             MainMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             RegionManager = containerProviderArg.Resolve<IRegionManager>();
-            eventServiceController= containerProviderArg.Resolve<IEventServiceController>();
+            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnApplicationAlterationRequestService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
 
-        private void OnApplicationAlterationRequestService(string serviceTextArg)
+        private void OnApplicationAlterationResponseService(string responseServiceTextArg)
         {
-            MessageBox.Show(serviceTextArg);
+            JObject responseObj = JObject.Parse(responseServiceTextArg);
+            JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
+            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "ApplictionModule") != null)
+            {
+                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
+                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
+
+                if (responseControlType == ControlTypePart.LoginWindow && responseActiveFlag == ActiveFlagPart.InActive)
+                {
+                    eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService,
+                                            FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
+                                            new ApplicationAlterationContentKind
+                                            {
+                                                ApplicationControlType = ControlTypePart.MainWindow,
+                                                ApplicationActiveFlag = ActiveFlagPart.Active
+                                            });
+
+                    eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                }
+            }
         }
     }
 }

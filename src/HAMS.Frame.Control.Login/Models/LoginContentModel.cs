@@ -25,7 +25,7 @@ namespace HAMS.Frame.Control.Login.Models
         string eventJsonSentence;
         object currentWindow;
         AccountVerificationRequestContentKind AccountVerificationRequestContent;
-        ApplicationAlterationRequestContentKind applicationAlterationRequestContent;
+        ApplicationAlterationContentKind applicationAlterationContent;
 
         string account;
         public string Account
@@ -73,7 +73,9 @@ namespace HAMS.Frame.Control.Login.Models
         {
             LoginContentModelValidator loginContentModelValidator = new LoginContentModelValidator();
             ValidationResult validationResult = loginContentModelValidator.Validate(this);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
+                validationResult.Errors.ForEach(msg => messageQueue.Enqueue(msg.ErrorMessage));
+            else
             {
                 AccountVerificationRequestContent = new AccountVerificationRequestContentKind
                 {
@@ -103,13 +105,13 @@ namespace HAMS.Frame.Control.Login.Models
 
         private void RequestApplicationAlterationService()
         {
-            applicationAlterationRequestContent = new ApplicationAlterationRequestContentKind
+            applicationAlterationContent = new ApplicationAlterationContentKind
             {
                 ApplicationControlType = ControlTypePart.LoginWindow,
                 ApplicationActiveFlag = ActiveFlagPart.InActive
             };
 
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, applicationAlterationRequestContent);
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, applicationAlterationContent);
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
     }
