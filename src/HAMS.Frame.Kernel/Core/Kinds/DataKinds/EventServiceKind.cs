@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class EventServiceKind : InfoKind
+    public abstract class EventServiceKind : DataKind
     {
         /// <summary>
         /// 服务代码
@@ -16,6 +16,16 @@ namespace HAMS.Frame.Kernel.Core
         public string Item { get; set; }
 
         /// <summary>
+        /// 服务名称
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// eventJsonSentence.svc_name
+        /// </remarks>
+        [JsonProperty(PropertyName = "svc_name", Order = 2)]
+        public string Name { get; set; }
+
+        /// <summary>
         /// 服务类型
         /// </summary>
         /// 
@@ -25,16 +35,6 @@ namespace HAMS.Frame.Kernel.Core
         [JsonProperty(PropertyName = "svc_type", Order = 3)]
         [JsonConverter(typeof(StringEnumConverter))]
         public EventServiceTypePart Type { get; set; }
-
-        /// <summary>
-        /// 服务名称
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// eventJsonSentence.svc_name
-        /// </remarks>
-        [JsonProperty(PropertyName = "svc_name", Order = 2)]
-        public string Name { get; set; }
 
         /// <summary>
         /// 服务源模块名称
@@ -56,17 +56,5 @@ namespace HAMS.Frame.Kernel.Core
         /// </remarks>
         [JsonProperty(PropertyName = "svc_cont", Order = 8)]
         public IEventServiceContent EventServiceContent { get; set; }
-
-        public EventServiceKind() : base()
-        {
-
-        }
-
-        public EventServiceKind(string codeArg, string itemArg, string nameArg, FrameModulePart sourceModuleNameArg,
-                                        IEventServiceContent eventServiceContentArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
-                                            base(codeArg, contentArg, noteArg, recordTimeArg, enabledFlagArg)
-        {
-
-        }
     }
 }

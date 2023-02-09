@@ -29,20 +29,5 @@
         // 默认标志
         // </summary>
         public bool DefaultFlag { get; set; }
-
-        public SettingKind()
-        {
-
-        }
-
-        public SettingKind(string codeArg, string itemarg, string nameArg, string contentArg, string descriptionArg,
-                                    string noteArg, int rankArgs, bool defaultFlag, bool enabledFlag) : base(codeArg, contentArg, noteArg, enabledFlag)
-        {
-            Item = itemarg;
-            Name = nameArg;
-            Description = descriptionArg;
-            Rank = rankArgs;
-            DefaultFlag = defaultFlag;
-        }
     }
 }

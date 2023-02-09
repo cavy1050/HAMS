@@ -107,23 +107,23 @@
     <Compile Include="Core\Collecters\SeverityCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\AccountVerificationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\AccountVerificationResponseContentKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\ApplicationAlterationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\AccountVerificationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\AccountVerificationResponseContentKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\ApplicationAlterationRequestContentKind.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\CertificateKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\EventInitializationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\EventServiceKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\RequestServiceKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\ResponseServiceKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\CertificateKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\EventInitializationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\EventServiceKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\RequestServiceKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\ResponseServiceKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\SettingKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\CategoryKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\DataBaseKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\IEventServiceContent.cs" />
-    <Compile Include="Core\Kinds\InfoKinds\EmptyContentKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\IEventServiceContent.cs" />
+    <Compile Include="Core\Kinds\DataKinds\EmptyContentKind.cs" />
     <Compile Include="Core\Parts\ActiveFlagPart.cs" />
     <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
@@ -185,7 +185,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Core\Kinds\InfoKinds\InfoKind.cs" />
+    <Compile Include="Core\Kinds\DataKinds\DataKind.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

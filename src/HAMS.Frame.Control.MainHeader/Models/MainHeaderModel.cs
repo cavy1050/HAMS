@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
+using HAMS.Frame.Kernel.Core;
 
 namespace HAMS.Frame.Control.MainHeader.Models
 {
     public class MainHeaderModel : BindableBase
     {
         IEventAggregator eventAggregator;
+        IEnvironmentMonitor environmentMonitor;
 
         bool isLeftDrawerOpen;
         public bool IsLeftDrawerOpen
@@ -23,6 +25,7 @@ namespace HAMS.Frame.Control.MainHeader.Models
         public MainHeaderModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
+            environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
         }
     }
 }

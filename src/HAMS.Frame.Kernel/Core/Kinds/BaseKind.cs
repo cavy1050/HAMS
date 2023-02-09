@@ -53,18 +53,5 @@ namespace HAMS.Frame.Kernel.Core
         /// </remarks>
         [JsonIgnore]
         public virtual bool EnabledFlag { get; set; }
-
-        public BaseKind()
-        {
-
-        }
-
-        public BaseKind(string codeArg, string contentArg, string noteArg, bool enabledFlagArg)
-        {
-            Code = codeArg;
-            Content = contentArg;
-            Note = noteArg;
-            EnabledFlag = enabledFlagArg;
-        }
     }
 }

@@ -36,19 +36,5 @@ namespace HAMS.Frame.Kernel.Core
         /// </remarks>
         [JsonProperty(PropertyName = "ret_msg", Order = 10)]
         public string ReturnMessage { get; set; }
-
-        public ResponseServiceKind() : base()
-        {
-
-        }
-
-        public ResponseServiceKind(string codeArg, string itemArg, string nameArg, FrameModulePart sourceModuleNameArg, IEnumerable<FrameModulePart> targetModuleNameArgs,
-                                        IEventServiceContent eventServiceContent, string returnCodeArg, string returnMessageArg, string contentArg, string noteArg, string recordTimeArg, bool enabledFlagArg) :
-                                            base(codeArg, itemArg, nameArg, sourceModuleNameArg, eventServiceContent, contentArg, noteArg, recordTimeArg, enabledFlagArg)
-        {
-            TargetModuleName = targetModuleNameArgs;
-            ReturnCode = returnCodeArg;
-            ReturnMessage = returnMessageArg;
-        }
     }
 }

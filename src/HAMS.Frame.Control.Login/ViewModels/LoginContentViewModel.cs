@@ -15,19 +15,19 @@ namespace HAMS.Frame.Control.Login.ViewModels
             set => SetProperty(ref loginContentModel, value);
         }
 
-        public DelegateCommand LoginContentLoadedCommand { get; private set; }
+        public DelegateCommand LoadedCommand { get; private set; }
         public DelegateCommand<object> LoginCommand { get; private set; }
 
         public LoginContentViewModel(IContainerProvider containerProviderArg)
         {
             LoginContentModel = new LoginContentModel(containerProviderArg);
-            LoginContentLoadedCommand = new DelegateCommand(OnLoginContentLoaded);
+            LoadedCommand = new DelegateCommand(OnLoaded);
             LoginCommand = new DelegateCommand<object>(OnLogin);
         }
 
-        private void OnLoginContentLoaded()
+        private void OnLoaded()
         {
-            LoginContentModel.ShowInitializeServiceMessage();
+            LoginContentModel.Loaded();
         }
 
         private void OnLogin(object currentWindow)

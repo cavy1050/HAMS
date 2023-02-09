@@ -14,18 +14,5 @@
         /// 类别名称
         /// </summary>
         public string CategoryName { get; set; }
-
-        public CategoryKind() : base()
-        {
-
-        }
-
-        public CategoryKind(string codeArg, string itemArg, string nameArg, string contentArg, string descriptionArg,
-                                        string noteArg, string categoryCodeArg, string categoryNameArg, int rankArg, bool defaultFlag, bool enabledFlag) :
-                                            base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, defaultFlag, enabledFlag)
-        {
-            CategoryCode = categoryCodeArg;
-            CategoryName = categoryNameArg;
-        }
     }
 }

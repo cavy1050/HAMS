@@ -16,7 +16,7 @@ namespace HAMS.Frame.Service
         public void RegisterTypes(IContainerRegistry containerRegistryArg)
         {
             containerRegistryArg.Register<IApplicationAlterationController, ApplicationAlterationController>();
-            containerRegistryArg.Register<IAccountAuthenticationControler, AccountAuthenticationControler>();
+            containerRegistryArg.Register<IAccountVerificationControler, AccountVerificationControler>();
         }
     }
 }

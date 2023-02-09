@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
 using MaterialDesignThemes.Wpf;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using FluentValidation.Results;
 using HAMS.Frame.Kernel.Core;
@@ -24,7 +22,7 @@ namespace HAMS.Frame.Control.Login.Models
         ValidationResult infoSeverityResult, errorSeverityResult;
         string eventJsonSentence;
         object currentWindow;
-        AccountVerificationRequestContentKind AccountVerificationRequestContent;
+        AccountVerificationRequestContentKind accountVerificationRequestContent;
         ApplicationAlterationContentKind applicationAlterationContent;
 
         string account;
@@ -47,17 +45,15 @@ namespace HAMS.Frame.Control.Login.Models
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+        }
 
+        public void Loaded()
+        {
+            ShowServiceMessage();
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
         }
 
-        public void Login(object windowArg)
-        {
-            currentWindow = windowArg;
-            RequestAccountVerificationService();
-        }
-
-        public void ShowInitializeServiceMessage()
+        private void ShowServiceMessage()
         {
             infoSeverityResult = environmentMonitor.SeveritySetting.GetContent(SeverityLevelPart.Info);
             errorSeverityResult = environmentMonitor.SeveritySetting.GetContent(SeverityLevelPart.Error);
@@ -69,6 +65,12 @@ namespace HAMS.Frame.Control.Login.Models
                 errorSeverityResult.Errors.ForEach(x => messageQueue.Enqueue(x.ErrorMessage));
         }
 
+        public void Login(object windowArg)
+        {
+            currentWindow = windowArg;
+            RequestAccountVerificationService();
+        }
+
         private void RequestAccountVerificationService()
         {
             LoginContentModelValidator loginContentModelValidator = new LoginContentModelValidator();
@@ -77,13 +79,13 @@ namespace HAMS.Frame.Control.Login.Models
                 validationResult.Errors.ForEach(msg => messageQueue.Enqueue(msg.ErrorMessage));
             else
             {
-                AccountVerificationRequestContent = new AccountVerificationRequestContentKind
+                accountVerificationRequestContent = new AccountVerificationRequestContentKind
                 {
                     Account = Account,
                     Password = Password
                 };
 
-                eventJsonSentence = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, AccountVerificationRequestContent);
+                eventJsonSentence = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, accountVerificationRequestContent);
                 eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
             }
         }
@@ -91,15 +93,19 @@ namespace HAMS.Frame.Control.Login.Models
         private void OnAccountVerificationResponseService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
-            if (responseObj["ret_code"].ToString() != "1")
-                messageQueue.Enqueue(responseObj["ret_msg"].ToString());
-            else
+            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "LoginModule") != null)
             {
-                if (currentWindow != null)
+                if (responseObj["ret_code"].ToString() != "1")
+                    messageQueue.Enqueue(responseObj["ret_msg"].ToString());
+                else
                 {
-                    SystemCommands.CloseWindow(currentWindow as Window);
-                    RequestApplicationAlterationService();
-                }  
+                    if (currentWindow != null)
+                    {
+                        SystemCommands.CloseWindow(currentWindow as Window);
+                        RequestApplicationAlterationService();
+                    }
+                }
             }
         }
 

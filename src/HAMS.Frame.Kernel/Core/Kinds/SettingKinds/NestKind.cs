@@ -20,18 +20,5 @@ namespace HAMS.Frame.Kernel.Core
         /// 上级项
         /// </summary>
         public string SupeItem { get; set; }
-
-        public NestKind() : base()
-        {
-
-        }
-
-        public NestKind(string codeArg, string itemArg, string nameArg, string contentArg, string descriptionArg,
-                                        string noteArg, string categoryCodeArg, string categoryNameArg, int rankArg, string superCodeArg, string supeItemArg, bool defaultFlag, bool enabledFlag) :
-                                            base(codeArg, itemArg, nameArg, contentArg, descriptionArg, noteArg, rankArg, defaultFlag, enabledFlag)
-        {
-            SuperCode = superCodeArg;
-            SupeItem = supeItemArg;
-        }
     }
 }
