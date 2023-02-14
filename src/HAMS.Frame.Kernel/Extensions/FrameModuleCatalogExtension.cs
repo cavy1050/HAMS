@@ -25,7 +25,7 @@ namespace HAMS.Frame.Kernel.Extensions
 
         protected override void InnerLoad()
         {
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_FrameModuleSetting WHERE EnabledFlag=True ORDER BY Rank";
+            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_FrameModuleSetting WHERE EnabledFlag=True AND DefaultFlag=False ORDER BY Rank";
             nativeBaseController.Query<SettingKind>(sqlSentence, out frameModuleCatalogHub);
 
             foreach (SettingKind frameModuleCatalog in frameModuleCatalogHub)

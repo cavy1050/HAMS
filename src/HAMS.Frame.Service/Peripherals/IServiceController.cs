@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public interface IApplicationAlterationController
+    public interface IServiceController
     {
         string Response(string requestServiceTextArg);
     }

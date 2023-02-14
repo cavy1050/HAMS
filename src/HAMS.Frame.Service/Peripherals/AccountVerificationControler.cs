@@ -12,7 +12,7 @@ using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public class AccountVerificationControler : IAccountVerificationControler
+    public class AccountVerificationControler : IServiceController
     {
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;

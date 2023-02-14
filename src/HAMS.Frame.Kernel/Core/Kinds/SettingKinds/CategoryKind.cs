@@ -3,16 +3,16 @@
     /// <summary>
     /// 分类型字典设置类型
     /// </summary>
-    public class CategoryKind : SettingKind
+    public abstract class CategoryKind : SettingKind
     {
         /// <summary>
         /// 类别代码
         /// </summary>
-        public string CategoryCode { get; set; }
+        public virtual string CategoryCode { get; set; }
 
         /// <summary>
         /// 类别名称
         /// </summary>
-        public string CategoryName { get; set; }
+        public virtual string CategoryName { get; set; }
     }
 }

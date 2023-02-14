@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public abstract class EventServiceKind : DataKind
+    public abstract class EventServiceKind : RecordKind
     {
         /// <summary>
         /// 服务代码

@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainLeftDrawerModule.cs" />
+    <Compile Include="Models\ExtensionModuleItemKind.cs" />
+    <Compile Include="Models\ItemSelectedEventArgs.cs" />
+    <Compile Include="Models\MainLeftDrawerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,6 +83,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\MainLeftDrawerViewModel.cs" />
+    <Compile Include="Views\MainLeftDrawerView.xaml.cs">
+      <DependentUpon>MainLeftDrawerView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -89,6 +96,18 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj">
+      <Project>{754a02f3-71b3-43dd-8239-3d039205f8d7}</Project>
+      <Name>HAMS.Frame.Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\MainLeftDrawerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

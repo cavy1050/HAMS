@@ -5,11 +5,6 @@ namespace HAMS.Frame.Kernel.Core
     public enum EventServicePart
     {
         /// <summary>
-        /// 事件初始化服务
-        /// </summary>
-        EventInitializationService,
-
-        /// <summary>
         /// 程序变更服务
         /// </summary>
         ApplicationAlterationService,
@@ -32,11 +27,11 @@ namespace HAMS.Frame.Kernel.Core
         /// <summary>
         /// 菜单初始化服务
         /// </summary>
-        MenuInitializationService,
+        ExtensionModuleInitializationService,
 
         /// <summary>
         /// 菜单激活服务	
         /// </summary>
-        MenuActivationService
+        ExtensionModuleActivationService
     }
 }

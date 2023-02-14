@@ -25,6 +25,7 @@ namespace HAMS.Frame.Control.MainHeader.ViewModels
 
         public DelegateCommand<object> MinimizeWindowCommand { get; private set; }
         public DelegateCommand<object> CloseWindowCommand { get; private set; }
+        public DelegateCommand LoadedCommand { get; private set; }
 
         public MainHeaderViewModel(IContainerProvider containerProviderArgs)
         {
@@ -32,6 +33,7 @@ namespace HAMS.Frame.Control.MainHeader.ViewModels
 
             MinimizeWindowCommand = new DelegateCommand<object>(OnMinimizeWindow);
             CloseWindowCommand = new DelegateCommand<object>(OnCloseWindow);
+            LoadedCommand = new DelegateCommand(OnLoaded);
 
             timer = new Timer(1000);
             currentWindow = new object();
@@ -77,6 +79,12 @@ namespace HAMS.Frame.Control.MainHeader.ViewModels
             result = await ConfirmationDialog.ShowDialogAsync("MainDialog", dialogArgs);
             if (result == true)
                 Application.Current.Shutdown();
+        }
+
+
+        private void OnLoaded()
+        {
+            MainHeaderModel.Loaded();
         }
     }
 }

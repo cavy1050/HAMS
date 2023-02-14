@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class CertificateKind : DataKind
+    public class CertificateKind : RecordKind
     {
         /// <summary>
         /// 证书序列号

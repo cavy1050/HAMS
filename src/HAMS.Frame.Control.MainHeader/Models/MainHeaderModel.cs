@@ -22,10 +22,22 @@ namespace HAMS.Frame.Control.MainHeader.Models
             set => SetProperty(ref isLeftDrawerOpen, value);
         }
 
+        string userName;
+        public string UserName
+        {
+            get => userName;
+            set => SetProperty(ref userName, value);
+        }
+
         public MainHeaderModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+        }
+
+        public void Loaded()
+        {
+            UserName = environmentMonitor.UserSetting.Name;
         }
     }
 }

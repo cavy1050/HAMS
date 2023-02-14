@@ -6,7 +6,7 @@ The basic development platform is shown as below
 | Visual Studio Enterprise 2019 | 16.9.4 |
 | .NET FrameWork                | 4.7.2  |
 
-Many Vasual Studio NuGet packages used for development is shown as below
+Many Visual Studio NuGet packages used for development is shown as below
 | Package   | Version | 
 | :----     | :----   |
 | Prism.Unity              | 8.1.97    |
@@ -20,8 +20,3 @@ Many Vasual Studio NuGet packages used for development is shown as below
 | log4net                  | 2.0.15    |
 | FluentValidation         | 11.4.0    |
 | Ulid                     | 1.2.6     |
-
-TODO List
-- [ ] Polly  
-- [ ] System.Runtime.Caching  
-- [ ] LiveCharts 

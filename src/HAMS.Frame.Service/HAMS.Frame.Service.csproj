@@ -61,10 +61,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Peripherals\AccountVerificationService\AccountVerificationControler.cs" />
-    <Compile Include="Peripherals\AccountVerificationService\IAccountVerificationControler.cs" />
-    <Compile Include="Peripherals\ApplicationAlterationService\ApplicationAlterationController.cs" />
-    <Compile Include="Peripherals\ApplicationAlterationService\IApplicationAlterationController.cs" />
+    <Compile Include="Peripherals\AccountVerificationControler.cs" />
+    <Compile Include="Peripherals\ApplicationAlterationController.cs" />
+    <Compile Include="Peripherals\ExtensionModuleInitializationServiceControler.cs" />
+    <Compile Include="Peripherals\IServiceController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

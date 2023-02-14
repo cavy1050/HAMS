@@ -10,7 +10,7 @@ using HAMS.Frame.Kernel.Events;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public class ApplicationAlterationController : IApplicationAlterationController
+    public class ApplicationAlterationController : IServiceController
     {
         IEnvironmentMonitor environmentMonitor;
         IEventServiceController eventServiceController;

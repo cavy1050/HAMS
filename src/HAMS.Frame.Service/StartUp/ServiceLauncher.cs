@@ -17,9 +17,10 @@ namespace HAMS.Frame.Service
         IEventAggregator eventAggregator;
         IEventServiceController eventServiceController;
 
-        IApplicationAlterationController applicationAlterationController;
-        IAccountVerificationControler accountVerificationControler;
-        
+        IServiceController applicationAlterationController;
+        IServiceController accountVerificationControler;
+        IServiceController extensionModuleInitializationServiceControler;
+
         string eventJsonSentence;
         ApplicationAlterationContentKind applicationAlterationContent;
 
@@ -37,6 +38,7 @@ namespace HAMS.Frame.Service
 
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestApplicationAlterationService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestAccountVerificationService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleInitializationService"));
         }
 
         private void ModuleManager_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs args)
@@ -59,7 +61,7 @@ namespace HAMS.Frame.Service
             JObject requestObj = JObject.Parse(requestServiceTextArg);
             if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
             {
-                applicationAlterationController = containerProvider.Resolve<IApplicationAlterationController>();
+                applicationAlterationController = containerProvider.Resolve<IServiceController>(EventServicePart.ApplicationAlterationService.ToString());
                 eventJsonSentence = applicationAlterationController.Response(requestServiceTextArg);
                 eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
             }
@@ -70,8 +72,19 @@ namespace HAMS.Frame.Service
             JObject requestObj = JObject.Parse(requestServiceTextArg);
             if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
             {
-                accountVerificationControler = containerProvider.Resolve<IAccountVerificationControler>();
+                accountVerificationControler = containerProvider.Resolve<IServiceController>(EventServicePart.AccountVerificationService.ToString());
                 eventJsonSentence = accountVerificationControler.Response(requestServiceTextArg);
+                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+            }
+        }
+
+        private void OnRequestExtensionModuleInitializationServiceService(string requestServiceTextArg)
+        {
+            JObject requestObj = JObject.Parse(requestServiceTextArg);
+            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            {
+                extensionModuleInitializationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ExtensionModuleInitializationService.ToString());
+                eventJsonSentence = extensionModuleInitializationServiceControler.Response(requestServiceTextArg);
                 eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
             }
         }

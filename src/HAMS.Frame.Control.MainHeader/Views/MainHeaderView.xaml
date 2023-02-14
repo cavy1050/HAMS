@@ -3,12 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HAMS.Frame.Control.MainHeader.Views"
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid>
         <md:ColorZone Padding="16"
                                   md:ShadowAssist.ShadowDepth="Depth5"
@@ -20,6 +28,18 @@
                               IsChecked="{Binding MainHeaderModel.IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Orientation="Horizontal" 
                             HorizontalAlignment="Right">
+                    <TextBlock Margin="0 0 8 0"
+                               VerticalAlignment="Center"
+                               Text="{Binding MainHeaderModel.UserName,Mode=OneWay}"
+                               FontWeight="ExtraBold"
+                               Style="{DynamicResource MaterialDesignHeadline5TextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignSeparator}"
+                               Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}">
+                        <Separator.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </Separator.LayoutTransform>
+                    </Separator>
+                    
                     <Button WindowChrome.IsHitTestVisibleInChrome="True" 
                             Margin="0 0 16 0" 
                             Style="{DynamicResource MaterialDesignToolButton}" 
