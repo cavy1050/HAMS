@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class ExtensionModuleResponseContentKind : IEventServiceContent
+    public class ExtensionModuleInitializationResponseContentKind : IEventServiceContent
     {
         [JsonProperty(PropertyName = "menus")]
         public IEnumerable<ExtensionModuleKind> ExtensionModules { get; set; }

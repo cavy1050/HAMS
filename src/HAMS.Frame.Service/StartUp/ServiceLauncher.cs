@@ -7,6 +7,7 @@ using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
 using HAMS.Frame.Kernel.Services;
 using HAMS.Frame.Service.Peripherals;
+using System.Windows;
 
 namespace HAMS.Frame.Service
 {
@@ -20,6 +21,7 @@ namespace HAMS.Frame.Service
         IServiceController applicationAlterationController;
         IServiceController accountVerificationControler;
         IServiceController extensionModuleInitializationServiceControler;
+        IServiceController extensionModuleActivationServiceControler;
 
         string eventJsonSentence;
         ApplicationAlterationContentKind applicationAlterationContent;
@@ -38,7 +40,8 @@ namespace HAMS.Frame.Service
 
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestApplicationAlterationService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestAccountVerificationService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleInitializationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestExtensionModuleInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleInitializationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestExtensionModuleActivationService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleActivationService"));
         }
 
         private void ModuleManager_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs args)
@@ -78,13 +81,26 @@ namespace HAMS.Frame.Service
             }
         }
 
-        private void OnRequestExtensionModuleInitializationServiceService(string requestServiceTextArg)
+        private void OnRequestExtensionModuleInitializationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
             if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
             {
                 extensionModuleInitializationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ExtensionModuleInitializationService.ToString());
                 eventJsonSentence = extensionModuleInitializationServiceControler.Response(requestServiceTextArg);
+                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+            }
+        }
+
+        private void OnRequestExtensionModuleActivationService(string requestServiceTextArg)
+        {
+            JObject requestObj = JObject.Parse(requestServiceTextArg);
+            JObject requestContentObj = requestObj.Value<JObject>("svc_cont");
+
+            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            {
+                extensionModuleActivationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ExtensionModuleActivationService.ToString());
+                eventJsonSentence = extensionModuleActivationServiceControler.Response(requestContentObj.ToString());
                 eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
             }
         }

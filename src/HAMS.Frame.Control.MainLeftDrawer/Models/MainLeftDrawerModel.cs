@@ -40,7 +40,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
         }
 
         public void Loaded()
-        {      
+        {
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleInitializationService"));
             RequestExtensionModuleItemData();
         }
@@ -105,9 +105,19 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             return retModuleNodes;
         }
 
-        private void ModuleNoteSelected(object sender, NodeSelectedEventArgs e)
+        private void ModuleNoteSelected(object sender, NodeSelectedEventArgs noteArg)
         {
-            MessageBox.Show(e.Code + "|" + e.Name + "|" + e.ModuleName + "|" + e.ModuleRef + "|" + e.ModuleType);
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ExtensionModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
+                new ExtensionModuleActivationRequestContentKind
+                {
+                    Code = noteArg.Code,
+                    Name = noteArg.Name,
+                    ModuleName = noteArg.ModuleName,
+                    ModuleRef = noteArg.ModuleRef,
+                    ModuleType = noteArg.ModuleType,
+                });
+
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
     }
 }

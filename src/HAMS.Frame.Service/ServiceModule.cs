@@ -20,6 +20,7 @@ namespace HAMS.Frame.Service
             containerRegistryArg.Register<IServiceController, AccountVerificationControler>(EventServicePart.AccountVerificationService.ToString());
 
             containerRegistryArg.Register<IServiceController, ExtensionModuleInitializationServiceControler>(EventServicePart.ExtensionModuleInitializationService.ToString());
+            containerRegistryArg.Register<IServiceController, ExtensionModuleActivationServiceController>(EventServicePart.ExtensionModuleActivationService.ToString());
         }
     }
 }

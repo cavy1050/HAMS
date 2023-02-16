@@ -7,7 +7,7 @@ using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Kernel.Extensions
 {
-    public class FrameModuleCatalogExtension : ModuleCatalog
+    public class FrameModuleCatalog : ModuleCatalog
     {
         IDataBaseController nativeBaseController;
         IEnvironmentMonitor environmentMonitor;
@@ -16,11 +16,11 @@ namespace HAMS.Frame.Kernel.Extensions
         string sqlSentence;
         List<SettingKind> frameModuleCatalogHub;
 
-        public FrameModuleCatalogExtension(IContainerProvider containerProviderArgs)
+        public FrameModuleCatalog(IContainerProvider containerProviderArg)
         {
-            environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            moduleCatalog = containerProviderArgs.Resolve<IModuleCatalog>();
+            moduleCatalog = containerProviderArg.Resolve<IModuleCatalog>();
         }
 
         protected override void InnerLoad()

@@ -127,8 +127,8 @@ namespace HAMS.Frame.Kernel
 
         private void LoadFrameModuleCatalog()
         {
-            FrameModuleCatalogExtension frameModuleCatalogExtension = new FrameModuleCatalogExtension(containerProvider);
-            frameModuleCatalogExtension.Load();
+            FrameModuleCatalog frameModuleCatalog = new FrameModuleCatalog(containerProvider);
+            frameModuleCatalog.Load();
 
             moduleManager.Run();
         }

@@ -61,8 +61,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\ExtensionModuleCatalog.cs" />
     <Compile Include="Peripherals\AccountVerificationControler.cs" />
     <Compile Include="Peripherals\ApplicationAlterationController.cs" />
+    <Compile Include="Peripherals\ExtensionModuleActivationServiceController.cs" />
     <Compile Include="Peripherals\ExtensionModuleInitializationServiceControler.cs" />
     <Compile Include="Peripherals\IServiceController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
