@@ -19,6 +19,6 @@ namespace HAMS.Frame.Kernel.Core
         /// <summary>
         /// 上级项
         /// </summary>
-        public virtual string SupeItem { get; set; }
+        public virtual string SuperItem { get; set; }
     }
 }

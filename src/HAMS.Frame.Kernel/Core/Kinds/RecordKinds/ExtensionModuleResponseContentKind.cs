@@ -10,6 +10,6 @@ namespace HAMS.Frame.Kernel.Core
     public class ExtensionModuleResponseContentKind : IEventServiceContent
     {
         [JsonProperty(PropertyName = "menus")]
-        public IEnumerable<ExtensionModuleKind> EtensionModules { get; set; }
+        public IEnumerable<ExtensionModuleKind> ExtensionModules { get; set; }
     }
 }

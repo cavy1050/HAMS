@@ -47,7 +47,7 @@ namespace HAMS.Models
             set => SetProperty(ref workAreaHeight, value);
         }
 
-        bool isLeftDrawerOpen;
+        bool isLeftDrawerOpen = true;
         public bool IsLeftDrawerOpen
         {
             get => isLeftDrawerOpen;

@@ -38,7 +38,7 @@ namespace HAMS.Frame.Kernel.Events
             {
                 requestService = new RequestServiceKind
                 {
-                    Item = serviceEventSettingHub.FirstOrDefault().Content,
+                    Content = serviceEventSettingHub.FirstOrDefault().Content,
                     Name = serviceEventSettingHub.FirstOrDefault().Item,
                     Type = EventServiceTypePart.Request,
                     Code = Ulid.NewUlid().ToString(),
@@ -64,7 +64,7 @@ namespace HAMS.Frame.Kernel.Events
             {
                 responseService = new ResponseServiceKind
                 {
-                    Item = serviceEventSettingHub.FirstOrDefault().Content,
+                    Content = serviceEventSettingHub.FirstOrDefault().Content,
                     Name = serviceEventSettingHub.FirstOrDefault().Item,
                     Type = EventServiceTypePart.Response,
                     Code = Ulid.NewUlid().ToString(),

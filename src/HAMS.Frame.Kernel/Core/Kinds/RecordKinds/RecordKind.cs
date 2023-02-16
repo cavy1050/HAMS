@@ -9,13 +9,8 @@ namespace HAMS.Frame.Kernel.Core
     public class RecordKind : BaseKind
     {
         /// <summary>
-        /// 记录时间 时间格式为yyyy-MM-dd HHmmss
+        /// 记录时间 时间格式为yyyy-MM-dd HH:mm:ss
         /// </summary>
-        /// 
-        /// <remarks>
-        /// eventJsonSentence.svc_time
-        /// </remarks>
-        [JsonProperty(PropertyName = "svc_time", Order = 7)]
-        public string RecordTime { get; set; }
+        public virtual string RecordTime { get; set; }
     }
 }

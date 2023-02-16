@@ -30,7 +30,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.ViewModels
 
         private void OnLoaded()
         {
-            MainLeftDrawerModel.RequestExtensionModuleItemData();
+            MainLeftDrawerModel.Loaded();
         }
     }
 }

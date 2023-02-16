@@ -30,7 +30,6 @@ namespace HAMS.Frame.Kernel.Core
         // <summary>
         // 默认标志
         // </summary>
-        [JsonIgnore]
-        public bool DefaultFlag { get; set; }
+        public virtual bool DefaultFlag { get; set; }
     }
 }
