@@ -41,13 +41,13 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         public void Loaded()
         {
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleInitializationService"));
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
             RequestExtensionModuleItemData();
         }
 
         private void RequestExtensionModuleItemData()
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ExtensionModuleInitializationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule, new EmptyContentKind());
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleInitializationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule, new EmptyContentKind());
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
 
@@ -107,7 +107,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         private void ModuleNoteSelected(object sender, NodeSelectedEventArgs noteArg)
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ExtensionModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
                 new ExtensionModuleActivationRequestContentKind
                 {
                     Code = noteArg.Code,

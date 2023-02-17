@@ -8,19 +8,17 @@ namespace HAMS.Frame.Service
 {
     public class ServiceModule : IModule
     {
+        ServiceLauncher serviceLauncher;
+
         public void OnInitialized(IContainerProvider containerProviderArg)
         {
-            ServiceLauncher serviceLauncher = new ServiceLauncher(containerProviderArg);
+            serviceLauncher = new ServiceLauncher(containerProviderArg);
             serviceLauncher.Initialize();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistryArg)
         {
-            containerRegistryArg.Register<IServiceController, ApplicationAlterationController>(EventServicePart.ApplicationAlterationService.ToString());
-            containerRegistryArg.Register<IServiceController, AccountVerificationControler>(EventServicePart.AccountVerificationService.ToString());
-
-            containerRegistryArg.Register<IServiceController, ExtensionModuleInitializationServiceControler>(EventServicePart.ExtensionModuleInitializationService.ToString());
-            containerRegistryArg.Register<IServiceController, ExtensionModuleActivationServiceController>(EventServicePart.ExtensionModuleActivationService.ToString());
+            ServiceLauncher.RegisterServices(containerRegistryArg);
         }
     }
 }

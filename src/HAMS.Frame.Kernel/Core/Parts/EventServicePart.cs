@@ -27,11 +27,11 @@ namespace HAMS.Frame.Kernel.Core
         /// <summary>
         /// 菜单初始化服务
         /// </summary>
-        ExtensionModuleInitializationService,
+        ModuleInitializationService,
 
         /// <summary>
         /// 菜单激活服务	
         /// </summary>
-        ExtensionModuleActivationService
+        ModuleActivationService
     }
 }

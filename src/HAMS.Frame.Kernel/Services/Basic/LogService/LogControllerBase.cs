@@ -27,7 +27,8 @@ namespace HAMS.Frame.Kernel.Services
 
             BaseLoggerRepository.Configured = GlobalLogEnabledFlag;
 
-            TextLayout= new PatternLayout("%date{yyyy-MM-dd HH:mm:ss}  %message %newline");
+            //%date{yyyy-MM-dd HH:mm:ss}
+            TextLayout = new PatternLayout("%message%newline%newline");
         }
 
         public virtual void WriteDebug(string messageArg)

@@ -4,6 +4,7 @@ using Prism.Modularity;
 using FluentValidation;
 using FluentValidation.Results;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Events;
 using HAMS.Frame.Kernel.Services;
 using HAMS.Frame.Kernel.Extensions;
 
@@ -25,6 +26,27 @@ namespace HAMS.Frame.Kernel
             containerProvider = containerProviderArg;
             moduleManager = containerProviderArg.Resolve<IModuleManager>();
             environmentMonitor = containerProvider.Resolve<IEnvironmentMonitor>();
+        }
+
+        public static void RegisterServices(IContainerRegistry containerRegistryArg)
+        {
+            containerRegistryArg.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
+
+            containerRegistryArg.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
+            containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
+
+            containerRegistryArg.Register<ICipherColltroller, CipherColltroller>();
+
+            containerRegistryArg.Register<ILogController, ApplicationLogController>(LogPart.Application.ToString());
+            containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());
+            containerRegistryArg.Register<ILogController, ServiceEventLogController>(LogPart.ServicEvent.ToString());
+
+            containerRegistryArg.Register<IManager<SeverityLevelPart>, SeverityManager>();
+            containerRegistryArg.Register<IManager<PathPart>, PathManager>();
+            containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
+            containerRegistryArg.Register<IManager<LogPart>, LogManager>();
+
+            containerRegistryArg.Register<IEventServiceController, EventServiceController>();
         }
 
         public void Initialize()

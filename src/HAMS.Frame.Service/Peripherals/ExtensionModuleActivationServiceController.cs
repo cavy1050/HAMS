@@ -52,7 +52,7 @@ namespace HAMS.Frame.Service.Peripherals
 
             regionManager.RequestNavigate("MainContentRegion", requestContextObj.Value<string>("menu_name"));
 
-            eventJsonSentence = eventServiceController.Response(EventServicePart.ExtensionModuleActivationService, FrameModulePart.ServiceModule,
+            eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleActivationService, FrameModulePart.ServiceModule,
                 new List<FrameModulePart> { FrameModulePart.MainLeftDrawerModule },
                     true, string.Empty, new EmptyContentKind());
 

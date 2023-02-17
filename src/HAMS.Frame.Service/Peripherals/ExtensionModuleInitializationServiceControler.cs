@@ -32,7 +32,7 @@ namespace HAMS.Frame.Service.Peripherals
             sqlSentence = "SELECT Code,Item,Name,Content,Description,SuperCode,SuperItem,Note,Rank,DefaultFlag,EnabledFlag FROM System_ExtensionModuleSetting WHERE EnabledFlag=True";
             nativeBaseController.Query<ExtensionModuleKind>(sqlSentence, out extensionModuleHub);
 
-            eventJsonSentence = eventServiceController.Response(EventServicePart.ExtensionModuleInitializationService, FrameModulePart.ServiceModule,
+            eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleInitializationService, FrameModulePart.ServiceModule,
                 new List<FrameModulePart> { FrameModulePart.MainLeftDrawerModule }, true, string.Empty,
                     new ExtensionModuleInitializationResponseContentKind { ExtensionModules = extensionModuleHub.ToList() });
 

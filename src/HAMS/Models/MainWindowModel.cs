@@ -47,11 +47,17 @@ namespace HAMS.Models
             set => SetProperty(ref workAreaHeight, value);
         }
 
-        bool isLeftDrawerOpen = true;
+        bool isLeftDrawerOpen;
         public bool IsLeftDrawerOpen
         {
             get => isLeftDrawerOpen;
-            set => SetProperty(ref isLeftDrawerOpen, value);
+            set
+            {
+                SetProperty(ref isLeftDrawerOpen, value);
+
+                if (!isLeftDrawerOpen)
+                    RequestApplicationAlterationService();
+            }
         }
 
         public MainWindowModel(IContainerProvider containerProviderArg)
@@ -77,19 +83,26 @@ namespace HAMS.Models
                 ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
                 ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
 
-                if (responseControlType == ControlTypePart.LoginWindow && responseActiveFlag == ActiveFlagPart.InActive)
+                if (responseControlType == ControlTypePart.MainLeftDrawer)
                 {
-                    eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService,
-                                            FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
-                                            new ApplicationAlterationContentKind
-                                            {
-                                                ApplicationControlType = ControlTypePart.MainWindow,
-                                                ApplicationActiveFlag = ActiveFlagPart.Active
-                                            });
-
-                    eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                    if (responseActiveFlag == ActiveFlagPart.Active)
+                        IsLeftDrawerOpen = true;
+                    else
+                        IsLeftDrawerOpen = false;
                 }
             }
+        }
+
+        private void RequestApplicationAlterationService()
+        {
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
+                new ApplicationAlterationContentKind
+                {
+                    ApplicationControlType = ControlTypePart.MainLeftDrawer,
+                    ApplicationActiveFlag = ActiveFlagPart.InActive
+                });
+
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
     }
 }

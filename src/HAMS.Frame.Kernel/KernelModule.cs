@@ -1,9 +1,5 @@
-﻿using System;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
-using HAMS.Frame.Kernel.Core;
-using HAMS.Frame.Kernel.Events;
-using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Kernel
 {
@@ -19,23 +15,7 @@ namespace HAMS.Frame.Kernel
 
         public void RegisterTypes(IContainerRegistry containerRegistryArg)
         {
-            containerRegistryArg.RegisterSingleton<IEnvironmentMonitor, EnvironmentMonitor>();
-
-            containerRegistryArg.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
-            containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
-
-            containerRegistryArg.Register<ICipherColltroller,CipherColltroller>();
-
-            containerRegistryArg.Register<ILogController, ApplicationLogController>(LogPart.Application.ToString());
-            containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());
-            containerRegistryArg.Register<ILogController, ServiceEventLogController>(LogPart.ServicEvent.ToString());
-
-            containerRegistryArg.Register<IManager<SeverityLevelPart>, SeverityManager>();
-            containerRegistryArg.Register<IManager<PathPart>, PathManager>();
-            containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
-            containerRegistryArg.Register<IManager<LogPart>, LogManager>();
-
-            containerRegistryArg.Register<IEventServiceController, EventServiceController>();
+            KernelLauncher.RegisterServices(containerRegistryArg);
         }
     }
 }
