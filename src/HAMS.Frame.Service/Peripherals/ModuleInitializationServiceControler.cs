@@ -11,7 +11,7 @@ using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public class ExtensionModuleInitializationServiceControler : IServiceController
+    public class ModuleInitializationServiceControler : IServiceController
     {
         IEnvironmentMonitor environmentMonitor;
         IEventServiceController eventServiceController;
@@ -20,7 +20,7 @@ namespace HAMS.Frame.Service.Peripherals
         string sqlSentence, eventJsonSentence;
         List<ExtensionModuleKind> extensionModuleHub;
 
-        public ExtensionModuleInitializationServiceControler(IContainerProvider containerProviderArg)
+        public ModuleInitializationServiceControler(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             eventServiceController = containerProviderArg.Resolve<IEventServiceController>();

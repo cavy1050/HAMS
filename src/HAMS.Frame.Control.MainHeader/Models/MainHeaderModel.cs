@@ -6,6 +6,7 @@ using Prism.Events;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
+using System.Windows;
 
 namespace HAMS.Frame.Control.MainHeader.Models
 {
@@ -21,13 +22,7 @@ namespace HAMS.Frame.Control.MainHeader.Models
         public bool IsLeftDrawerSwitch
         {
             get => isLeftDrawerSwitch;
-            set
-            {
-                SetProperty(ref isLeftDrawerSwitch, value);
-
-                if (isLeftDrawerSwitch)
-                    RequestApplicationAlterationService(isLeftDrawerSwitch);
-            }
+            set => SetProperty(ref isLeftDrawerSwitch, value);
         }
 
         string userName;
@@ -51,36 +46,27 @@ namespace HAMS.Frame.Control.MainHeader.Models
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
 
-        private void RequestApplicationAlterationService(bool isLeftDrawerOpenArg)
+        public void LeftDrawerSwitchClick()
         {
-            if (isLeftDrawerOpenArg)
-                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.MainHeaderModule, FrameModulePart.ServiceModule,
-                    new ApplicationAlterationContentKind
-                    {
-                        ApplicationControlType = ControlTypePart.MainLeftDrawer,
-                        ApplicationActiveFlag = ActiveFlagPart.Active
-                    });
-            else
-                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.MainHeaderModule, FrameModulePart.ServiceModule,
-                    new ApplicationAlterationContentKind
-                    {
-                        ApplicationControlType = ControlTypePart.MainLeftDrawer,
-                        ApplicationActiveFlag = ActiveFlagPart.InActive
-                    });
+            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.MainHeaderModule, FrameModulePart.ServiceModule,
+                new ApplicationAlterationContentKind
+                {
+                    ApplicationControlType = ControlTypePart.MainLeftDrawer,
+                    ApplicationActiveFlag = IsLeftDrawerSwitch == true ? ActiveFlagPart.Active : ActiveFlagPart.InActive
+                });
 
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
 
-
         private void OnApplicationAlterationResponseService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
-            JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
+            JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
             JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
             if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainHeaderModule") != null)
             {
-                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
-                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
+                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj.Value<string>("app_ctl_type"));
+                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj.Value<string>("app_act_flag"));
 
                 if (responseControlType == ControlTypePart.MainLeftDrawer)
                 {

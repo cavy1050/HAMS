@@ -26,6 +26,7 @@ namespace HAMS.Frame.Control.MainHeader.ViewModels
         public DelegateCommand<object> MinimizeWindowCommand { get; private set; }
         public DelegateCommand<object> CloseWindowCommand { get; private set; }
         public DelegateCommand LoadedCommand { get; private set; }
+        public DelegateCommand LeftDrawerSwitchClickCommand { get; private set; }
 
         public MainHeaderViewModel(IContainerProvider containerProviderArgs)
         {
@@ -34,9 +35,15 @@ namespace HAMS.Frame.Control.MainHeader.ViewModels
             MinimizeWindowCommand = new DelegateCommand<object>(OnMinimizeWindow);
             CloseWindowCommand = new DelegateCommand<object>(OnCloseWindow);
             LoadedCommand = new DelegateCommand(OnLoaded);
+            LeftDrawerSwitchClickCommand = new DelegateCommand(OnLeftDrawerSwitchClick);
 
             timer = new Timer(1000);
             currentWindow = new object();
+        }
+
+        private void OnLeftDrawerSwitchClick()
+        {
+            MainHeaderModel.LeftDrawerSwitchClick();
         }
 
         private void OnMinimizeWindow(object obj)

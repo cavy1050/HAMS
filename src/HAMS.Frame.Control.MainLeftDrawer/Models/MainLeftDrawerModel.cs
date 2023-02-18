@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
@@ -18,6 +19,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
     public class MainLeftDrawerModel : BindableBase
     {
         IEventAggregator eventAggregator;
+        ISnackbarMessageQueue messageQueue;
         IEventServiceController eventServiceController;
 
         string eventJsonSentence;
@@ -36,22 +38,24 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             Items = new ObservableCollection<ModuleNodeKind>();
 
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
+            messageQueue = containerProviderArgs.Resolve<ISnackbarMessageQueue>();
             eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
         }
 
         public void Loaded()
         {
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseExtensionModuleInitializationServiceService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
-            RequestExtensionModuleItemData();
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseModuleInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseModuleActivationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleActivationService"));
+            RequestExtensionModuleNodeData();
         }
 
-        private void RequestExtensionModuleItemData()
+        private void RequestExtensionModuleNodeData()
         {
             eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleInitializationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule, new EmptyContentKind());
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
         }
 
-        private void OnResponseExtensionModuleInitializationServiceService(string responseServiceTextArg)
+        private void OnResponseModuleInitializationService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
@@ -118,6 +122,17 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                 });
 
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+        }
+
+        private void OnResponseModuleActivationService(string requestServiceTextArg)
+        {
+            JObject responseObj = JObject.Parse(requestServiceTextArg);
+            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainLeftDrawerModule") != null)
+            {
+                if (responseObj["ret_code"].ToString() != "1")
+                    messageQueue.Enqueue("启动程序扩展程序错误,详细信息请参阅日志!");
+            }
         }
     }
 }
