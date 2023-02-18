@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
-using System.Windows;
 
 namespace HAMS.Frame.Control.MainLeftDrawer.Models
 {
