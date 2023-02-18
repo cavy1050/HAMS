@@ -15,21 +15,53 @@ namespace HAMS.Frame.Service.Peripherals
         IEnvironmentMonitor environmentMonitor;
         IEventServiceController eventServiceController;
 
-        string eventJsonSentence;      
+        FrameModulePart sourceModule;
+        ControlTypePart requestControlType;
+        ActiveFlagPart requestActiveFlag;
+        List<FrameModulePart> targetModules;
+
+        string eventJsonSentence;
 
         public ApplicationAlterationController(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            eventServiceController= containerProviderArg.Resolve<IEventServiceController>();
+            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
         }
 
-        public string Response(string requestServiceTextArg)
+        private void Analyze(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            JObject requestContentObj = requestObj["svc_cont"].Value<JObject>();
-            ControlTypePart requestControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), requestContentObj["app_ctl_type"].Value<string>());
-            ActiveFlagPart requestActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), requestContentObj["app_act_flag"].Value<string>());
+            JObject requestContentObj = requestObj.Value<JObject>("svc_cont");
 
+            sourceModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("souc_mod_name"));
+            requestControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), requestContentObj.Value<string>("app_ctl_type"));
+            requestActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), requestContentObj.Value<string>("app_act_flag"));
+        }
+
+        private void GenerateTargetModules()
+        {
+            switch (sourceModule)
+            {
+                case FrameModulePart.ServiceModule:
+                    targetModules = new List<FrameModulePart> { FrameModulePart.All };
+                    break;
+                case FrameModulePart.LoginModule:
+                    targetModules = new List<FrameModulePart> { FrameModulePart.ApplictionModule };
+                    break;
+                case FrameModulePart.MainHeaderModule:
+                    targetModules = new List<FrameModulePart> { FrameModulePart.ApplictionModule };
+                    break;
+                case FrameModulePart.ApplictionModule:
+                    targetModules= targetModules = new List<FrameModulePart> { FrameModulePart.MainHeaderModule };
+                    break;
+                default:
+                    targetModules = new List<FrameModulePart> { sourceModule };
+                    break;
+            }
+        }
+
+        private void SynchronizeServices()
+        {
             switch (requestControlType)
             {
                 case ControlTypePart.LoginWindow:
@@ -53,9 +85,15 @@ namespace HAMS.Frame.Service.Peripherals
                         environmentMonitor.ApplicationControlSetting[ControlTypePart.MainLeftDrawer] = requestActiveFlag;
                     break;
             }
+        }
 
-            eventJsonSentence = eventServiceController.Response(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule,
-                                    new List<FrameModulePart> { FrameModulePart.ApplictionModule },
+        public string Response(string requestServiceTextArg)
+        {
+            Analyze(requestServiceTextArg);
+            GenerateTargetModules();
+            SynchronizeServices();
+
+            eventJsonSentence = eventServiceController.Response(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, targetModules,
                                         true, string.Empty,
                                         new ApplicationAlterationContentKind
                                         {

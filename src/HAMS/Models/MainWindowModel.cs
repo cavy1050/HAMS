@@ -19,11 +19,11 @@ namespace HAMS.Models
 
         string eventJsonSentence;
 
-        ISnackbarMessageQueue mainMessageQueue;
-        public ISnackbarMessageQueue MainMessageQueue
+        ISnackbarMessageQueue messageQueue;
+        public ISnackbarMessageQueue MessageQueue
         {
-            get => mainMessageQueue;
-            set => SetProperty(ref mainMessageQueue, value);
+            get => messageQueue;
+            set => SetProperty(ref messageQueue, value);
         }
 
         IRegionManager regionManager;
@@ -66,7 +66,7 @@ namespace HAMS.Models
             WorkAreaHeight = SystemParameters.WorkArea.Height;
 
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
-            MainMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
+            MessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             RegionManager = containerProviderArg.Resolve<IRegionManager>();
             eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
 

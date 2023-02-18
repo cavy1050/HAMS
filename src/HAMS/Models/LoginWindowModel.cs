@@ -18,7 +18,7 @@ namespace HAMS.Models
         IEventAggregator eventAggregator;
 
         ISnackbarMessageQueue messageQueue;
-        public ISnackbarMessageQueue LoginMessageQueue
+        public ISnackbarMessageQueue MessageQueue
         {
             get => messageQueue;
             set => SetProperty(ref messageQueue, value);
@@ -28,7 +28,7 @@ namespace HAMS.Models
         {
             containerProvider = containerProviderArg;
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
-            LoginMessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
+            MessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
 
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
         }
@@ -38,14 +38,8 @@ namespace HAMS.Models
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
             JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "ApplictionModule") != null)
-            {
-                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
-                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
-
-                if (responseControlType == ControlTypePart.LoginWindow && responseActiveFlag == ActiveFlagPart.Active)
-                    eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
-            }
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "All") != null)
+                eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
         }
 
         private void OnAccountVerificationResponseService(string responseServiceTextArg)

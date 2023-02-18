@@ -25,7 +25,7 @@
                 <ToggleButton WindowChrome.IsHitTestVisibleInChrome="True" 
                               Margin="16 0 0 0" 
                               Style="{DynamicResource MaterialDesignHamburgerToggleButton}" 
-                              IsChecked="{Binding MainHeaderModel.IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                              IsChecked="{Binding MainHeaderModel.IsLeftDrawerSwitch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Orientation="Horizontal" 
                             HorizontalAlignment="Right">
                     <TextBlock Margin="0 0 8 0"

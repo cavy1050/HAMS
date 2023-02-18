@@ -79,7 +79,7 @@
                     </TabControl>
 
                     <md:Snackbar DockPanel.Dock="Bottom"
-                                         MessageQueue="{Binding MainWindowModel.MainMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                         MessageQueue="{Binding MainWindowModel.MessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
             </md:DrawerHost>
         </Grid>

@@ -17,14 +17,16 @@ namespace HAMS.Frame.Control.MainHeader.Models
 
         string eventJsonSentence;
 
-        bool isLeftDrawerOpen;
-        public bool IsLeftDrawerOpen
+        bool isLeftDrawerSwitch;
+        public bool IsLeftDrawerSwitch
         {
-            get => isLeftDrawerOpen;
+            get => isLeftDrawerSwitch;
             set
             {
-                SetProperty(ref isLeftDrawerOpen, value);
-                RequestApplicationAlterationService(isLeftDrawerOpen);
+                SetProperty(ref isLeftDrawerSwitch, value);
+
+                if (isLeftDrawerSwitch)
+                    RequestApplicationAlterationService(isLeftDrawerSwitch);
             }
         }
 
@@ -75,17 +77,15 @@ namespace HAMS.Frame.Control.MainHeader.Models
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
             JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainLeftDrawerModule") != null)
+            if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainHeaderModule") != null)
             {
                 ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
                 ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
 
                 if (responseControlType == ControlTypePart.MainLeftDrawer)
                 {
-                    if (responseActiveFlag == ActiveFlagPart.Active)
-                        IsLeftDrawerOpen = true;
-                    else
-                        IsLeftDrawerOpen = false;
+                    if (responseActiveFlag == ActiveFlagPart.InActive)
+                        IsLeftDrawerSwitch = false;
                 }
             }
         }
