@@ -8,6 +8,6 @@ namespace HAMS.Frame.Kernel.Events
     {
         string Request(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg, IEventServiceContent eventServiceContent);
 
-        string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, IEnumerable<FrameModulePart> targetModuleArg, bool returnCodeArg, string returnMessageArgs, IEventServiceContent eventServiceContent);
+        string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg, bool returnCodeArg, string returnMessageArgs, IEventServiceContent eventServiceContent);
     }
 }

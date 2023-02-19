@@ -62,8 +62,9 @@ namespace HAMS.Frame.Control.MainHeader.Models
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
-            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainHeaderModule") != null)
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.MainHeaderModule)
             {
                 ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj.Value<string>("app_ctl_type"));
                 ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj.Value<string>("app_act_flag"));

@@ -36,6 +36,12 @@
 
             <md:DrawerHost Grid.Row="1"
                                        IsLeftDrawerOpen="{Binding MainWindowModel.IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DrawerClosing">
+                        <i:InvokeCommandAction Command="{Binding DrawerHostClosedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                    
                 <md:DrawerHost.LeftDrawerContent>
                     <ContentControl prism:RegionManager.RegionName="MainLeftDrawerRegion"/>
                 </md:DrawerHost.LeftDrawerContent>

@@ -93,11 +93,12 @@ namespace HAMS.Frame.Control.Login.Models
         private void OnAccountVerificationResponseService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
-            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "LoginModule") != null)
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.LoginModule)
             {
-                if (responseObj["ret_code"].ToString() != "1")
-                    messageQueue.Enqueue(responseObj["ret_msg"].ToString());
+                if (!responseObj.Value<bool>("ret_rst"))
+                    messageQueue.Enqueue(responseObj.Value<string>("ret_msg"));
                 else
                 {
                     if (currentWindow != null)

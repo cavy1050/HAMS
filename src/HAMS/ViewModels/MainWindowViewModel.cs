@@ -15,11 +15,18 @@ namespace HAMS.ViewModels
             set => SetProperty(ref mainWindowModel, value);
         }
 
-        public DelegateCommand WindowLoadedCommand { get; private set; }
+        public DelegateCommand DrawerHostClosedCommand { get; private set; }
 
         public MainWindowViewModel(IContainerProvider containerProviderArg)
         {
             MainWindowModel = new MainWindowModel(containerProviderArg);
+
+            DrawerHostClosedCommand = new DelegateCommand(OnDrawerHostClosed);
+        }
+
+        private void OnDrawerHostClosed()
+        {
+            MainWindowModel.DrawerHostClosed();
         }
     }
 }

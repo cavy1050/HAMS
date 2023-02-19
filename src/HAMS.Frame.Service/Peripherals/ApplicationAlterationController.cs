@@ -15,10 +15,9 @@ namespace HAMS.Frame.Service.Peripherals
         IEnvironmentMonitor environmentMonitor;
         IEventServiceController eventServiceController;
 
-        FrameModulePart sourceModule;
+        FrameModulePart sourceModule, targetModule;
         ControlTypePart requestControlType;
         ActiveFlagPart requestActiveFlag;
-        List<FrameModulePart> targetModules;
 
         string eventJsonSentence;
 
@@ -43,19 +42,19 @@ namespace HAMS.Frame.Service.Peripherals
             switch (sourceModule)
             {
                 case FrameModulePart.ServiceModule:
-                    targetModules = new List<FrameModulePart> { FrameModulePart.All };
+                    targetModule = FrameModulePart.All;
                     break;
                 case FrameModulePart.LoginModule:
-                    targetModules = new List<FrameModulePart> { FrameModulePart.ApplictionModule };
+                    targetModule = FrameModulePart.ApplictionModule;
                     break;
                 case FrameModulePart.MainHeaderModule:
-                    targetModules = new List<FrameModulePart> { FrameModulePart.ApplictionModule };
+                    targetModule = FrameModulePart.ApplictionModule;
                     break;
                 case FrameModulePart.ApplictionModule:
-                    targetModules= targetModules = new List<FrameModulePart> { FrameModulePart.MainHeaderModule };
+                    targetModule = FrameModulePart.MainHeaderModule;
                     break;
                 default:
-                    targetModules = new List<FrameModulePart> { sourceModule };
+                    targetModule = sourceModule;
                     break;
             }
         }
@@ -93,7 +92,7 @@ namespace HAMS.Frame.Service.Peripherals
             GenerateTargetModules();
             SynchronizeServices();
 
-            eventJsonSentence = eventServiceController.Response(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, targetModules,
+            eventJsonSentence = eventServiceController.Response(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, targetModule,
                                         true, string.Empty,
                                         new ApplicationAlterationContentKind
                                         {

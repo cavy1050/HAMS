@@ -38,6 +38,13 @@ namespace HAMS.Frame.Kernel.Core
         public FrameModulePart SourceModuleName { get; set; }
 
         /// <summary>
+        /// 应答服务目标模块名称
+        /// </summary>
+        [JsonProperty(PropertyName = "tagt_mod_name", Order = 6)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public FrameModulePart TargetModuleName { get; set; }
+
+        /// <summary>
         /// 服务时间
         /// </summary>
         [JsonProperty(PropertyName = "svc_time", Order = 7)]

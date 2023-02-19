@@ -69,7 +69,9 @@ namespace HAMS.Frame.Service
         private void OnRequestApplicationAlterationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ServiceModule)
             {
                 applicationAlterationController = containerProvider.Resolve<IServiceController>(EventServicePart.ApplicationAlterationService.ToString());
                 eventJsonSentence = applicationAlterationController.Response(requestServiceTextArg);
@@ -80,7 +82,9 @@ namespace HAMS.Frame.Service
         private void OnRequestAccountVerificationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ServiceModule)
             {
                 accountVerificationControler = containerProvider.Resolve<IServiceController>(EventServicePart.AccountVerificationService.ToString());
                 eventJsonSentence = accountVerificationControler.Response(requestServiceTextArg);
@@ -91,7 +95,9 @@ namespace HAMS.Frame.Service
         private void OnRequestModuleInitializationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ServiceModule)
             {
                 extensionModuleInitializationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ModuleInitializationService.ToString());
                 eventJsonSentence = extensionModuleInitializationServiceControler.Response(requestServiceTextArg);
@@ -102,7 +108,9 @@ namespace HAMS.Frame.Service
         private void OnRequestModuleActivationService(string requestServiceTextArg)
         {
             JObject requestObj = JObject.Parse(requestServiceTextArg);
-            if (requestObj.Value<string>("tagt_mod_name") == "ServiceModule")
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ServiceModule)
             {
                 extensionModuleActivationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ModuleActivationService.ToString());
                 eventJsonSentence = extensionModuleActivationServiceControler.Response(requestServiceTextArg);

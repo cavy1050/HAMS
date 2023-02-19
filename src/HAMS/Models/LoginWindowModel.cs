@@ -36,16 +36,17 @@ namespace HAMS.Models
         private void OnApplicationAlterationResponseService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
-            JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
-            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "All") != null)
+            JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.All || targetModule == FrameModulePart.ApplictionModule)
                 eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
         }
 
         private void OnAccountVerificationResponseService(string responseServiceTextArg)
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
-            if (responseObj["ret_code"].ToString() == "1")
+            if (responseObj.Value<bool>("ret_rst"))
             {
                 Window mainWindow = containerProvider.Resolve<MainWindow>();
                 mainWindow.Show();

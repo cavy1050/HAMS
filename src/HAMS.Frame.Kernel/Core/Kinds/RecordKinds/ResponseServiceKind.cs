@@ -8,20 +8,10 @@ namespace HAMS.Frame.Kernel.Core
     public class ResponseServiceKind : EventServiceKind
     {
         /// <summary>
-        /// 应答服务目标模块名称
+        /// 应答服务结果
         /// </summary>
-        /// 
-        /// <remarks>
-        /// eventJsonSentence.tagt_mod_name
-        /// </remarks>
-        [JsonProperty(PropertyName = "tagt_mod_name", ItemConverterType = typeof(StringEnumConverter), Order = 6)]
-        public IEnumerable<FrameModulePart> TargetModuleName { get; set; }
-
-        /// <summary>
-        /// 应答服务错误代码
-        /// </summary>
-        [JsonProperty(PropertyName = "ret_code", Order = 9)]
-        public string ReturnCode { get; set; }
+        [JsonProperty(PropertyName = "ret_rst", Order = 9)]
+        public bool ReturnResult { get; set; }
 
         /// <summary>
         /// 应答服务错误信息

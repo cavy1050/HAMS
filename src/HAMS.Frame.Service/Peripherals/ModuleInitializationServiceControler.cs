@@ -33,7 +33,7 @@ namespace HAMS.Frame.Service.Peripherals
             nativeBaseController.Query<ExtensionModuleKind>(sqlSentence, out extensionModuleHub);
 
             eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleInitializationService, FrameModulePart.ServiceModule,
-                new List<FrameModulePart> { FrameModulePart.MainLeftDrawerModule }, true, string.Empty,
+                FrameModulePart.MainLeftDrawerModule, true, string.Empty,
                     new ExtensionModuleInitializationResponseContentKind { ExtensionModules = extensionModuleHub.ToList() });
 
             return eventJsonSentence;

@@ -30,7 +30,7 @@ namespace HAMS.Frame.Service.Peripherals
             containerProvider = containerProviderArg;
             moduleManager = containerProviderArg.Resolve<IModuleManager>();
             regionManager = containerProviderArg.Resolve<IRegionManager>();
-            eventServiceController= containerProviderArg.Resolve<IEventServiceController>();
+            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
         }
 
         private void Analyze(string requestServiceTextArg)
@@ -79,12 +79,10 @@ namespace HAMS.Frame.Service.Peripherals
 
             if (Navigate(out errorMessage))
                 eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleActivationService, FrameModulePart.ServiceModule,
-                    new List<FrameModulePart> { FrameModulePart.MainLeftDrawerModule },
-                        true, string.Empty, new EmptyContentKind());
+                    FrameModulePart.MainLeftDrawerModule, true, string.Empty, new EmptyContentKind());
             else
                 eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleActivationService, FrameModulePart.ServiceModule,
-                    new List<FrameModulePart> { FrameModulePart.MainLeftDrawerModule },
-                        false, errorMessage, new EmptyContentKind());
+                    FrameModulePart.MainLeftDrawerModule, false, errorMessage, new EmptyContentKind());
 
             return eventJsonSentence;
         }

@@ -126,11 +126,12 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
         private void OnResponseModuleActivationService(string requestServiceTextArg)
         {
             JObject responseObj = JObject.Parse(requestServiceTextArg);
-            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "MainLeftDrawerModule") != null)
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.MainLeftDrawerModule)
             {
-                if (responseObj["ret_code"].ToString() != "1")
-                    messageQueue.Enqueue("启动程序扩展程序错误,详细信息请参阅日志!");
+                if (!responseObj.Value<bool>("ret_rst"))
+                    messageQueue.Enqueue("启动程序扩展模块错误,详细信息请参阅日志!");
             }
         }
     }

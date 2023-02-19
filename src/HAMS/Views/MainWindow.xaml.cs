@@ -23,5 +23,10 @@ namespace HAMS.Views
         {
             InitializeComponent();
         }
+
+        private void DrawerHost_DrawerClosing(object sender, MaterialDesignThemes.Wpf.DrawerClosingEventArgs e)
+        {
+
+        }
     }
 }

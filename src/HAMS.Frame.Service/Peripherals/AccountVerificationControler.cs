@@ -72,12 +72,10 @@ namespace HAMS.Frame.Service.Peripherals
 
             if (!Validate(requestServiceTextArg, out errorMessageArg))
                 eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule,
-                    new List<FrameModulePart> { FrameModulePart.LoginModule },
-                    false, errorMessageArg, new EmptyContentKind());
+                    FrameModulePart.LoginModule, false, errorMessageArg, new EmptyContentKind());
             else
                 eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule,
-                    new List<FrameModulePart> { FrameModulePart.LoginModule },
-                    true, string.Empty, new EmptyContentKind());
+                    FrameModulePart.LoginModule, true, string.Empty, new EmptyContentKind());
 
             return eventJsonSentence;
         }

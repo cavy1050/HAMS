@@ -51,13 +51,7 @@ namespace HAMS.Models
         public bool IsLeftDrawerOpen
         {
             get => isLeftDrawerOpen;
-            set
-            {
-                SetProperty(ref isLeftDrawerOpen, value);
-
-                if (!isLeftDrawerOpen)
-                    RequestApplicationAlterationService();
-            }
+            set => SetProperty(ref isLeftDrawerOpen, value);
         }
 
         public MainWindowModel(IContainerProvider containerProviderArg)
@@ -77,8 +71,9 @@ namespace HAMS.Models
         {
             JObject responseObj = JObject.Parse(responseServiceTextArg);
             JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
-            JArray targetModules = responseObj.Value<JArray>("tagt_mod_name");
-            if (targetModules.FirstOrDefault(module => module.Value<string>() == "ApplictionModule") != null)
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ApplictionModule)
             {
                 ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
                 ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
@@ -93,16 +88,19 @@ namespace HAMS.Models
             }
         }
 
-        private void RequestApplicationAlterationService()
+        public void DrawerHostClosed()
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
-                new ApplicationAlterationContentKind
-                {
-                    ApplicationControlType = ControlTypePart.MainLeftDrawer,
-                    ApplicationActiveFlag = ActiveFlagPart.InActive
-                });
+            if (!IsLeftDrawerOpen)
+            {
+                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
+                    new ApplicationAlterationContentKind
+                    {
+                        ApplicationControlType = ControlTypePart.MainLeftDrawer,
+                        ApplicationActiveFlag = ActiveFlagPart.InActive
+                    });
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+            }
         }
     }
 }

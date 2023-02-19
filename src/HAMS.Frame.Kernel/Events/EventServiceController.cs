@@ -34,6 +34,7 @@ namespace HAMS.Frame.Kernel.Events
         public string Request(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg, IEventServiceContent eventServiceContentArg)
         {
             sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_ServiceEventSetting WHERE Item='" + eventServiceArg.ToString() + "' AND EnabledFlag = True";
+
             if (nativeBaseController.Query<SettingKind>(sqlSentence, out serviceEventSettingHub))
             {
                 requestService = new RequestServiceKind
@@ -55,11 +56,12 @@ namespace HAMS.Frame.Kernel.Events
             return eventJsonSentence;
         }
 
-        public string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, IEnumerable<FrameModulePart> targetModuleArgs,
-                                bool returnCodeArg, string returnMessageArg,
+        public string Response(EventServicePart eventServiceArg, FrameModulePart sourceModuleArg, FrameModulePart targetModuleArg,
+                                bool returnResultArg, string returnMessageArg,
                                  IEventServiceContent eventServiceContentArg)
         {
             sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_ServiceEventSetting WHERE Item='" + eventServiceArg.ToString() + "' AND EnabledFlag = True";
+
             if (nativeBaseController.Query<SettingKind>(sqlSentence, out serviceEventSettingHub))
             {
                 responseService = new ResponseServiceKind
@@ -70,9 +72,9 @@ namespace HAMS.Frame.Kernel.Events
                     Code = Ulid.NewUlid().ToString(),
                     RecordTime = DateTime.Now.ToString("G"),
                     SourceModuleName = sourceModuleArg,
-                    TargetModuleName = targetModuleArgs,
+                    TargetModuleName = targetModuleArg,
                     EventServiceContent = eventServiceContentArg,
-                    ReturnCode = returnCodeArg == true ? "1" : "0",
+                    ReturnResult = returnResultArg,
                     ReturnMessage = returnMessageArg
                 };
 
