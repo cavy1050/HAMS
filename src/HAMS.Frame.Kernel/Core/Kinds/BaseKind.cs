@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace HAMS.Frame.Kernel.Core
+﻿namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
     /// 根类型

@@ -1,7 +1,4 @@
-﻿
-using Newtonsoft.Json;
-
-namespace HAMS.Frame.Kernel.Core
+﻿namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
     /// 操作信息类型 记录程序框架操作信息

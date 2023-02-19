@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace HAMS.Frame.Kernel.Core
+﻿namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
     /// 程序框架设置基本类型

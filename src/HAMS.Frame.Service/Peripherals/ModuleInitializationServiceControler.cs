@@ -34,7 +34,7 @@ namespace HAMS.Frame.Service.Peripherals
 
             eventJsonSentence = eventServiceController.Response(EventServicePart.ModuleInitializationService, FrameModulePart.ServiceModule,
                 FrameModulePart.MainLeftDrawerModule, true, string.Empty,
-                    new ExtensionModuleInitializationResponseContentKind { ExtensionModules = extensionModuleHub.ToList() });
+                    new ModuleInitializationResponseContentKind { ExtensionModules = extensionModuleHub.ToList() });
 
             return eventJsonSentence;
         }

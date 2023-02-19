@@ -111,7 +111,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
         private void ModuleNoteSelected(object sender, NodeSelectedEventArgs noteArg)
         {
             eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
-                new ExtensionModuleActivationRequestContentKind
+                new ModuleActivationRequestContentKind
                 {
                     Code = noteArg.Code,
                     Name = noteArg.Name,

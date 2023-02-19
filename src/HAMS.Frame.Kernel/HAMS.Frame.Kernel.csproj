@@ -113,8 +113,8 @@
     <Compile Include="Core\Kinds\BaseKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\CertificateKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\EventServiceKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ExtensionModuleActivationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ExtensionModuleInitializationResponseContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ModuleActivationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ModuleInitializationResponseContentKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\RequestServiceKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\ResponseServiceKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\ExtensionModuleKind.cs" />
