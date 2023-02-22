@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Mvvm;
-using HAMS.Frame.Kernel.Core;
+using Prism.Commands;
 
 namespace HAMS.Frame.Control.MainLeftDrawer.Models
 {
@@ -47,13 +47,6 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             set => SetProperty(ref moduletype, value);
         }
 
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
-        }
-
         bool isSelected;
         public bool IsSelected
         {
@@ -73,6 +66,8 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             get => nextNodes;
             set => SetProperty(ref nextNodes, value);
         }
+
+        public DelegateCommand NextNodeSwitchCommand { get; private set; }
 
         public event EventHandler<NodeSelectedEventArgs> NodeSelected;
 

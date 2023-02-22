@@ -25,20 +25,20 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         List<ExtensionModuleKind> extensionModuleHub;
 
-        ObservableCollection<ModuleNodeKind> items;
-        public ObservableCollection<ModuleNodeKind> Items
+        ObservableCollection<ModuleNodeKind> rootNodes;
+        public ObservableCollection<ModuleNodeKind> RootNodes
         {
-            get => items;
-            set => SetProperty(ref items, value);
+            get => rootNodes;
+            set => SetProperty(ref rootNodes, value);
         }
 
-        public MainLeftDrawerModel(IContainerProvider containerProviderArgs)
+        public MainLeftDrawerModel(IContainerProvider containerProviderArg)
         {
-            Items = new ObservableCollection<ModuleNodeKind>();
+            RootNodes = new ObservableCollection<ModuleNodeKind>();
 
-            eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
-            messageQueue = containerProviderArgs.Resolve<ISnackbarMessageQueue>();
-            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
+            eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
+            messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
+            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
         }
 
         public void Loaded()
@@ -70,7 +70,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             {
                 List<ExtensionModuleKind> rootModules = moduleArgs.FindAll(x => x.SuperCode == "");
 
-                rootModules.ForEach(module => Items.Add(new ModuleNodeKind
+                rootModules.ForEach(module => RootNodes.Add(new ModuleNodeKind
                 {
                     Code = module.Code,
                     Name = module.Name,
@@ -92,23 +92,23 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
                 foreach (ExtensionModuleKind module in nextModules)
                 {
-                    ModuleNodeKind moduleNote = new ModuleNodeKind();
-                    moduleNote.Code = module.Code;
-                    moduleNote.Name = module.Name;
-                    moduleNote.ModuleName = module.Item;
-                    moduleNote.ModuleRef = module.Content;
-                    moduleNote.ModuleType = module.Description;
-                    moduleNote.NextNodes = LoadNextModuleCollection(module.Code);
-                    moduleNote.NodeSelected += ModuleNoteSelected;
+                    ModuleNodeKind moduleNode = new ModuleNodeKind();
+                    moduleNode.Code = module.Code;
+                    moduleNode.Name = module.Name;
+                    moduleNode.ModuleName = module.Item;
+                    moduleNode.ModuleRef = module.Content;
+                    moduleNode.ModuleType = module.Description;
+                    moduleNode.NextNodes = LoadNextModuleCollection(module.Code);
+                    moduleNode.NodeSelected += NextModuleNodeSelected;
 
-                    retModuleNodes.Add(moduleNote);
+                    retModuleNodes.Add(moduleNode);
                 }
             }
 
             return retModuleNodes;
         }
 
-        private void ModuleNoteSelected(object sender, NodeSelectedEventArgs noteArg)
+        private void NextModuleNodeSelected(object sender, NodeSelectedEventArgs noteArg)
         {
             eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
                 new ModuleActivationRequestContentKind

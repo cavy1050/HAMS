@@ -25,6 +25,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.ViewModels
         public MainLeftDrawerViewModel(IContainerProvider containerProviderArgs)
         {
             MainLeftDrawerModel = new MainLeftDrawerModel(containerProviderArgs);
+
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 

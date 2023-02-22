@@ -17,28 +17,34 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Margin="0 16">
-        <TreeView ItemsSource="{Binding MainLeftDrawerModel.Items}">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                    <Setter Property="FontWeight" Value="Normal" />
-                    <Setter Property="md:TreeViewAssist.ExpanderSize" Value="24" />
-                    <Setter Property="md:TreeViewAssist.ShowSelection" Value="True" />
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="FontWeight" Value="Bold" />
-                        </Trigger>
-                    </Style.Triggers>
+    <Grid Margin="0 8 0 0">
+        <ListBox ItemsSource="{Binding MainLeftDrawerModel.RootNodes}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 4 0 0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ListBoxItem}}">
+                                    <Expander.Header>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </Expander.Header>
+                                    <Expander.Content>
+                                        <ListBox ItemsSource="{Binding NextNodes}"
+                                                 DisplayMemberPath="Name">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                        </ListBox>
+                                    </Expander.Content>
+                                </Expander>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
-            </TreeView.ItemContainerStyle>
-
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding NextNodes}">
-                    <TextBlock Text="{Binding Name}"/>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
     </Grid>
 </UserControl>

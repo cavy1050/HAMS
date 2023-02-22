@@ -63,7 +63,7 @@ namespace HAMS.Frame.Service.Peripherals
 
                 ret = true;
             }
-            catch (ModuleTypeLoadingException ex)
+            catch (Exception ex)
             {
                 errorMessageArg = ex.Message;
             }
