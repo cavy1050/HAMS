@@ -104,7 +104,6 @@
     <Compile Include="Core\Collecters\ILocator.cs" />
     <Compile Include="Core\Collecters\LogCollector.cs" />
     <Compile Include="Core\Collecters\PathCollector.cs" />
-    <Compile Include="Core\Collecters\SeverityCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Core\Kinds\RecordKinds\AccountVerificationRequestContentKind.cs" />
@@ -123,7 +122,6 @@
     <Compile Include="Core\Kinds\SettingKinds\DataBaseKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
-    <Compile Include="Core\Kinds\SettingKinds\SeverityKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\IEventServiceContent.cs" />
     <Compile Include="Core\Kinds\RecordKinds\EmptyContentKind.cs" />
     <Compile Include="Core\Parts\ActiveFlagPart.cs" />
@@ -136,7 +134,6 @@
     <Compile Include="Core\Parts\LogPart.cs" />
     <Compile Include="Core\Parts\PathPart.cs" />
     <Compile Include="Core\Parts\SecurityPart.cs" />
-    <Compile Include="Core\Parts\SeverityLevelPart.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
     <Compile Include="Events\ResponseServiceEvent.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
@@ -179,7 +176,6 @@
     <Compile Include="Services\Basic\SecurityService\CertificateService\ICertificateController.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherColltroller.cs" />
     <Compile Include="Services\Basic\SecurityService\SecurityFactory.cs" />
-    <Compile Include="Services\Basic\SeverityService\SeverityManager.cs" />
     <Compile Include="Events\EventServiceController.cs" />
     <Compile Include="Events\IEventServiceController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />

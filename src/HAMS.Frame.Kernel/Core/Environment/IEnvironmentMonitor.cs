@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FluentValidation.Results;
 
 namespace HAMS.Frame.Kernel.Core
 {
@@ -10,9 +11,7 @@ namespace HAMS.Frame.Kernel.Core
     public interface IEnvironmentMonitor
     {
         Dictionary<ControlTypePart, ActiveFlagPart> ApplicationControlSetting { get; set; }
-        SeverityCollector SeveritySetting { get; set; }
-        Queue<string> MessageSetting { get; set; }
-
+        ValidationResult ValidationResult { get; set; }
 
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }

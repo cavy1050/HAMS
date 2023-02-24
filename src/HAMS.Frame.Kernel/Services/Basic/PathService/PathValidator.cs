@@ -7,8 +7,6 @@ namespace HAMS.Frame.Kernel.Services
 {
     public class PathValidator : AbstractValidator<PathManager>
     {
-        IEnvironmentMonitor environmentMonitor;
-
         public PathValidator()
         {
             RuleFor(path => path.ApplictionCatalogue).NotEmpty().WithMessage("程序运行目录不能为空,请检查设置并重启程序!");
@@ -20,6 +18,8 @@ namespace HAMS.Frame.Kernel.Services
             RuleFor(path => path.LogFileCatalogue).NotEmpty().WithMessage("日志文件目录不能为空,请检查设置并重启程序!");
         }
 
+        // TODO 提示性消息与错误性消息应进行区分。
+        /* 
         public PathValidator(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
@@ -27,7 +27,8 @@ namespace HAMS.Frame.Kernel.Services
             Include(new PathValidator());
 
             RuleFor(path => path.LogFileCatalogue)
-                .NotEqual(environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue)).WithMessage("日志文件目录与默认设置相同!");
+                .NotEqual(environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue)).WithMessage("日志文件目录与默认设置相同!").WithSeverity(path=> Severity.Info);
         }
+        */
     }
 }

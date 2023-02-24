@@ -29,8 +29,3 @@ user interaction,SQLite provide the data persistence support.
 | ComboBox     | CMB | MaterialDesignComboBox                        | False |
 | ListBox      | LSB | MaterialDesignChoiceChipPrimaryOutlineListBox | True  |
 | TreeView     | TRV | MaterialDesignTreeView                        | False |
-
-TODO List
-- [ ] Consider replacing `Kind` types with `record` definition and add global namespace definition in the module definition file  
-- [ ] The kernel module only contain data structure definition,data initialization and alteration with the eventservice form in the service module
-- [ ] The class constructed function only contain IOC operation,the eventservice publish or subscribe operation move to the `Loaded` function  

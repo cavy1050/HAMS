@@ -16,7 +16,6 @@ namespace HAMS.Frame.Kernel
         IModuleManager moduleManager;
         IEnvironmentMonitor environmentMonitor;
 
-        IManager<SeverityLevelPart> severityManager;
         IManager<PathPart> pathManager;
         IManager<DataBasePart> dataBaseManager;
         IManager<LogPart> logManager;
@@ -41,7 +40,6 @@ namespace HAMS.Frame.Kernel
             containerRegistryArg.Register<ILogController, DataBaseLogController>(LogPart.DataBase.ToString());
             containerRegistryArg.Register<ILogController, ServiceEventLogController>(LogPart.ServicEvent.ToString());
 
-            containerRegistryArg.Register<IManager<SeverityLevelPart>, SeverityManager>();
             containerRegistryArg.Register<IManager<PathPart>, PathManager>();
             containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
             containerRegistryArg.Register<IManager<LogPart>, LogManager>();
@@ -64,9 +62,6 @@ namespace HAMS.Frame.Kernel
 
         private void InitializeWithValidateDefaultServices()
         {
-            severityManager = containerProvider.Resolve<IManager<SeverityLevelPart>>();
-            severityManager.Load(SeverityLevelPart.All);
-
             pathManager = containerProvider.Resolve<IManager<PathPart>>();
             pathManager.DeInit(PathPart.All);
 
@@ -74,7 +69,7 @@ namespace HAMS.Frame.Kernel
             ValidationResult pathResult = pathValidator.Validate(pathManager as PathManager);
 
             if (pathResult.IsValid != true)
-                environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.Errors.AddRange(pathResult.Errors);
+                environmentMonitor.ValidationResult.Errors.AddRange(pathResult.Errors);
             else
             {
                 pathManager.Load(PathPart.All);
@@ -89,7 +84,7 @@ namespace HAMS.Frame.Kernel
                     });
 
                 if (dataBaseResult.IsValid != true)
-                    environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.Errors.AddRange(dataBaseResult.Errors);
+                    environmentMonitor.ValidationResult.Errors.AddRange(dataBaseResult.Errors);
                 else
                 {
                     dataBaseManager.Load(DataBasePart.Native);
@@ -99,7 +94,7 @@ namespace HAMS.Frame.Kernel
                     LogValidator logValidator = new LogValidator();
                     ValidationResult logResult = logValidator.Validate(logManager as LogManager);
                     if (logResult.IsValid != true)
-                        environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(logResult.Errors);
+                        environmentMonitor.ValidationResult.Errors.AddRange(logResult.Errors);
                         
                     logManager.Load(LogPart.All);
                 }
@@ -109,10 +104,10 @@ namespace HAMS.Frame.Kernel
         private void InitializeWithValidateCustomServices()
         {
             pathManager.Init(PathPart.All);
-            PathValidator pathValidator = new PathValidator(containerProvider);
+            PathValidator pathValidator = new PathValidator();
             ValidationResult pathResult = pathValidator.Validate(pathManager as PathManager);
             if (pathResult.IsValid != true)
-                environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(pathResult.Errors);
+                environmentMonitor.ValidationResult.Errors.AddRange(pathResult.Errors);
             else
                 pathManager.Load(PathPart.All);
 
@@ -123,7 +118,7 @@ namespace HAMS.Frame.Kernel
                     options.IncludeRuleSets("BAGLDBValidateRule");
                 });
             if (dataBaseResult.IsValid != true)
-                environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(dataBaseResult.Errors);
+                environmentMonitor.ValidationResult.Errors.AddRange(dataBaseResult.Errors);
             else
                 dataBaseManager.Load(DataBasePart.All);
 
@@ -131,7 +126,7 @@ namespace HAMS.Frame.Kernel
             LogValidator logValidator = new LogValidator();
             ValidationResult logResult = logValidator.Validate(logManager as LogManager);
             if (logResult.IsValid != true)
-                environmentMonitor.SeveritySetting[SeverityLevelPart.Info].Results.Errors.AddRange(logResult.Errors);
+                environmentMonitor.ValidationResult.Errors.AddRange(logResult.Errors);
             else
                 logManager.Load(LogPart.All);
         }

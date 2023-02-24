@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -49,20 +50,17 @@ namespace HAMS.Frame.Control.Login.Models
 
         public void Loaded()
         {
-            ShowServiceMessage();
+            ShowValidatedServiceMessage();
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
         }
 
-        private void ShowServiceMessage()
+        private void ShowValidatedServiceMessage()
         {
-            infoSeverityResult = environmentMonitor.SeveritySetting.GetContent(SeverityLevelPart.Info);
-            errorSeverityResult = environmentMonitor.SeveritySetting.GetContent(SeverityLevelPart.Error);
-
-            if (infoSeverityResult.IsValid != true)
-                infoSeverityResult.Errors.ForEach(x => messageQueue.Enqueue(x.ErrorMessage));
-
-            if (errorSeverityResult.IsValid != true)
-                errorSeverityResult.Errors.ForEach(x => messageQueue.Enqueue(x.ErrorMessage));
+            if (!environmentMonitor.ValidationResult.IsValid)
+            {
+                environmentMonitor.ValidationResult.Errors.ForEach(failure => messageQueue.Enqueue(failure.ErrorMessage));
+                environmentMonitor.ValidationResult.Errors.Clear();
+            }
         }
 
         public void Login(object windowArg)
