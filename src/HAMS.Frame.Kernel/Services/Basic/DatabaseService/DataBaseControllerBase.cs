@@ -23,7 +23,7 @@ namespace HAMS.Frame.Kernel.Services
             bool ret = false;
             tHub = default(List<T>);
 
-            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
+            if (environmentMonitor.ValidationResult.IsValid)
             {
                 CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
                 DBConnection.Open();
@@ -40,7 +40,7 @@ namespace HAMS.Frame.Kernel.Services
             bool ret = false;
             int retVal;
 
-            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
+            if (environmentMonitor.ValidationResult.IsValid)
             {
                 CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
                 DBConnection.Open();
@@ -58,7 +58,7 @@ namespace HAMS.Frame.Kernel.Services
             tHub = default(List<T>);
             dataBaseLogController= environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
 
-            if (environmentMonitor.SeveritySetting[SeverityLevelPart.Error].Results.IsValid)
+            if (environmentMonitor.ValidationResult.IsValid)
             {
                 CommandDefinition commandDefinition = new CommandDefinition(queryStringArg);
 
