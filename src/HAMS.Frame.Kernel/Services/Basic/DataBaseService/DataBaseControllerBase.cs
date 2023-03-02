@@ -12,6 +12,7 @@ namespace HAMS.Frame.Kernel.Services
         IEnvironmentMonitor environmentMonitor;
         protected IDbConnection DBConnection { get; set; }
         ILogController dataBaseLogController;
+        IDataReader reader;
 
         public DataBaseControllerBase(IContainerProvider containerProviderArg)
         {
@@ -75,6 +76,41 @@ namespace HAMS.Frame.Kernel.Services
                 {
                     ret = true;
                     dataBaseLogController.WriteDebug(queryStringArg);
+                    DBConnection.Close();
+                }
+            }
+
+            return ret;
+        }
+
+        public virtual bool ExecuteWithMessage(string execStingArgs, out string retStringArg)
+        {
+            bool ret = false;
+            retStringArg = string.Empty;
+            dataBaseLogController = environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
+
+            if (environmentMonitor.ValidationResult.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(execStingArgs);
+
+                try
+                {
+                    DBConnection.Open();
+                    reader = SqlMapper.ExecuteReader(DBConnection, commandDefinition);
+                    reader.Read();
+                    
+                    if (reader.GetString(0) == "T")
+                        ret = true;
+                    else
+                        retStringArg = reader.GetString(1);
+                }
+                catch (Exception ex)
+                {
+                    dataBaseLogController.WriteDebug(ex.Message);
+                }
+                finally
+                {
+                    dataBaseLogController.WriteDebug(execStingArgs);
                     DBConnection.Close();
                 }
             }

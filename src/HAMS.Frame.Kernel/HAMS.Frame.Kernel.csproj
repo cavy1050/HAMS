@@ -158,7 +158,6 @@
     <Compile Include="Services\Basic\DataBaseService\DataBaseValidator.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
-    <Compile Include="Services\Basic\IFactory.cs" />
     <Compile Include="Services\IManager.cs" />
     <Compile Include="Services\Basic\LogService\LogLevelConverter.cs" />
     <Compile Include="Services\Basic\LogService\LogValidator.cs" />
@@ -175,7 +174,6 @@
     <Compile Include="Services\Basic\SecurityService\CipherService\CipherColltroller.cs" />
     <Compile Include="Services\Basic\SecurityService\CertificateService\ICertificateController.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherColltroller.cs" />
-    <Compile Include="Services\Basic\SecurityService\SecurityFactory.cs" />
     <Compile Include="Events\EventServiceController.cs" />
     <Compile Include="Events\IEventServiceController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />

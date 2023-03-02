@@ -58,7 +58,7 @@
                     prism:RegionManager.RegionName="MainContentRegion">
                         <TabControl.ItemContainerStyle>
                             <Style TargetType="{x:Type TabItem}">
-                                <Setter Property="Header" Value="{Binding DataContext.MenuItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Setter Property="Header" Value="{Binding DataContext.ExtensionModuleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Setter Property="HeaderTemplate">
                                     <Setter.Value>
                                         <DataTemplate>

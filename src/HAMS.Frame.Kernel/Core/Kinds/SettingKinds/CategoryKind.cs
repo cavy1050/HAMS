@@ -13,6 +13,6 @@
         /// <summary>
         /// 类别名称
         /// </summary>
-        public virtual string CategoryName { get; set; }
+        public virtual string CategoryItem { get; set; }
     }
 }

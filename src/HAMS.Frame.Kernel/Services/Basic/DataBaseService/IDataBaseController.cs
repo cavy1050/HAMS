@@ -26,5 +26,10 @@ namespace HAMS.Frame.Kernel.Services
         /// 提供对简单数据操作的基本支持,不记录操作日志,用于程序初始化设置保存
         /// </summary>
         bool ExecNoLog(string sqlSentenceArg);
+
+        /// <summary>
+        /// 提供对查询语句执行支持,记录操作日志及返回结果
+        /// </summary>
+        bool ExecuteWithMessage(string sqlSentenceArg, out string retStringArg);
     }
 }
