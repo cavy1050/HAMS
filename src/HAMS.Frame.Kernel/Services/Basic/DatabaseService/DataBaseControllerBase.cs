@@ -53,7 +53,7 @@ namespace HAMS.Frame.Kernel.Services
             return ret;
         }
 
-        public virtual bool Query<T>(string queryStringArg, out List<T> tHub)
+        public virtual bool Query<T>(string sqlSentenceArg, out List<T> tHub)
         {
             bool ret = false;
             tHub = default(List<T>);
@@ -61,7 +61,7 @@ namespace HAMS.Frame.Kernel.Services
 
             if (environmentMonitor.ValidationResult.IsValid)
             {
-                CommandDefinition commandDefinition = new CommandDefinition(queryStringArg);
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
 
                 try
                 {
@@ -75,7 +75,7 @@ namespace HAMS.Frame.Kernel.Services
                 finally
                 {
                     ret = true;
-                    dataBaseLogController.WriteDebug(queryStringArg);
+                    dataBaseLogController.WriteDebug(sqlSentenceArg);
                     DBConnection.Close();
                 }
             }
@@ -83,7 +83,50 @@ namespace HAMS.Frame.Kernel.Services
             return ret;
         }
 
-        public virtual bool ExecuteWithMessage(string execStingArgs, out string retStringArg)
+        public virtual bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub , out string retStringArg)
+        {
+            bool ret = false;
+            tHub = default(List<T>);
+            retStringArg = string.Empty;
+            dataBaseLogController = environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
+
+            if (environmentMonitor.ValidationResult.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
+
+                try
+                {
+                    DBConnection.Open();
+                    reader = SqlMapper.ExecuteReader(DBConnection, commandDefinition);
+                    reader.Read();
+
+                    if (reader.GetString(0) != "F")
+                    {
+                        reader.Close();
+                        tHub = SqlMapper.Query<T>(DBConnection, commandDefinition).AsList();
+                        ret = true;
+                    } 
+                    else
+                    {
+                        retStringArg = reader.GetString(1);
+                        reader.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dataBaseLogController.WriteDebug(ex.Message);
+                }
+                finally
+                {
+                    dataBaseLogController.WriteDebug(sqlSentenceArg);
+                    DBConnection.Close();
+                }
+            }
+
+            return ret;
+        }
+
+        public virtual bool ExecuteWithMessage(string sqlSentenceArg, out string retStringArg)
         {
             bool ret = false;
             retStringArg = string.Empty;
@@ -91,7 +134,7 @@ namespace HAMS.Frame.Kernel.Services
 
             if (environmentMonitor.ValidationResult.IsValid)
             {
-                CommandDefinition commandDefinition = new CommandDefinition(execStingArgs);
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
 
                 try
                 {
@@ -110,7 +153,7 @@ namespace HAMS.Frame.Kernel.Services
                 }
                 finally
                 {
-                    dataBaseLogController.WriteDebug(execStingArgs);
+                    dataBaseLogController.WriteDebug(sqlSentenceArg);
                     DBConnection.Close();
                 }
             }
