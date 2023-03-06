@@ -21,6 +21,7 @@ namespace HQMS.Extension.Control.Main
             containerRegistryArg.RegisterForNavigation<MainView>("MainModule");
 
             containerRegistryArg.RegisterForNavigation<DataMappingView>();
+            containerRegistryArg.RegisterForNavigation<DataQueryingView>();
         }
     }
 }

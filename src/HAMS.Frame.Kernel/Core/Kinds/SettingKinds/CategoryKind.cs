@@ -3,7 +3,7 @@
     /// <summary>
     /// 分类型字典设置类型
     /// </summary>
-    public abstract class CategoryKind : SettingKind
+    public class CategoryKind : SettingKind
     {
         /// <summary>
         /// 类别代码

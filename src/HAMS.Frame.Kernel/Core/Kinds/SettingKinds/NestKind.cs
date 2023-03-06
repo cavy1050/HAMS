@@ -3,7 +3,7 @@
     /// <summary>
     /// 嵌套字典设置类型
     /// </summary>
-    public abstract class NestKind : SettingKind
+    public class NestKind : SettingKind
     {
         /// <summary>
         /// 上级代码
