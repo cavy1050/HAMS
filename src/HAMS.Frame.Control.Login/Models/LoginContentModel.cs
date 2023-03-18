@@ -20,7 +20,6 @@ namespace HAMS.Frame.Control.Login.Models
         IEventAggregator eventAggregator;
         IEventServiceController eventServiceController;
 
-        ValidationResult infoSeverityResult, errorSeverityResult;
         string eventJsonSentence;
         object currentWindow;
         AccountVerificationRequestContentKind accountVerificationRequestContent;

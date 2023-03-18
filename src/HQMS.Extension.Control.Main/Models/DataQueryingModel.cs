@@ -11,19 +11,15 @@ using Prism.Mvvm;
 using MaterialDesignThemes.Wpf;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Services;
+using HQMS.Extension.Control.Main;
 using CsvHelper;
 
 namespace HQMS.Extension.Control.Main.Models
 {
     public class DataQueryingModel : BindableBase
     {
-        //TODO 设置项
-        //医院代码 
-        string hospCode = "01";
-        //导出CSV文件路径
-        string exportFilePath;
-        //上传文件路径
-        string upLoadFilePath = @"E:\Work\Code\file.csv";
+        //获取设置项 医院代码,导出CSV文件路径,上传文件路径,文件名称
+        string exportFilePath, upLoadFilePath, fileName;
 
         string sqlSentence;
         List<CategoryKind> yearHub;
@@ -36,6 +32,7 @@ namespace HQMS.Extension.Control.Main.Models
         IDataBaseController nativeBaseController;
         IDataBaseController BAGLDBController;
         ISnackbarMessageQueue messageQueue;
+        IConfigurator configurator;
 
         ObservableCollection<CategoryKind> years;
         public ObservableCollection<CategoryKind> Years
@@ -133,7 +130,7 @@ namespace HQMS.Extension.Control.Main.Models
             string retString;
             CalcQueryDate();
 
-            sqlSentence = "EXEC usp_hqms_getbasj '" + beginDate + "','" + endDate + "','"+ hospCode+"'";
+            sqlSentence = "EXEC usp_hqms_getbasj '" + beginDate + "','" + endDate + "','"+ configurator.HospitalCode+ "'";
             BAGLDBController.QueryWithMessage<ResultKind>(sqlSentence, out resultHub,out retString);
 
             CurrentPage = 1;
@@ -172,21 +169,32 @@ namespace HQMS.Extension.Control.Main.Models
 
         public void ExportData()
         {
-            string exportFileCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.ApplictionCatalogue);
-            exportFilePath = exportFileCatalogue + "HQMS" + beginDate.Substring(0, 6) + ".csv";
-
-            using (StreamWriter writer = new StreamWriter(exportFilePath))
-            using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+            if (resultHub == null)
+                messageQueue.Enqueue("请先查询数据再导出!");
+            else
             {
-                csv.WriteRecords(resultHub);
-                messageQueue.Enqueue("文件成功导出至:\""+ exportFilePath+"\"");
+                fileName = "hqmsts_" + beginDate.Substring(0, 4) + "M" + beginDate.Substring(4, 2) + ".csv";
+                exportFilePath = configurator.ExportFileCatalogue + fileName;
+
+                using (StreamWriter writer = new StreamWriter(exportFilePath))
+                using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+                {
+                    csv.WriteRecords(resultHub);
+                    messageQueue.Enqueue("文件成功导出至:\"" + exportFilePath + "\"");
+                }
             }
         }
 
         public void UpLoadData()
         {
-            File.Copy(exportFilePath, upLoadFilePath, true);
-            messageQueue.Enqueue("文件成功上传至:\"" + upLoadFilePath + "\"");
+            if (!File.Exists(exportFilePath))
+                messageQueue.Enqueue("请先导出数据再上传!");
+            else
+            {
+                upLoadFilePath = configurator.UpLoadFileCatalogue + fileName;
+                File.Copy(exportFilePath, upLoadFilePath, true);
+                messageQueue.Enqueue("文件成功上传至:\"" + upLoadFilePath + "\"");
+            }
         }
 
         public void NavigateFirstPage()

@@ -16,12 +16,9 @@ namespace HQMS.Extension.Control.Main.Models
 {
     public class DataExportingModel : BindableBase
     {
-        //TODO 设置项
-        //汇总项导出路径 
-        string masterExportXlsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\master.xls";
-
-        //明细项导出路径 
-        string detailExportXlsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\detail.xls";
+        //设置项
+        //汇总文件导出路径,明细文件导出路径
+        string masterExportFilePath, detailExportFilePath;
 
         string sqlSentence, sqlRetSentence;
         string beginDate, endDate;
@@ -30,10 +27,11 @@ namespace HQMS.Extension.Control.Main.Models
         List<MasterKind> masterHub;
         List<DetailKind> detailHub;
 
+        ISnackbarMessageQueue messageQueue;
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
         IDataBaseController BAGLDBController;
-        ISnackbarMessageQueue messageQueue;
+        IConfigurator configurator;
 
         ObservableCollection<CategoryKind> years;
         public ObservableCollection<CategoryKind> Years
@@ -83,6 +81,7 @@ namespace HQMS.Extension.Control.Main.Models
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
             BAGLDBController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.BAGLDB);
+            configurator = containerProviderArg.Resolve<IConfigurator>();
 
             Masters = new ObservableCollection<MasterKind>();
             Details = new ObservableCollection<DetailKind>();
@@ -163,14 +162,18 @@ namespace HQMS.Extension.Control.Main.Models
 
         public void ExprotMasterData()
         {
+            masterExportFilePath = configurator.MasterExportFileCatalogue + "\\汇总数据.xls";
+
             Mapper mapper = new Mapper();
-            mapper.Save(masterExportXlsFilePath, Masters, sheetIndex: 1, overwrite: true, xlsx: false);
+            mapper.Save(masterExportFilePath, Masters, sheetIndex: 1, overwrite: true, xlsx: false);
         }
 
         public void ExprotDetailData()
         {
+            detailExportFilePath = configurator.DetailExportFileCatalogue + "\\明细数据.xls";
+
             Mapper mapper = new Mapper();
-            mapper.Save(detailExportXlsFilePath, Details, sheetIndex: 1, overwrite: true, xlsx: false);
+            mapper.Save(detailExportFilePath, Details, sheetIndex: 1, overwrite: true, xlsx: false);
         }
     }
 }

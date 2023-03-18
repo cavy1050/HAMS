@@ -114,9 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainModule.cs" />
+    <Compile Include="Configurator\Configurator.cs" />
     <Compile Include="Models\DataExportingModel.cs" />
     <Compile Include="Models\DataMappingModel.cs" />
     <Compile Include="Models\DataQueryingModel.cs" />
+    <Compile Include="Configurator\IConfigurator.cs" />
     <Compile Include="Models\Kinds\CatalogKind.cs" />
     <Compile Include="Models\Kinds\DetailKind.cs" />
     <Compile Include="Models\Kinds\LocalKind.cs" />
