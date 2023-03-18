@@ -23,6 +23,11 @@ namespace HAMS.Frame.Kernel.Services
         bool Query<T>(string sqlSentenceArg, out List<T> tHub);
 
         /// <summary>
+        /// 提供简单数据操作支持，并记录操作日志
+        /// </summary>
+        bool Execute(string sqlSentenceArg);
+
+        /// <summary>
         /// 提供对查询操作执行的支持，记录操作日志及执行结果
         /// </summary>
         bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub,out string retStringArg);

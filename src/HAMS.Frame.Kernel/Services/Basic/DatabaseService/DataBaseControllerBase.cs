@@ -83,6 +83,41 @@ namespace HAMS.Frame.Kernel.Services
             return ret;
         }
 
+        public virtual bool Execute(string sqlSentenceArg)
+        {
+            bool ret = false;
+            int retVal = 0;
+            dataBaseLogController = environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
+
+            if (environmentMonitor.ValidationResult.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
+
+                try
+                {
+                    DBConnection.Open();
+                    retVal = SqlMapper.Execute(DBConnection, commandDefinition);
+                }
+                catch (Exception ex)
+                {
+                    dataBaseLogController.WriteDebug(ex.Message);
+                }
+                finally
+                {
+                    ret = true;
+
+                    if (retVal == 0)
+                        dataBaseLogController.WriteDebug("未影响: " + sqlSentenceArg);
+                    else
+                        dataBaseLogController.WriteDebug(sqlSentenceArg);
+
+                    DBConnection.Close();
+                }
+            }
+
+            return ret;
+        }
+
         public virtual bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub , out string retStringArg)
         {
             bool ret = false;
