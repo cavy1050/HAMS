@@ -30,6 +30,12 @@
                  DisplayMemberPath="Name"
                  SelectedValuePath="Item"
                  SelectedValue="{Binding MainModel.CurrentItem}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}"
+                       BasedOn="{StaticResource MaterialDesignChoiceChipListBoxItem}">
+                    <Setter Property="Margin" Value="32 0 0 0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding MenuSelectedChangedCommand}"/>

@@ -46,16 +46,15 @@
                     <ContentControl prism:RegionManager.RegionName="MainLeftDrawerRegion"/>
                 </md:DrawerHost.LeftDrawerContent>
 
-                <DockPanel>
-                    <TabControl DockPanel.Dock="Top"
-                    Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
-                    BorderThickness="0"
-                    BorderBrush="Transparent"
-                    TabStripPlacement="Top"
-                    md:ColorZoneAssist.Mode="Standard"
-                    SnapsToDevicePixels="True"
-                    prism:RegionManager.RegionManager="{Binding MainWindowModel.RegionManager}"
-                    prism:RegionManager.RegionName="MainContentRegion">
+                <Grid>
+                    <TabControl Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                TabStripPlacement="Top"
+                                md:ColorZoneAssist.Mode="Standard"
+                                SnapsToDevicePixels="True"
+                                prism:RegionManager.RegionManager="{Binding MainWindowModel.RegionManager}"
+                                prism:RegionManager.RegionName="MainContentRegion">
                         <TabControl.ItemContainerStyle>
                             <Style TargetType="{x:Type TabItem}">
                                 <Setter Property="Header" Value="{Binding DataContext.ExtensionModuleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -84,9 +83,8 @@
                         </TabControl.ItemContainerStyle>
                     </TabControl>
 
-                    <md:Snackbar DockPanel.Dock="Bottom"
-                                         MessageQueue="{Binding MainWindowModel.MessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                </DockPanel>
+                    <md:Snackbar MessageQueue="{Binding MainWindowModel.MessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
             </md:DrawerHost>
         </Grid>
     </md:DialogHost>

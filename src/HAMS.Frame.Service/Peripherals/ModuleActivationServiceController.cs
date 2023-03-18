@@ -16,6 +16,7 @@ namespace HAMS.Frame.Service.Peripherals
     public class ModuleActivationServiceController : IServiceController
     {
         IContainerProvider containerProvider;
+        IModuleCatalog moduleCatalog;
         IModuleManager moduleManager;
         IRegionManager regionManager;
         IEventServiceController eventServiceController;
@@ -28,6 +29,7 @@ namespace HAMS.Frame.Service.Peripherals
         public ModuleActivationServiceController(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
+            moduleCatalog = containerProviderArg.Resolve<IModuleCatalog>();
             moduleManager = containerProviderArg.Resolve<IModuleManager>();
             regionManager = containerProviderArg.Resolve<IRegionManager>();
             eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
@@ -55,9 +57,12 @@ namespace HAMS.Frame.Service.Peripherals
 
             try
             {
-                extensionModuleCatalog = new ExtensionModuleCatalog(containerProvider, extensionModule);
-                extensionModuleCatalog.Load();
-                moduleManager.Run();
+                if (!moduleCatalog.Exists(extensionModule.Item))
+                {
+                    extensionModuleCatalog = new ExtensionModuleCatalog(containerProvider, extensionModule);
+                    extensionModuleCatalog.Load();
+                    moduleManager.Run();
+                }
 
                 regionManager.RequestNavigate("MainContentRegion", extensionModule.Item);
 

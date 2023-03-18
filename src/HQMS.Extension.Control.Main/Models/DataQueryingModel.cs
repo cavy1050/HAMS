@@ -97,6 +97,8 @@ namespace HQMS.Extension.Control.Main.Models
 
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
             BAGLDBController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.BAGLDB);
+
+            configurator = containerProviderArg.Resolve<IConfigurator>();
         }
 
         public void Loaded()

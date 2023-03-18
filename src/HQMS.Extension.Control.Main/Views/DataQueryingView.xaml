@@ -2650,8 +2650,9 @@
 
 
             <StackPanel Margin="0 16 0 0"
-                        Orientation="Horizontal">
-                <Button Margin="200 0 0 0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Margin="0 0 8 0"
                         Style="{StaticResource MaterialDesignToolButton}"
                         Width="30"
                         md:RippleAssist.IsCentered="True"
@@ -2659,47 +2660,47 @@
                         Command="{Binding NavigateFirstPageCommand}"/>
                 <Button Style="{StaticResource MaterialDesignToolButton}"
                         Width="30"
-                        Margin="8 0 0 0"
+                        Margin="0 0 8 0"
                         md:RippleAssist.IsCentered="True"
                         Content="{md:PackIcon Kind=ChevronLeft}"
                         Command="{Binding NavigateBeforePageCommand}"/>
                 <Button Style="{StaticResource MaterialDesignToolButton}"
                         Width="30"
-                        Margin="8 0 0 0"
+                        Margin="0 0 8 0"
                         md:RippleAssist.IsCentered="True"
                         Content="{md:PackIcon Kind=ChevronRight}"
                         Command="{Binding NavigateNextPageCommand}"/>
                 <Button Style="{StaticResource MaterialDesignToolButton}"
                         Width="30"
-                        Margin="8 0 0 0"
+                        Margin="0 0 8 0"
                         md:RippleAssist.IsCentered="True"
                         Content="{md:PackIcon Kind=PageLast}"
                         Command="{Binding NavigateLastPageCommand}"/>
 
-                <TextBlock Margin="32 0 0 0"
+                <TextBlock Margin="0 0 32 0"
                            VerticalAlignment="Center"
                            Text="到第"/>
-                <TextBox Margin="8 0 0 0"
+                <TextBox Margin="0 0 8 0"
                          VerticalAlignment="Center"
                          Width="40"
                          Text="{Binding DataQueryingModel.CurrentPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Margin="8 0 0 0"
+                <TextBlock Margin="0 0 8 0"
                            VerticalAlignment="Center"
                            Text="页"/>
                 <Button Style="{StaticResource MaterialDesignOutlinedLightButton}"
-                        Margin="8 0 0 0"
+                        Margin="0 0 8 0"
                         Content="确定"
                         Command="{Binding NavigateCurrentPageCommand}"/>
 
-                <TextBlock Margin="32 0 0 0"
+                <TextBlock Margin="0 0 32 0"
                            VerticalAlignment="Center"
                            Text="共"/>
 
-                <TextBlock Margin="4 0 0 0"
+                <TextBlock Margin="0 0 4 0"
                            VerticalAlignment="Center"
                            Text="{Binding DataQueryingModel.TotalRecordCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Margin="4 0 0 0"
+                <TextBlock Margin="0 0 32 0"
                            VerticalAlignment="Center"
                            Text="条记录"/>
             </StackPanel>
