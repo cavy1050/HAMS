@@ -72,8 +72,10 @@ namespace HAMS.Frame.Kernel.Services
 
                 switch (pathPartArg)
                 {
+                    //如果自定义日志目录不为空则覆盖默认值,否则保持默认值
                     case PathPart.LogFileCatalogue:
-                        LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+                        if (!string.IsNullOrEmpty(costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content))
+                            LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
                         break;
 
                     case PathPart.All:
