@@ -3722,27 +3722,27 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 744  红细胞
         /// </summary>
-        public float F22 { get; set; }
+        public string F22 { get; set; }
 
         /// <summary>
         /// 745  血小板
         /// </summary>
-        public float F23 { get; set; }
+        public string F23 { get; set; }
 
         /// <summary>
         /// 746  血浆
         /// </summary>
-        public float F24 { get; set; }
+        public string F24 { get; set; }
 
         /// <summary>
         /// 747  全血
         /// </summary>
-        public float F25 { get; set; }
+        public string F25 { get; set; }
 
         /// <summary>
         /// 748  自体血回输
         /// </summary>
-        public float F26 { get; set; }
+        public string F26 { get; set; }
 
         /// <summary>
         /// 749 年龄不足1周岁的年龄（天）

@@ -179,10 +179,12 @@ namespace HQMS.Extension.Control.Main.Models
                 exportFilePath = configurator.ExportFileCatalogue + fileName;
 
                 using (StreamWriter writer = new StreamWriter(exportFilePath))
-                using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
                 {
-                    csv.WriteRecords(resultHub);
-                    messageQueue.Enqueue("文件成功导出至:\"" + exportFilePath + "\"");
+                    using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+                    {
+                        csv.WriteRecords(resultHub);
+                        messageQueue.Enqueue("文件成功导出至:\"" + exportFilePath + "\"");
+                    }
                 }
             }
         }
@@ -194,8 +196,19 @@ namespace HQMS.Extension.Control.Main.Models
             else
             {
                 upLoadFilePath = configurator.UpLoadFileCatalogue + fileName;
-                File.Copy(exportFilePath, upLoadFilePath, true);
-                messageQueue.Enqueue("文件成功上传至:\"" + upLoadFilePath + "\"");
+
+                try
+                {
+                    File.Copy(exportFilePath, upLoadFilePath, true);
+                }
+                catch (Exception ex)
+                {
+                    messageQueue.Enqueue(ex.Message);
+                }
+                finally
+                {
+                    messageQueue.Enqueue("文件成功上传至:\"" + upLoadFilePath + "\"");
+                }
             }
         }
 
