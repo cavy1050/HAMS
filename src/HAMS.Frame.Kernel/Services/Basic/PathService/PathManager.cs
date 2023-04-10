@@ -64,18 +64,20 @@ namespace HAMS.Frame.Kernel.Services
         public void Init(PathPart pathPartArg)
         {
             if (pathPartArg == PathPart.ApplictionCatalogue || pathPartArg == PathPart.NativeDataBaseFilePath)
-                throw new ArgumentException("自定义参数不能是<程序运行目录>或<本地数据库文件路径>!", nameof(pathPartArg));
+                throw new ArgumentException("自定义路径类型参数不能是<程序运行目录>或<本地数据库文件路径>!", nameof(pathPartArg));
             {
                 nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_PathSetting WHERE EnabledFlag = True AND DefaultFlag = False";
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_PathSetting WHERE DefaultFlag = False";
                 nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomPathSettingHub);
 
                 switch (pathPartArg)
                 {
                     //如果自定义日志目录不为空则覆盖默认值,否则保持默认值
                     case PathPart.LogFileCatalogue:
-                        if (!string.IsNullOrEmpty(costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content))
-                            LogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+                        string costomLogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+
+                        if (!string.IsNullOrEmpty(costomLogFileCatalogue))
+                            LogFileCatalogue = costomLogFileCatalogue;
                         break;
 
                     case PathPart.All:

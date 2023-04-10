@@ -12,9 +12,9 @@ namespace HAMS.Frame.Kernel.Services
 
             RuleFor(log => log.ServicEventLogFilePath).NotEmpty().WithMessage("服务事件日志文件路径不能为空!");
 
-            RuleFor(log => log.GlobalLogEnabledFlag).NotEmpty().WithMessage("全局日志启用标志不能为空!");
+            RuleFor(log => log.GlobalLogEnabledFlag).NotNull().WithMessage("全局日志启用标志不能为空!");
 
-            RuleFor(log => log.GlobalLogLevel).NotEmpty().WithMessage("全局日志级别设置不能为空!");
+            RuleFor(log => log.GlobalLogLevel).NotNull().WithMessage("全局日志级别设置不能为空!");
         }
     }
 }

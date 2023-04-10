@@ -14,6 +14,7 @@ namespace HAMS.Frame.Kernel.Core
         ServiceModule,
         LoginModule,
         MainHeaderModule,
-        MainLeftDrawerModule
+        MainLeftDrawerModule,
+        BasicConfigurationModule
     }
 }

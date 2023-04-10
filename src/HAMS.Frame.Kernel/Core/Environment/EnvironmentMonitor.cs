@@ -13,6 +13,7 @@ namespace HAMS.Frame.Kernel.Core
         public PathCollector PathSetting { get; set; }
         public DataBaseCollector DataBaseSetting { get; set; }
         public LogCollector LogSetting { get; set; }
+
         public SettingKind UserSetting { get; set; }
 
         public EnvironmentMonitor()
@@ -23,6 +24,7 @@ namespace HAMS.Frame.Kernel.Core
             PathSetting = new PathCollector();
             DataBaseSetting = new DataBaseCollector();
             LogSetting = new LogCollector();
+
             UserSetting = new SettingKind();
         }
     }

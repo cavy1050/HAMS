@@ -1,0 +1,333 @@
+﻿<UserControl x:Class="HAMS.Extension.Control.BasicConfiguration.Views.BasicConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:kernel="clr-namespace:HAMS.Frame.Kernel.Core;assembly=HAMS.Frame.Kernel"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:color="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:HAMS.Extension.Control.BasicConfiguration.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="LogLevelEnumTypeProvider" MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="kernel:LogLevelPart"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <DockPanel Margin="8">
+        <md:Card DockPanel.Dock="Top"
+                 Margin="0 8 0 0"
+                 Padding="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           Text="路径设置" />
+
+                    <Separator Grid.Row="1"
+                           Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                    <StackPanel Grid.Row="2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="程序运行目录"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.ApplictionCatalogue}"
+                                 IsEnabled="False"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                            <TextBlock Text="本地数据库文件路径"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.NativeDataBaseFilePath}"
+                                 IsEnabled="False"/>
+                        </StackPanel>
+                        <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                            <TextBlock Text="日志文件目录"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.LogFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Margin="32 0 0 0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding OpenLogFileCatalogueCommand}">
+                            <md:PackIcon>
+                                <md:PackIcon.Style>
+                                    <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                        <Setter Property="Kind" Value="DotsHorizontal" />
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </Style>
+                                </md:PackIcon.Style>
+                            </md:PackIcon>
+                        </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </md:Card>
+
+        <md:Card DockPanel.Dock="Top"
+                     Margin="0 8 0 0"
+                     Padding="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           Text="数据库设置" />
+
+                <Separator Grid.Row="1"
+                           Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                <StackPanel Grid.Row="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="本地数据库"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.NativeConnectString}"
+                                 IsEnabled="False"/>
+                        <Button Margin="88 0 0 0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding NativeDBConnectionCommand}">
+                            <md:PackIcon>
+                                <md:PackIcon.Style>
+                                    <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                        <Setter Property="Kind" Value="Connection" />
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </Style>
+                                </md:PackIcon.Style>
+                            </md:PackIcon>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                        <TextBlock Text="病案管理数据库"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.BAGLDBConnectString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Margin="32 0 0 0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding BAGLDBConnectStringCommand}">
+                            <md:PackIcon>
+                                <md:PackIcon.Style>
+                                    <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                        <Setter Property="Kind" Value="DotsHorizontal" />
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </Style>
+                                </md:PackIcon.Style>
+                            </md:PackIcon>
+                        </Button>
+                        <Button Margin="32 0 0 0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding BAGLDBConnectionCommand}">
+                            <md:PackIcon>
+                                <md:PackIcon.Style>
+                                    <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                        <Setter Property="Kind" Value="Connection" />
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </Style>
+                                </md:PackIcon.Style>
+                            </md:PackIcon>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </md:Card>
+
+        <md:Card DockPanel.Dock="Top"
+                     Margin="0 8 0 0"
+                     Padding="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           Text="日志设置" />
+
+                    <Separator Grid.Row="1"
+                           Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                    <StackPanel Grid.Row="2"
+                            Orientation="Horizontal">
+                        <TextBlock Text="全局日志"
+                               Width="160"
+                               TextAlignment="Right"                  
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        <TextBlock Margin="32 0 0 0"
+                               Text="是否启用全局日志"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        <ToggleButton x:Name="GlobalLogEnabledFlag"
+                                  Margin="8 0 0 0"
+                                  IsChecked="{Binding BasicConfigurationModel.GlobalLogEnabledFlag,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"/>
+                        <TextBlock Margin="32 0 0 0"
+                               Text="全局日志级别"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        <ComboBox Margin="8 0 0 0"
+                              Width="80"
+                              ItemsSource="{Binding Source={StaticResource LogLevelEnumTypeProvider}}"
+                              SelectedItem="{Binding BasicConfigurationModel.GlobalLogCurrentLevelName}"
+                              IsEnabled="{Binding IsChecked,ElementName=GlobalLogEnabledFlag,Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+            </md:Card>
+
+        <md:Card DockPanel.Dock="Top"
+                     Margin="0 8 0 0"
+                     Padding="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           Text="主题设置" />
+
+                <Separator Grid.Row="1"
+                           Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal">
+                    <TextBlock Text="调色板"
+                               Width="160"
+                               TextAlignment="Right"                  
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <TextBlock Margin="32 0 0 0"
+                               Text="明暗模式"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <TextBlock Margin="8 0 0 0"
+                               Text="浅"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ToggleButton Margin="8 0 0 0"
+                                  IsChecked="{Binding BasicConfigurationModel.ColorLightFlag,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"/>
+                    <TextBlock Margin="8 0 0 0"
+                               Text="深"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                    <TextBlock Margin="32 0 0 0"
+                               Text="主要色"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="8 0 0 0"
+                              Width="100"
+                              ItemsSource="{Binding BasicConfigurationModel.PrimaryColors}"
+                              SelectedItem="{Binding BasicConfigurationModel.CurrentPrimaryColor}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"
+                                           Style="{StaticResource MaterialDesignTextBlock}">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
+                                    </TextBlock.Foreground>
+                                    <TextBlock.Background>
+                                        <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
+                                    </TextBlock.Background>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Margin="32 0 0 0"
+                               Text="次要色"       
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="8 0 0 0"
+                              Width="100"
+                              ItemsSource="{Binding BasicConfigurationModel.SecondaryColors}"
+                              SelectedItem="{Binding BasicConfigurationModel.CurrentSecondaryColor}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"
+                                           Style="{StaticResource MaterialDesignTextBlock}">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
+                                    </TextBlock.Foreground>
+                                    <TextBlock.Background>
+                                        <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
+                                    </TextBlock.Background>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </md:Card>
+
+        <md:Card DockPanel.Dock="Bottom"
+                 Padding="8"
+                 VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Margin="32 0 0 0"
+                        Content="恢复默认值"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding DefaultCommand}"/>
+                <Button Margin="32 0 0 0"
+                        Content="应用"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding ApplyCommand}"/>
+                <Button Margin="32 0 32 0"
+                        Content="保存"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </md:Card>
+    </DockPanel>
+</UserControl>

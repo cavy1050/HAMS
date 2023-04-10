@@ -49,15 +49,10 @@ namespace HAMS.Frame.Kernel
 
         public void Initialize()
         {
-            InitializeServices();
-            LoadFrameModuleCatalog();
-        }
-
-        private void InitializeServices()
-        {
             InitializeWithValidateDefaultServices();
             InitializeWithValidateCustomServices();
             SaveDefaultServices();
+            LoadFrameModuleCatalog();
         }
 
         private void InitializeWithValidateDefaultServices()

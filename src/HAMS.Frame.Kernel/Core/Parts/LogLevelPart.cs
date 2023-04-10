@@ -4,18 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HAMS.Frame.Kernel.Core.Parts
+namespace HAMS.Frame.Kernel.Core
 {
     /// <summary>
-    /// 日志级别、用于将保存的日志级别设置转换
+    /// 程序日志级别定义、也用于对log4net日志级别进行转换
     /// </summary>
     public enum LogLevelPart
     {
-        All,
         Debug,
         Info,
         Warn,
-        Error,
-        Fatal
+        Error
     }
 }

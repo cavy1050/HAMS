@@ -16,6 +16,7 @@ namespace HAMS.Frame.Kernel.Core
         PathCollector PathSetting { get; set; }
         DataBaseCollector DataBaseSetting { get; set; }
         LogCollector LogSetting { get; set; }
+
         SettingKind UserSetting { get; set; }
     }
 }

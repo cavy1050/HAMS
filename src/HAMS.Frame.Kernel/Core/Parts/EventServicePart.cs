@@ -32,6 +32,16 @@ namespace HAMS.Frame.Kernel.Core
         /// <summary>
         /// 菜单激活服务	
         /// </summary>
-        ModuleActivationService
+        ModuleActivationService,
+
+        /// <summary>
+        /// 主题初始化服务	
+        /// </summary>
+        ThemeInitializationService,
+
+        /// <summary>
+        /// 主题变更服务	
+        /// </summary>
+        ThemeAlterationService
     }
 }

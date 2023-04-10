@@ -47,7 +47,7 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 全局日志级别
         /// </summary>
-        public Level GlobalLogLevel { get; set; }
+        public LogLevelPart GlobalLogLevel { get; set; }
 
         public LogManager(IContainerProvider containerProviderArg)
         {
@@ -63,7 +63,7 @@ namespace HAMS.Frame.Kernel.Services
             {
                 case LogPart.Global:
                     GlobalLogEnabledFlag = true;
-                    GlobalLogLevel = Level.Debug;
+                    GlobalLogLevel = LogLevelPart.Debug;
                     break;
 
                 case LogPart.Application:
@@ -89,38 +89,24 @@ namespace HAMS.Frame.Kernel.Services
 
         public void Init(LogPart logPartArg)
         {
-            logLevelConverter = new LogLevelConverter();
-            logFileCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue);
-
-            nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_LogSetting WHERE EnabledFlag = True AND DefaultFlag = False";
-            nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomLogSettingHub);
-
-            switch (logPartArg)
+            if (!(logPartArg == LogPart.Global || logPartArg == LogPart.All))
+                throw new ArgumentException("自定义日志类型参数只能是<全局日志>!", nameof(logPartArg));
             {
-                case LogPart.Global:
-                    GlobalLogLevel= (Level)logLevelConverter.ConvertFrom(costomLogSettingHub.FirstOrDefault(x => x.Code == "01GPT3T83953EVANVTJ0ATFAK5").Note);
-                    GlobalLogEnabledFlag = costomLogSettingHub.FirstOrDefault(x=>x.Code== "01GPT3T83953EVANVTJ0ATFAK5").EnabledFlag;
-                    break;
+                nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
+                sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_LogSetting WHERE DefaultFlag = False";
+                nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomLogSettingHub);
 
-                case LogPart.Application:
-                    ApplicationLogFilePath = logFileCatalogue + "Application_" + DateTime.Now.ToString("d") + ".txt";
-                    break;
+                switch (logPartArg)
+                {
+                    case LogPart.Global:
+                        GlobalLogLevel = (LogLevelPart)Enum.Parse(typeof(LogLevelPart), costomLogSettingHub.FirstOrDefault(log => log.Code == "01GPT3T83953EVANVTJ0ATFAK5").Content);
+                        GlobalLogEnabledFlag = costomLogSettingHub.FirstOrDefault(log => log.Code == "01GPT3T83953EVANVTJ0ATFAK5").EnabledFlag;
+                        break;
 
-                case LogPart.DataBase:
-                    DataBaseLogFilePath = logFileCatalogue + "DataBase_" + DateTime.Now.ToString("d") + ".txt";
-                    break;
-
-                case LogPart.ServicEvent:
-                    ServicEventLogFilePath = logFileCatalogue + "ServicEvent_" + DateTime.Now.ToString("d") + ".txt";
-                    break;
-
-                case LogPart.All:
-                    Init(LogPart.Global);
-                    Init(LogPart.Application);
-                    Init(LogPart.DataBase);
-                    Init(LogPart.ServicEvent);
-                    break;
+                    case LogPart.All:
+                        Init(LogPart.Global);
+                        break;
+                }
             }
         }
 
@@ -135,14 +121,14 @@ namespace HAMS.Frame.Kernel.Services
                             Code = "01GPT3T83953EVANVTJ0ATFAK5",
                             Item = LogPart.Global.ToString(),
                             Name = EnumExtension.GetDescription(LogPart.Global),
-                            Note = GlobalLogLevel.ToString(),
+                            Content = GlobalLogLevel.ToString(),
                             Rank = Convert.ToInt32(LogPart.Global),
                             EnabledFlag = GlobalLogEnabledFlag
                         });
                     else
                     {
                         environmentMonitor.LogSetting[LogPart.Global].EnabledFlag = GlobalLogEnabledFlag;
-                        environmentMonitor.LogSetting[LogPart.Global].Note = GlobalLogLevel.ToString();
+                        environmentMonitor.LogSetting[LogPart.Global].Content = GlobalLogLevel.ToString();
                     }
                     break;
 
@@ -151,7 +137,7 @@ namespace HAMS.Frame.Kernel.Services
                         environmentMonitor.LogSetting.Add(new LogKind
                         {
                             Code = "01GPT3T839Q7VP6GAGQT12PBXK",
-                            Item = LogPart.Application .ToString(),
+                            Item = LogPart.Application.ToString(),
                             Name = EnumExtension.GetDescription(LogPart.Application),
                             Content = ApplicationLogFilePath,
                             Rank = Convert.ToInt32(LogPart.Application),
@@ -195,7 +181,7 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(LogPart.ServicEvent),
                             EnabledFlag = true
                         });
-                        environmentMonitor.LogSetting[LogPart.ServicEvent].Content = ServicEventLogFilePath;
+                    environmentMonitor.LogSetting[LogPart.ServicEvent].Content = ServicEventLogFilePath;
 
                     servicEventLogController = containerProvider.Resolve<ILogController>(LogPart.ServicEvent.ToString());
                     environmentMonitor.LogSetting[LogPart.ServicEvent].LogController = servicEventLogController;
@@ -216,7 +202,7 @@ namespace HAMS.Frame.Kernel.Services
             switch (logPartArg)
             {
                 case LogPart.Global:
-                    sqlSentence = "UPDATE System_LogSetting SET EnabledFlag=" + GlobalLogEnabledFlag + ",GlobalLogLevel='"+GlobalLogLevel.ToString()+"' WHERE Code='01GPT3T83953EVANVTJ0ATFAK5'";
+                    sqlSentence = "UPDATE System_LogSetting SET EnabledFlag=" + GlobalLogEnabledFlag + ",GlobalLogLevel='" + GlobalLogLevel.ToString() + "' WHERE Code='01GPT3T83953EVANVTJ0ATFAK5'";
                     nativeBaseController.ExecNoLog(sqlSentence);
                     break;
 

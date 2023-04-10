@@ -1307,7 +1307,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 261  其他手术操作日期1
         /// </summary>
-        public DateTime C37x01 { get; set; }
+        public string C37x01 { get; set; }
 
         /// <summary>
         /// 262  其他手术操作级别1
@@ -1367,7 +1367,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 273  其他手术操作日期2
         /// </summary>
-        public DateTime C37x02 { get; set; }
+        public string C37x02 { get; set; }
 
         /// <summary>
         /// 274  其他手术操作级别2
@@ -1427,7 +1427,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 285  其他手术操作日期3
         /// </summary>
-        public DateTime C37x03 { get; set; }
+        public string C37x03 { get; set; }
 
         /// <summary>
         /// 286  其他手术操作级别3
@@ -1487,7 +1487,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 297  其他手术操作日期4
         /// </summary>
-        public DateTime C37x04 { get; set; }
+        public string C37x04 { get; set; }
 
         /// <summary>
         /// 298  其他手术操作级别4
@@ -1547,7 +1547,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 309  其他手术操作日期5
         /// </summary>
-        public DateTime C37x05 { get; set; }
+        public string C37x05 { get; set; }
 
         /// <summary>
         /// 310  其他手术操作级别5
@@ -1607,7 +1607,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 321  其他手术操作日期6
         /// </summary>
-        public DateTime C37x06 { get; set; }
+        public string C37x06 { get; set; }
 
         /// <summary>
         /// 322  其他手术操作级别6
@@ -1667,7 +1667,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 333  其他手术操作日期7
         /// </summary>
-        public DateTime C37x07 { get; set; }
+        public string C37x07 { get; set; }
 
         /// <summary>
         /// 334  其他手术操作级别7
@@ -1727,7 +1727,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 345  其他手术操作日期8
         /// </summary>
-        public DateTime C37x08 { get; set; }
+        public string C37x08 { get; set; }
 
         /// <summary>
         /// 346  其他手术操作级别8
@@ -1787,7 +1787,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 357  其他手术操作日期9
         /// </summary>
-        public DateTime C37x09 { get; set; }
+        public string C37x09 { get; set; }
 
         /// <summary>
         /// 358  其他手术操作级别9
@@ -1847,7 +1847,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 369  其他手术操作日期10
         /// </summary>
-        public DateTime C37x10 { get; set; }
+        public string C37x10 { get; set; }
 
         /// <summary>
         /// 370  其他手术操作级别10
@@ -1907,7 +1907,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 381  其他手术操作日期11
         /// </summary>
-        public DateTime C37x11 { get; set; }
+        public string C37x11 { get; set; }
 
         /// <summary>
         /// 382  其他手术操作级别11
@@ -1967,7 +1967,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 393  其他手术操作日期12
         /// </summary>
-        public DateTime C37x12 { get; set; }
+        public string C37x12 { get; set; }
 
         /// <summary>
         /// 394  其他手术操作级别12
@@ -2027,7 +2027,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 405  其他手术操作日期13
         /// </summary>
-        public DateTime C37x13 { get; set; }
+        public string C37x13 { get; set; }
 
         /// <summary>
         /// 406  其他手术操作级别13
@@ -2087,7 +2087,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 417  其他手术操作日期14
         /// </summary>
-        public DateTime C37x14 { get; set; }
+        public string C37x14 { get; set; }
 
         /// <summary>
         /// 418  其他手术操作级别14
@@ -2147,7 +2147,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 429  其他手术操作日期15
         /// </summary>
-        public DateTime C37x15 { get; set; }
+        public string C37x15 { get; set; }
 
         /// <summary>
         /// 430  其他手术操作级别15
@@ -2207,7 +2207,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 441  其他手术操作日期16
         /// </summary>
-        public DateTime C37x16 { get; set; }
+        public string C37x16 { get; set; }
 
         /// <summary>
         /// 442  其他手术操作级别16
@@ -2267,7 +2267,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 453  其他手术操作日期17
         /// </summary>
-        public DateTime C37x17 { get; set; }
+        public string C37x17 { get; set; }
 
         /// <summary>
         /// 454  其他手术操作级别17
@@ -2327,7 +2327,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 465  其他手术操作日期18
         /// </summary>
-        public DateTime C37x18 { get; set; }
+        public string C37x18 { get; set; }
 
         /// <summary>
         /// 466  其他手术操作级别18
@@ -2387,7 +2387,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 477  其他手术操作日期19
         /// </summary>
-        public DateTime C37x19 { get; set; }
+        public string C37x19 { get; set; }
 
         /// <summary>
         /// 478  其他手术操作级别19
@@ -2447,7 +2447,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 489  其他手术操作日期20
         /// </summary>
-        public DateTime C37x20 { get; set; }
+        public string C37x20 { get; set; }
 
         /// <summary>
         /// 490  其他手术操作级别20
@@ -2507,7 +2507,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 501  其他手术操作日期21
         /// </summary>
-        public DateTime C37x21 { get; set; }
+        public string C37x21 { get; set; }
 
         /// <summary>
         /// 502  其他手术操作级别21
@@ -2567,7 +2567,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 513  其他手术操作日期22
         /// </summary>
-        public DateTime C37x22 { get; set; }
+        public string C37x22 { get; set; }
 
         /// <summary>
         /// 514  其他手术操作级别22
@@ -2627,7 +2627,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 525  其他手术操作日期23
         /// </summary>
-        public DateTime C37x23 { get; set; }
+        public string C37x23 { get; set; }
 
         /// <summary>
         /// 526  其他手术操作级别23
@@ -2687,7 +2687,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 537  其他手术操作日期24
         /// </summary>
-        public DateTime C37x24 { get; set; }
+        public string C37x24 { get; set; }
 
         /// <summary>
         /// 538  其他手术操作级别24
@@ -2747,7 +2747,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 549  其他手术操作日期25
         /// </summary>
-        public DateTime C37x25 { get; set; }
+        public string C37x25 { get; set; }
 
         /// <summary>
         /// 550  其他手术操作级别25
@@ -2807,7 +2807,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 561  其他手术操作日期26
         /// </summary>
-        public DateTime C37x26 { get; set; }
+        public string C37x26 { get; set; }
 
         /// <summary>
         /// 562  其他手术操作级别26
@@ -2867,7 +2867,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 573  其他手术操作日期27
         /// </summary>
-        public DateTime C37x27 { get; set; }
+        public string C37x27 { get; set; }
 
         /// <summary>
         /// 574  其他手术操作级别27
@@ -2927,7 +2927,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 585  其他手术操作日期28
         /// </summary>
-        public DateTime C37x28 { get; set; }
+        public string C37x28 { get; set; }
 
         /// <summary>
         /// 586  其他手术操作级别28
@@ -2987,7 +2987,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 597  其他手术操作日期29
         /// </summary>
-        public DateTime C37x29 { get; set; }
+        public string C37x29 { get; set; }
 
         /// <summary>
         /// 598  其他手术操作级别29
@@ -3047,7 +3047,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 609  其他手术操作日期30
         /// </summary>
-        public DateTime C37x30 { get; set; }
+        public string C37x30 { get; set; }
 
         /// <summary>
         /// 610  其他手术操作级别30
@@ -3107,7 +3107,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 621  其他手术操作日期31
         /// </summary>
-        public DateTime C37x31 { get; set; }
+        public string C37x31 { get; set; }
 
         /// <summary>
         /// 622  其他手术操作级别31
@@ -3167,7 +3167,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 633  其他手术操作日期32
         /// </summary>
-        public DateTime C37x32 { get; set; }
+        public string C37x32 { get; set; }
 
         /// <summary>
         /// 634  其他手术操作级别32
@@ -3227,7 +3227,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 645  其他手术操作日期33
         /// </summary>
-        public DateTime C37x33 { get; set; }
+        public string C37x33 { get; set; }
 
         /// <summary>
         /// 646  其他手术操作级别33
@@ -3287,7 +3287,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 657  其他手术操作日期34
         /// </summary>
-        public DateTime C37x34 { get; set; }
+        public string C37x34 { get; set; }
 
         /// <summary>
         /// 658  其他手术操作级别34
@@ -3347,7 +3347,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 669  其他手术操作日期35
         /// </summary>
-        public DateTime C37x35 { get; set; }
+        public string C37x35 { get; set; }
 
         /// <summary>
         /// 670  其他手术操作级别35
@@ -3407,7 +3407,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 681  其他手术操作日期36
         /// </summary>
-        public DateTime C37x36 { get; set; }
+        public string C37x36 { get; set; }
 
         /// <summary>
         /// 682  其他手术操作级别36
@@ -3467,7 +3467,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 693  其他手术操作日期37
         /// </summary>
-        public DateTime C37x37 { get; set; }
+        public string C37x37 { get; set; }
 
         /// <summary>
         /// 694  其他手术操作级别37
@@ -3527,7 +3527,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 705  其他手术操作日期38
         /// </summary>
-        public DateTime C37x38 { get; set; }
+        public string C37x38 { get; set; }
 
         /// <summary>
         /// 706  其他手术操作级别38
@@ -3587,7 +3587,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 717  其他手术操作日期39
         /// </summary>
-        public DateTime C37x39 { get; set; }
+        public string C37x39 { get; set; }
 
         /// <summary>
         /// 718  其他手术操作级别39
@@ -3647,7 +3647,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 729  其他手术操作日期40
         /// </summary>
-        public DateTime C37x40 { get; set; }
+        public string C37x40 { get; set; }
 
         /// <summary>
         /// 730  其他手术操作级别40
@@ -3752,32 +3752,32 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 750 新生儿出生体重(克)
         /// </summary>
-        public int A18x01 { get; set; }
+        public string A18x01 { get; set; }
 
         /// <summary>
         /// 751 新生儿出生体重(克)2
         /// </summary>
-        public int A18x02 { get; set; }
+        public string A18x02 { get; set; }
 
         /// <summary>
         /// 752 新生儿出生体重(克)3
         /// </summary>
-        public int A18x03 { get; set; }
+        public string A18x03 { get; set; }
 
         /// <summary>
         /// 753 新生儿出生体重(克)4
         /// </summary>
-        public int A18x04 { get; set; }
+        public string A18x04 { get; set; }
 
         /// <summary>
         /// 754 新生儿出生体重(克)5
         /// </summary>
-        public int A18x05 { get; set; }
+        public string A18x05 { get; set; }
 
         /// <summary>
         /// 755 新生儿入院体重（克）
         /// </summary>
-        public int A17 { get; set; }
+        public string A17 { get; set; }
 
         /// <summary>
         /// 756 颅脑损伤患者入院前昏迷时间（天）
@@ -3822,12 +3822,12 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 764 进入时间1
         /// </summary>
-        public DateTime C49x01 { get; set; }
+        public string C49x01 { get; set; }
 
         /// <summary>
         /// 765 退出时间1
         /// </summary>
-        public DateTime C50x01 { get; set; }
+        public string C50x01 { get; set; }
 
         /// <summary>
         /// 766 重症监护室名称2
@@ -3837,12 +3837,12 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 767 进入时间2
         /// </summary>
-        public DateTime C49x02 { get; set; }
+        public string C49x02 { get; set; }
 
         /// <summary>
         /// 768 退出时间2
         /// </summary>
-        public DateTime C50x02 { get; set; }
+        public string C50x02 { get; set; }
 
         /// <summary>
         /// 769 重症监护室名称3
@@ -3852,12 +3852,12 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 770 进入时间3
         /// </summary>
-        public DateTime C49x03 { get; set; }
+        public string C49x03 { get; set; }
 
         /// <summary>
         /// 771 退出时间3
         /// </summary>
-        public DateTime C50x03 { get; set; }
+        public string C50x03 { get; set; }
 
         /// <summary>
         /// 772 重症监护室名称4
@@ -3867,12 +3867,12 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 773 进入时间4
         /// </summary>
-        public DateTime C49x04 { get; set; }
+        public string C49x04 { get; set; }
 
         /// <summary>
         /// 774 退出时间4
         /// </summary>
-        public DateTime C50x04 { get; set; }
+        public string C50x04 { get; set; }
 
         /// <summary>
         /// 775 重症监护室名称5
@@ -3882,12 +3882,12 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 776 进入时间5
         /// </summary>
-        public DateTime C49x05 { get; set; }
+        public string C49x05 { get; set; }
 
         /// <summary>
         /// 777 退出时间5
         /// </summary>
-        public DateTime C50x05 { get; set; }
+        public string C50x05 { get; set; }
 
         /// <summary>
         /// 778 是否有出院31日内再住院计划

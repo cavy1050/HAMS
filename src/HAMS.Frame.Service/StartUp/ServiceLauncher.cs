@@ -21,6 +21,7 @@ namespace HAMS.Frame.Service
         IServiceController accountVerificationControler;
         IServiceController extensionModuleInitializationServiceControler;
         IServiceController extensionModuleActivationServiceControler;
+        IServiceController ThemeInitializationController;
 
         string eventJsonSentence;
         ApplicationAlterationContentKind applicationAlterationContent;
@@ -39,6 +40,8 @@ namespace HAMS.Frame.Service
             containerRegistryArg.Register<IServiceController, AccountVerificationControler>(EventServicePart.AccountVerificationService.ToString());
             containerRegistryArg.Register<IServiceController, ModuleInitializationServiceControler>(EventServicePart.ModuleInitializationService.ToString());
             containerRegistryArg.Register<IServiceController, ModuleActivationServiceController>(EventServicePart.ModuleActivationService.ToString());
+
+            containerRegistryArg.Register<IServiceController, ThemeInitializationController>(EventServicePart.ThemeInitializationService.ToString());
         }
 
         public void Initialize()
@@ -49,6 +52,8 @@ namespace HAMS.Frame.Service
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestAccountVerificationService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestModuleInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
             eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestModuleActivationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleActivationService"));
+
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestThemeInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ThemeInitializationService"));
         }
 
         private void ModuleManager_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs args)
@@ -114,6 +119,19 @@ namespace HAMS.Frame.Service
             {
                 extensionModuleActivationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ModuleActivationService.ToString());
                 eventJsonSentence = extensionModuleActivationServiceControler.Response(requestServiceTextArg);
+                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+            }
+        }
+
+        private void OnRequestThemeInitializationService(string requestServiceTextArg)
+        {
+            JObject requestObj = JObject.Parse(requestServiceTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+
+            if (targetModule == FrameModulePart.ServiceModule)
+            {
+                ThemeInitializationController = containerProvider.Resolve<IServiceController>(EventServicePart.ThemeInitializationService.ToString());
+                eventJsonSentence = ThemeInitializationController.Response(requestServiceTextArg);
                 eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
             }
         }
