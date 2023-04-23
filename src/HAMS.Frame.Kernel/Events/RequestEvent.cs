@@ -8,9 +8,9 @@ using Prism.Events;
 namespace HAMS.Frame.Kernel.Events
 {
     /// <summary>
-    /// 中心应答请求服务模块事件
+    /// 请求中心服务模块事件
     /// </summary>
-    public class ResponseServiceEvent : PubSubEvent<string>
+    public class RequestEvent : PubSubEvent<string>
     {
 
     }

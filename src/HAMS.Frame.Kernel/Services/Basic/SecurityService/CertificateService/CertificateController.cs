@@ -11,7 +11,7 @@ using HAMS.Frame.Kernel.Core;
 
 namespace HAMS.Frame.Kernel.Services
 {
-    public class CertificateController:ICertificateController
+    public class CertificateController : ICertificateController
     {
         public byte[] CertificateFileData { get; set; }
 

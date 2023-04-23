@@ -5,6 +5,7 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
 {
     public class SecondaryColorKind
     {
+        public string Code { get; set; }
         public string Name { get; set; }
         public Color BackGroundColor { get; set; }
 

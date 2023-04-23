@@ -2,7 +2,7 @@
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class ModuleActivationRequestContentKind : IEventServiceContent
+    public class ExtensionModuleActivationRequestContentKind : IEventContent
     {
         [JsonProperty(PropertyName = "menu_code", Order = 1)]
         public string Code { get; set; }

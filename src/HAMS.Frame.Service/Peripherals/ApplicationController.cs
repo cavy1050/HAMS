@@ -10,10 +10,10 @@ using HAMS.Frame.Kernel.Events;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public class ApplicationAlterationController : IServiceController
+    public class ApplicationController : IEventResponseController
     {
         IEnvironmentMonitor environmentMonitor;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         FrameModulePart sourceModule, targetModule;
         ControlTypePart requestControlType;
@@ -21,10 +21,10 @@ namespace HAMS.Frame.Service.Peripherals
 
         string eventJsonSentence;
 
-        public ApplicationAlterationController(IContainerProvider containerProviderArg)
+        public ApplicationController(IContainerProvider containerProviderArg)
         {
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            eventController = containerProviderArg.Resolve<IEventController>();
         }
 
         private void Analyze(string requestServiceTextArg)
@@ -32,7 +32,7 @@ namespace HAMS.Frame.Service.Peripherals
             JObject requestObj = JObject.Parse(requestServiceTextArg);
             JObject requestContentObj = requestObj.Value<JObject>("svc_cont");
 
-            sourceModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("souc_mod_name"));
+            sourceModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("souc_mdl"));
             requestControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), requestContentObj.Value<string>("app_ctl_type"));
             requestActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), requestContentObj.Value<string>("app_act_flag"));
         }
@@ -92,13 +92,12 @@ namespace HAMS.Frame.Service.Peripherals
             GenerateTargetModules();
             SynchronizeServices();
 
-            eventJsonSentence = eventServiceController.Response(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, targetModule,
-                                        true, string.Empty,
-                                        new ApplicationAlterationContentKind
+            eventJsonSentence = eventController.Response(EventPart.ApplicationEvent, EventBehaviourPart.Initialization, FrameModulePart.ServiceModule, targetModule,
+                                        new ApplicationContentKind
                                         {
-                                            ApplicationControlType = requestControlType,
-                                            ApplicationActiveFlag = requestActiveFlag
-                                        });
+                                            ApplicationControlType = Convert.ToInt32(requestControlType).ToString(),
+                                            ApplicationActiveFlag = Convert.ToInt32(requestActiveFlag).ToString()
+                                        }, true, string.Empty);
 
             return eventJsonSentence;
         }

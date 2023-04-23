@@ -7,6 +7,7 @@ using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
 using HAMS.Frame.Kernel.Services;
 using HAMS.Frame.Kernel.Extensions;
+using HAMS.Frame.Kernel.Controls;
 
 namespace HAMS.Frame.Kernel
 {
@@ -44,7 +45,9 @@ namespace HAMS.Frame.Kernel
             containerRegistryArg.Register<IManager<DataBasePart>, DataBaseManager>();
             containerRegistryArg.Register<IManager<LogPart>, LogManager>();
 
-            containerRegistryArg.Register<IEventServiceController, EventServiceController>();
+            containerRegistryArg.Register<IEventController, EventController>();
+
+            containerRegistryArg.RegisterDialog<ConnectionView, ConnectionViewModel>("Connection");
         }
 
         public void Initialize()

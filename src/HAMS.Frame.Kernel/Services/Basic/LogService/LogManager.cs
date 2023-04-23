@@ -15,7 +15,6 @@ namespace HAMS.Frame.Kernel.Services
     {
         string sqlSentence, logFileCatalogue;
         List<SettingKind> costomLogSettingHub;
-        LogLevelConverter logLevelConverter;
 
         IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;

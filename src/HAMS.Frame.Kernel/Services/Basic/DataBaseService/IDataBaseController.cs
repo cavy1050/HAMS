@@ -8,6 +8,12 @@ namespace HAMS.Frame.Kernel.Services
     public interface IDataBaseController
     {
         /// <summary>
+        /// 测试连接
+        /// </summary>
+        /// <returns></returns>
+        bool Connection();
+
+        /// <summary>
         /// 提供对本地数据库数据查询操作的基本支持,不记录操作日志,仅用于程序初始化设置
         /// </summary>
         bool QueryNoLog<T>(string sqlSentenceArg, out List<T> tHub);

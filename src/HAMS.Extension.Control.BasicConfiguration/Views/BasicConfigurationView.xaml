@@ -126,8 +126,9 @@
                                  Text="{Binding BasicConfigurationModel.NativeConnectString}"
                                  IsEnabled="False"/>
                         <Button Margin="88 0 0 0"
-                                    Style="{StaticResource MaterialDesignToolButton}"
-                                    Command="{Binding NativeDBConnectionCommand}">
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding ConnectionCommand}"
+                                CommandParameter="Native">
                             <md:PackIcon>
                                 <md:PackIcon.Style>
                                     <Style TargetType="md:PackIcon"
@@ -150,8 +151,9 @@
                                  Width="600"
                                  Text="{Binding BasicConfigurationModel.BAGLDBConnectString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <Button Margin="32 0 0 0"
-                                    Style="{StaticResource MaterialDesignToolButton}"
-                                    Command="{Binding BAGLDBConnectStringCommand}">
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding ConnectStringSettingCommand}"
+                                CommandParameter="BAGLDB">
                             <md:PackIcon>
                                 <md:PackIcon.Style>
                                     <Style TargetType="md:PackIcon"
@@ -164,7 +166,8 @@
                         </Button>
                         <Button Margin="32 0 0 0"
                                     Style="{StaticResource MaterialDesignToolButton}"
-                                    Command="{Binding BAGLDBConnectionCommand}">
+                                    Command="{Binding ConnectionCommand}"
+                                    CommandParameter="BAGLDB">
                             <md:PackIcon>
                                 <md:PackIcon.Style>
                                     <Style TargetType="md:PackIcon"
@@ -235,7 +238,7 @@
 
                 <TextBlock Grid.Row="0"
                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                           Text="主题设置" />
+                           Text="主题设置(暂未实现)" />
 
                 <Separator Grid.Row="1"
                            Margin="32 0 32 0"

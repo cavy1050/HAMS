@@ -5,7 +5,6 @@ using Prism.Events;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
-using HAMS.Frame.Kernel.Services;
 using HAMS.Frame.Service.Peripherals;
 
 namespace HAMS.Frame.Service
@@ -15,124 +14,106 @@ namespace HAMS.Frame.Service
         IContainerProvider containerProvider;
         IModuleManager moduleManager;
         IEventAggregator eventAggregator;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
-        IServiceController applicationAlterationController;
-        IServiceController accountVerificationControler;
-        IServiceController extensionModuleInitializationServiceControler;
-        IServiceController extensionModuleActivationServiceControler;
-        IServiceController ThemeInitializationController;
+        IEventResponseController applicationController;
+        IEventResponseController accountControler;
+        IEventResponseController extensionModuleControler;
+        IEventResponseController themeController;
 
-        string eventJsonSentence;
-        ApplicationAlterationContentKind applicationAlterationContent;
+        string eventJsonSentence, targetModule;
+        JObject requestObj;
 
         public ServiceLauncher(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
             moduleManager = containerProviderArg.Resolve<IModuleManager>();
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            eventController = containerProviderArg.Resolve<IEventController>();
         }
 
         public static void RegisterServices(IContainerRegistry containerRegistryArg)
         {
-            containerRegistryArg.Register<IServiceController, ApplicationAlterationController>(EventServicePart.ApplicationAlterationService.ToString());
-            containerRegistryArg.Register<IServiceController, AccountVerificationControler>(EventServicePart.AccountVerificationService.ToString());
-            containerRegistryArg.Register<IServiceController, ModuleInitializationServiceControler>(EventServicePart.ModuleInitializationService.ToString());
-            containerRegistryArg.Register<IServiceController, ModuleActivationServiceController>(EventServicePart.ModuleActivationService.ToString());
-
-            containerRegistryArg.Register<IServiceController, ThemeInitializationController>(EventServicePart.ThemeInitializationService.ToString());
+            containerRegistryArg.Register<IEventResponseController, ApplicationController>(EventPart.ApplicationEvent.ToString());
+            containerRegistryArg.Register<IEventResponseController, AccountControler>(EventPart.AccountEvent.ToString());
+            containerRegistryArg.Register<IEventResponseController, ExtensionModuleController>(EventPart.ExtensionModuleEvent.ToString());
+            containerRegistryArg.Register<IEventResponseController, ThemeController>(EventPart.ThemeEvent.ToString());
         }
 
         public void Initialize()
         {
             moduleManager.LoadModuleCompleted += ModuleManager_LoadModuleCompleted;
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestApplicationAlterationService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestAccountVerificationService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestModuleInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestModuleActivationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleActivationService"));
-
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestThemeInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ThemeInitializationService"));
+            eventAggregator.GetEvent<RequestEvent>().Subscribe(OnApplicationRequestEvent, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationEvent"));
+            eventAggregator.GetEvent<RequestEvent>().Subscribe(OnAccountRequestEvent, ThreadOption.PublisherThread, false, x => x.Contains("AccountEvent"));
+            eventAggregator.GetEvent<RequestEvent>().Subscribe(OnExtensionModuleRequestEvent, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleEvent"));
+            eventAggregator.GetEvent<RequestEvent>().Subscribe(OnThemeRequestEvent, ThreadOption.PublisherThread, false, x => x.Contains("ThemeEvent"));
         }
 
         private void ModuleManager_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs args)
         {
             if (args.ModuleInfo.ModuleName == "LoginModule")
             {
-                applicationAlterationContent = new ApplicationAlterationContentKind
+                //初始化程序控件设置
+                eventJsonSentence = eventController.Request(EventPart.ApplicationEvent, EventBehaviourPart.Initialization, FrameModulePart.ServiceModule, FrameModulePart.ServiceModule, new ApplicationContentKind
                 {
-                    ApplicationControlType = ControlTypePart.LoginWindow,
-                    ApplicationActiveFlag = ActiveFlagPart.Active
-                };
+                    ApplicationControlType = Convert.ToInt32(ControlTypePart.LoginWindow).ToString(),
+                    ApplicationActiveFlag = Convert.ToInt32(ActiveFlagPart.Active).ToString(),
+                });
 
-                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ServiceModule, FrameModulePart.ServiceModule, applicationAlterationContent);
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
             }
         }
 
-        private void OnRequestApplicationAlterationService(string requestServiceTextArg)
+        private void OnApplicationRequestEvent(string requestEventTextArg)
         {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+            requestObj = JObject.Parse(requestEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.ServiceModule)
             {
-                applicationAlterationController = containerProvider.Resolve<IServiceController>(EventServicePart.ApplicationAlterationService.ToString());
-                eventJsonSentence = applicationAlterationController.Response(requestServiceTextArg);
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+                applicationController = containerProvider.Resolve<IEventResponseController>(EventPart.ApplicationEvent.ToString());
+                eventJsonSentence = applicationController.Response(requestEventTextArg);
+                eventAggregator.GetEvent<ResponseEvent>().Publish(eventJsonSentence);
             }
         }
 
-        private void OnRequestAccountVerificationService(string requestServiceTextArg)
+        private void OnAccountRequestEvent(string requestEventTextArg)
         {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+            requestObj = JObject.Parse(requestEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.ServiceModule)
             {
-                accountVerificationControler = containerProvider.Resolve<IServiceController>(EventServicePart.AccountVerificationService.ToString());
-                eventJsonSentence = accountVerificationControler.Response(requestServiceTextArg);
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+                accountControler = containerProvider.Resolve<IEventResponseController>(EventPart.AccountEvent.ToString());
+                eventJsonSentence = accountControler.Response(requestEventTextArg);
+                eventAggregator.GetEvent<ResponseEvent>().Publish(eventJsonSentence);
             }
         }
 
-        private void OnRequestModuleInitializationService(string requestServiceTextArg)
+        private void OnExtensionModuleRequestEvent(string requestEventTextArg)
         {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+            requestObj = JObject.Parse(requestEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.ServiceModule)
             {
-                extensionModuleInitializationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ModuleInitializationService.ToString());
-                eventJsonSentence = extensionModuleInitializationServiceControler.Response(requestServiceTextArg);
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+                extensionModuleControler = containerProvider.Resolve<IEventResponseController>(EventPart.ExtensionModuleEvent.ToString());
+                eventJsonSentence = extensionModuleControler.Response(requestEventTextArg);
+                eventAggregator.GetEvent<ResponseEvent>().Publish(eventJsonSentence);
             }
         }
 
-        private void OnRequestModuleActivationService(string requestServiceTextArg)
+        private void OnThemeRequestEvent(string requestEventTextArg)
         {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
+            requestObj = JObject.Parse(requestEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.ServiceModule)
             {
-                extensionModuleActivationServiceControler = containerProvider.Resolve<IServiceController>(EventServicePart.ModuleActivationService.ToString());
-                eventJsonSentence = extensionModuleActivationServiceControler.Response(requestServiceTextArg);
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
-            }
-        }
-
-        private void OnRequestThemeInitializationService(string requestServiceTextArg)
-        {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mod_name"));
-
-            if (targetModule == FrameModulePart.ServiceModule)
-            {
-                ThemeInitializationController = containerProvider.Resolve<IServiceController>(EventServicePart.ThemeInitializationService.ToString());
-                eventJsonSentence = ThemeInitializationController.Response(requestServiceTextArg);
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(eventJsonSentence);
+                themeController = containerProvider.Resolve<IEventResponseController>(EventPart.ThemeEvent.ToString());
+                eventJsonSentence = themeController.Response(requestEventTextArg);
+                eventAggregator.GetEvent<ResponseEvent>().Publish(eventJsonSentence);
             }
         }
     }

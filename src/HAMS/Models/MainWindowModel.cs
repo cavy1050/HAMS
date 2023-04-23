@@ -15,7 +15,7 @@ namespace HAMS.Models
     public class MainWindowModel : BindableBase
     {
         IEventAggregator eventAggregator;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         string eventJsonSentence;
 
@@ -62,29 +62,26 @@ namespace HAMS.Models
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             MessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             RegionManager = containerProviderArg.Resolve<IRegionManager>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            eventController = containerProviderArg.Resolve<IEventController>();
 
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnApplicationAlterationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationEvent"));
         }
 
-        private void OnApplicationAlterationResponseService(string responseServiceTextArg)
+        private void OnApplicationAlterationResponseEvent(string responseEventTextArg)
         {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
+            JObject responseObj = JObject.Parse(responseEventTextArg);
             JObject responseContentObj = responseObj["svc_cont"].Value<JObject>();
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.ApplictionModule)
             {
                 ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
                 ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
 
-                if (responseControlType == ControlTypePart.MainLeftDrawer)
-                {
-                    if (responseActiveFlag == ActiveFlagPart.Active)
-                        IsLeftDrawerOpen = true;
-                    else
-                        IsLeftDrawerOpen = false;
-                }
+                if (responseActiveFlag == ActiveFlagPart.Active)
+                    IsLeftDrawerOpen = true;
+                else
+                    IsLeftDrawerOpen = false;
             }
         }
 
@@ -92,14 +89,14 @@ namespace HAMS.Models
         {
             if (!IsLeftDrawerOpen)
             {
-                eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
-                    new ApplicationAlterationContentKind
+                eventJsonSentence = eventController.Request(EventPart.ApplicationEvent , EventBehaviourPart.Alteration , FrameModulePart.ApplictionModule, FrameModulePart.ServiceModule,
+                    new ApplicationContentKind
                     {
-                        ApplicationControlType = ControlTypePart.MainLeftDrawer,
-                        ApplicationActiveFlag = ActiveFlagPart.InActive
+                        ApplicationControlType = Convert.ToInt32(ControlTypePart.MainLeftDrawer).ToString(),
+                        ApplicationActiveFlag = Convert.ToInt32(ActiveFlagPart.InActive).ToString()
                     });
 
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
             }
         }
     }

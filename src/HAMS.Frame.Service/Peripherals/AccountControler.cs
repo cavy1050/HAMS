@@ -12,22 +12,22 @@ using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public class AccountVerificationControler : IServiceController
+    public class AccountControler : IEventResponseController
     {
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         List<SettingKind> userSettingHub;
 
         JObject requestObj, requestContentObj;
         string account, password, sqlSentence, eventJsonSentence;
 
-        public AccountVerificationControler(IContainerProvider containerProviderArgs)
+        public AccountControler(IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
+            eventController = containerProviderArgs.Resolve<IEventController>();
         }
 
         private bool Validate(string requestServiceTextArg, out string errorMessageArg)
@@ -71,11 +71,11 @@ namespace HAMS.Frame.Service.Peripherals
             string errorMessageArg;
 
             if (!Validate(requestServiceTextArg, out errorMessageArg))
-                eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule,
-                    FrameModulePart.LoginModule, false, errorMessageArg, new EmptyContentKind());
+                eventJsonSentence = eventController.Response(EventPart.AccountEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
+                    FrameModulePart.LoginModule, new EmptyContentKind(), false, errorMessageArg);
             else
-                eventJsonSentence = eventServiceController.Response(EventServicePart.AccountVerificationService, FrameModulePart.ServiceModule,
-                    FrameModulePart.LoginModule, true, string.Empty, new EmptyContentKind());
+                eventJsonSentence = eventController.Response(EventPart.AccountEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
+                    FrameModulePart.LoginModule, new EmptyContentKind(), true, string.Empty);
 
             return eventJsonSentence;
         }

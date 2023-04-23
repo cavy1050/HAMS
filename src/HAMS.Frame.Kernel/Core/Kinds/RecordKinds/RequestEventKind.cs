@@ -1,6 +1,6 @@
 ﻿namespace HAMS.Frame.Kernel.Core
 {
-    public interface IEventServiceContent
+    public class RequestEventKind : EventKind
     {
 
     }

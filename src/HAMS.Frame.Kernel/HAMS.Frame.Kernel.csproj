@@ -104,6 +104,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CloseTabItemAction.cs" />
+    <Compile Include="Controls\Dialogs\ConnectionModel.cs" />
+    <Compile Include="Controls\Dialogs\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\ConnectionViewModel.cs" />
     <Compile Include="Controls\PasswordTextBox.cs" />
     <Compile Include="Controls\PasswordTextConverter.cs" />
     <Compile Include="Core\Collecters\DataBaseCollector.cs" />
@@ -112,42 +117,38 @@
     <Compile Include="Core\Collecters\PathCollector.cs" />
     <Compile Include="Core\Environment\EnvironmentMonitor.cs" />
     <Compile Include="Core\Environment\IEnvironmentMonitor.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\AccountVerificationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\AccountVerificationResponseContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ApplicationAlterationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\AccountActivationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\AccountActivationResponseContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ApplicationContentKind.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\CertificateKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\EventServiceKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ModuleActivationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ModuleInitializationResponseContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\RequestServiceKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ResponseServiceKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\EventKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ExtensionModuleActivationRequestContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ExtensionModuleInitializationResponseContentKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\RequestEventKind.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\ResponseEventKind.cs" />
     <Compile Include="Core\Kinds\RecordKinds\ThemeContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ThemeInitializationRequestContentKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\ThemeInitializationResponseContentKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\ExtensionModuleKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\SettingKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\CategoryKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\DataBaseKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\LogKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\NestKind.cs" />
-    <Compile Include="Core\Kinds\RecordKinds\IEventServiceContent.cs" />
+    <Compile Include="Core\Kinds\RecordKinds\IEventContent.cs" />
     <Compile Include="Core\Kinds\RecordKinds\EmptyContentKind.cs" />
     <Compile Include="Core\Kinds\SettingKinds\ThemeKind.cs" />
     <Compile Include="Core\Parts\ActiveFlagPart.cs" />
     <Compile Include="Core\Parts\ControlTypePart.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
-    <Compile Include="Core\Parts\InitializationTypePart.cs" />
-    <Compile Include="Core\Parts\EventServicePart.cs" />
-    <Compile Include="Core\Parts\EventServiceTypePart.cs" />
+    <Compile Include="Core\Parts\EventBehaviourPart.cs" />
+    <Compile Include="Core\Parts\EventPart.cs" />
+    <Compile Include="Core\Parts\EventTypePart.cs" />
     <Compile Include="Core\Parts\FrameModulePart.cs" />
     <Compile Include="Core\Parts\LogLevelPart.cs" />
     <Compile Include="Core\Parts\LogPart.cs" />
     <Compile Include="Core\Parts\PathPart.cs" />
-    <Compile Include="Core\Parts\SecurityPart.cs" />
-    <Compile Include="Core\Parts\ThemePart.cs" />
-    <Compile Include="Events\RequestServiceEvent.cs" />
-    <Compile Include="Events\ResponseServiceEvent.cs" />
+    <Compile Include="Events\RequestEvent.cs" />
+    <Compile Include="Events\ResponseEvent.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\FrameModuleCatalog.cs" />
     <Compile Include="KernelModule.cs" />
@@ -171,7 +172,6 @@
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\IManager.cs" />
-    <Compile Include="Services\Basic\LogService\LogLevelConverter.cs" />
     <Compile Include="Services\Basic\LogService\LogValidator.cs" />
     <Compile Include="Services\Basic\LogService\DataBaseLogController.cs" />
     <Compile Include="Services\Basic\LogService\ApplicationLogController.cs" />
@@ -182,12 +182,11 @@
     <Compile Include="Services\Basic\PathService\PathValidator.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
     <Compile Include="Services\Basic\SecurityService\CertificateService\CertificateController.cs" />
-    <Compile Include="Services\Basic\SecurityService\CertificateService\CertificateValidator.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\CipherColltroller.cs" />
     <Compile Include="Services\Basic\SecurityService\CertificateService\ICertificateController.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherColltroller.cs" />
-    <Compile Include="Events\EventServiceController.cs" />
-    <Compile Include="Events\IEventServiceController.cs" />
+    <Compile Include="Events\EventController.cs" />
+    <Compile Include="Events\IEventController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -200,7 +199,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Controls\Dialogs\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)bin\Debug\"  /S /E /Y</PostBuildEvent>

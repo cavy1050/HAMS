@@ -17,6 +17,8 @@ namespace HAMS.Models
         IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
 
+        JObject responseObj, responseContentObj;
+
         ISnackbarMessageQueue messageQueue;
         public ISnackbarMessageQueue MessageQueue
         {
@@ -30,23 +32,18 @@ namespace HAMS.Models
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             MessageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
 
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnApplicationAlterationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationEvent"));
         }
 
-        private void OnApplicationAlterationResponseService(string responseServiceTextArg)
+        private void OnApplicationAlterationResponseEvent(string responseeEventTextArg)
         {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
-            JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+            responseObj = JObject.Parse(responseeEventTextArg);
+            responseContentObj = responseObj.Value<JObject>("svc_cont");
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
+            ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj.Value<string>("app_ctl_type"));
+            ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj.Value<string>("app_act_flag"));
 
-            if (targetModule == FrameModulePart.All || targetModule == FrameModulePart.ApplictionModule)
-                eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
-        }
-
-        private void OnAccountVerificationResponseService(string responseServiceTextArg)
-        {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
-            if (responseObj.Value<bool>("ret_rst"))
+            if (targetModule == FrameModulePart.ApplictionModule && responseControlType == ControlTypePart.LoginWindow && responseActiveFlag == ActiveFlagPart.InActive)
             {
                 Window mainWindow = containerProvider.Resolve<MainWindow>();
                 mainWindow.Show();

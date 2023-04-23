@@ -70,12 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\ExtensionModuleCatalog.cs" />
-    <Compile Include="Peripherals\AccountVerificationControler.cs" />
-    <Compile Include="Peripherals\ApplicationAlterationController.cs" />
-    <Compile Include="Peripherals\ModuleActivationServiceController.cs" />
-    <Compile Include="Peripherals\ModuleInitializationServiceControler.cs" />
-    <Compile Include="Peripherals\IServiceController.cs" />
-    <Compile Include="Peripherals\ThemeInitializationController.cs" />
+    <Compile Include="Peripherals\AccountControler.cs" />
+    <Compile Include="Peripherals\ApplicationController.cs" />
+    <Compile Include="Peripherals\ExtensionModuleController.cs" />
+    <Compile Include="Peripherals\IEventResponseController.cs" />
+    <Compile Include="Peripherals\ThemeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

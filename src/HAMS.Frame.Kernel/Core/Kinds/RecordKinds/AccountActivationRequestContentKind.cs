@@ -2,7 +2,7 @@
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class AccountVerificationRequestContentKind : IEventServiceContent
+    public class AccountActivationRequestContentKind : IEventContent
     {
         [JsonProperty(PropertyName = "acct_code", Order = 1)]
         public string Account { get; set; }

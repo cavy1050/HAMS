@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HAMS.Frame.Service.Peripherals
 {
-    public interface IServiceController
+    public interface IEventResponseController
     {
         string Response(string requestServiceTextArg);
     }

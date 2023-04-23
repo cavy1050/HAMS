@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HAMS.Frame.Kernel.Core
+﻿namespace HAMS.Frame.Kernel.Core
 {
     public enum ControlTypePart
     {
-        LoginWindow,
-        MainWindow,
-        MainLeftDrawer
+        LoginWindow = 1,
+        MainWindow = 2,
+        MainLeftDrawer = 3
     }
 }

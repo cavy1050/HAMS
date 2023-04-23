@@ -2,16 +2,16 @@
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public class ResponseServiceKind : EventServiceKind
+    public class ResponseEventKind : EventKind
     {
         /// <summary>
-        /// 应答服务结果
+        /// 应答事件结果
         /// </summary>
         [JsonProperty(PropertyName = "ret_rst", Order = 9)]
-        public bool ReturnResult { get; set; }
+        public int ReturnResult { get; set; }
 
         /// <summary>
-        /// 应答服务错误信息
+        /// 应答事件错误信息
         /// </summary>
         [JsonProperty(PropertyName = "ret_msg", Order = 10)]
         public string ReturnMessage { get; set; }

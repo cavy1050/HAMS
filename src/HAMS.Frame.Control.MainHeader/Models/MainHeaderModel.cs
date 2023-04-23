@@ -6,7 +6,6 @@ using Prism.Events;
 using Newtonsoft.Json.Linq;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Events;
-using System.Windows;
 
 namespace HAMS.Frame.Control.MainHeader.Models
 {
@@ -14,7 +13,7 @@ namespace HAMS.Frame.Control.MainHeader.Models
     {
         IEventAggregator eventAggregator;
         IEnvironmentMonitor environmentMonitor;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         string eventJsonSentence;
 
@@ -36,42 +35,42 @@ namespace HAMS.Frame.Control.MainHeader.Models
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
+            eventController = containerProviderArgs.Resolve<IEventController>();
         }
 
         public void Loaded()
         {
             UserName = environmentMonitor.UserSetting.Name;
 
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnApplicationAlterationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationAlterationService"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnApplicationAlterationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationEvent"));
         }
 
         public void LeftDrawerSwitchClick()
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.MainHeaderModule, FrameModulePart.ServiceModule,
-                new ApplicationAlterationContentKind
+            eventJsonSentence = eventController.Request(EventPart.ApplicationEvent, EventBehaviourPart.Alteration, FrameModulePart.MainHeaderModule, FrameModulePart.ServiceModule,
+                new ApplicationContentKind
                 {
-                    ApplicationControlType = ControlTypePart.MainLeftDrawer,
-                    ApplicationActiveFlag = IsLeftDrawerSwitch == true ? ActiveFlagPart.Active : ActiveFlagPart.InActive
+                    ApplicationControlType = Convert.ToInt32(ControlTypePart.MainLeftDrawer).ToString(),
+                    ApplicationActiveFlag = IsLeftDrawerSwitch == true ? Convert.ToInt32(ActiveFlagPart.Active).ToString() : Convert.ToInt32(ActiveFlagPart.InActive).ToString()
                 });
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+            eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
         }
 
-        private void OnApplicationAlterationResponseService(string responseServiceTextArg)
+        private void OnApplicationAlterationResponseEvent(string responseEventTextArg)
         {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
+            JObject responseObj = JObject.Parse(responseEventTextArg);
             JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+            string targetModule = responseObj.Value<string>("tagt_mdl");
 
-            if (targetModule == FrameModulePart.MainHeaderModule)
+            if (targetModule == "05")
             {
-                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj.Value<string>("app_ctl_type"));
-                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj.Value<string>("app_act_flag"));
+                string responseControlType = responseContentObj.Value<string>("app_ctl_type");
+                string responseActiveFlag = responseContentObj.Value<string>("app_act_flag");
 
-                if (responseControlType == ControlTypePart.MainLeftDrawer)
+                if (responseControlType == "3")
                 {
-                    if (responseActiveFlag == ActiveFlagPart.InActive)
+                    if (responseActiveFlag == "0")
                         IsLeftDrawerSwitch = false;
                 }
             }

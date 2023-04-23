@@ -19,6 +19,28 @@ namespace HAMS.Frame.Kernel.Services
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
         }
 
+        public virtual bool Connection()
+        {
+            bool ret = false;
+
+            try
+            {
+                DBConnection.Open();
+                if (DBConnection.State == ConnectionState.Open)
+                    ret = true;
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                DBConnection.Close();
+            }
+
+            return ret;
+        }
+
         public virtual bool QueryNoLog<T>(string sqlSentenceArg, out List<T> tHub)
         {
             bool ret = false;

@@ -4,28 +4,33 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
+using Prism.Services.Dialogs;
 using Newtonsoft.Json.Linq;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
+using MaterialDesignExtensions.Controls;
 using HAMS.Frame.Kernel.Core;
-using HAMS.Frame.Kernel.Events;
+using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Extension.Control.BasicConfiguration.Models
 {
     public class BasicConfigurationModel : BindableBase
     {
-        IEventAggregator eventAggregator;
         ISnackbarMessageQueue messageQueue;
         IEnvironmentMonitor environmentMonitor;
-        IEventServiceController eventServiceController;
+        IDialogService dialogService;
+        IDataBaseController dataBaseController;
 
-        JObject responseObj, responseContentObj;
-        string eventJsonSentence;
+        bool isConnectionStringChanged;
 
-        ThemeInitializationRequestContentKind themeInitializationRequestContent;
+        PathManager pathManager;
+        DataBaseManager dataBaseManager;
+        LogManager logManager;
 
         string applictionCatalogue;
         public string ApplictionCatalogue
@@ -52,14 +57,22 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
         public string NativeConnectString
         {
             get => nativeConnectString;
-            set => SetProperty(ref nativeConnectString, value);
+            set
+            {
+                isConnectionStringChanged = true;
+                SetProperty(ref nativeConnectString, value);
+            }
         }
 
         string baglDBConnectString;
         public string BAGLDBConnectString
         {
             get => baglDBConnectString;
-            set => SetProperty(ref baglDBConnectString, value);
+            set
+            {
+                isConnectionStringChanged = true;
+                SetProperty(ref baglDBConnectString, value);
+            }
         }
 
         bool globalLogEnabledFlag;
@@ -90,7 +103,7 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
         public bool ColorLightFlag
         {
             get => colorLightFlag;
-            set => SetProperty(ref colorLightFlag, value);       
+            set => SetProperty(ref colorLightFlag, value);
         }
 
         ObservableCollection<PrimaryColorKind> primaryColors;
@@ -123,15 +136,16 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
 
         public BasicConfigurationModel(IContainerProvider containerProviderArg)
         {
-            eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            dialogService = containerProviderArg.Resolve<IDialogService>();
 
             PrimaryColors = new ObservableCollection<PrimaryColorKind>();
             SecondaryColors = new ObservableCollection<SecondaryColorKind>();
 
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnThemeInitializationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("ThemeInitializationService"));
+            pathManager = (PathManager)containerProviderArg.Resolve<IManager<PathPart>>();
+            dataBaseManager = (DataBaseManager)containerProviderArg.Resolve<IManager<DataBasePart>>();
+            logManager = (LogManager)containerProviderArg.Resolve<IManager<LogPart>>();
         }
 
         private void LoadPathSetting()
@@ -159,6 +173,7 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             {
                 PrimaryColors.Add(new PrimaryColorKind
                 {
+                    Code = Convert.ToInt32(color).ToString().PadLeft(3, '0'),
                     Name = color.ToString(),
                     BackGroundColor = SwatchHelper.Lookup[(MaterialDesignColor)color]
                 });
@@ -168,27 +183,16 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             {
                 SecondaryColors.Add(new SecondaryColorKind
                 {
+                    Code = Convert.ToInt32(color).ToString().PadLeft(3, '0'),
                     Name = color.ToString(),
                     BackGroundColor = SwatchHelper.Lookup[(MaterialDesignColor)color]
                 });
             }
         }
 
-        private void RequestThemeInitializationService()
-        {
-            themeInitializationRequestContent = new ThemeInitializationRequestContentKind
-            {
-                InitializationType = InitializationTypePart.Custom
-            };
-
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ThemeInitializationService, FrameModulePart.BasicConfigurationModule, FrameModulePart.ServiceModule, themeInitializationRequestContent);
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
-        }
-
         private void LoadThemeSetting()
         {
             LoadColorsSetting();
-            RequestThemeInitializationService();
         }
 
         public void OnLoaded()
@@ -197,70 +201,85 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             LoadDataBaseSetting();
             LoadLogSetting();
             LoadThemeSetting();
+
+            isConnectionStringChanged = false;
         }
 
-        private void OnThemeInitializationResponseService(string responseServiceTextArg)
+        public async void OnOpenLogFileCatalogue()
         {
-            responseObj = JObject.Parse(responseServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
-
-            if (targetModule == FrameModulePart.BasicConfigurationModule)
+            OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
             {
-                responseContentObj= responseObj.Value<JObject>("svc_cont");
-                BaseTheme baseTheme= (BaseTheme)Enum.Parse(typeof(BaseTheme), responseContentObj.Value<string>("thm_type"));
-                PrimaryColor primaryColor = (PrimaryColor)Enum.Parse(typeof(PrimaryColor), responseContentObj.Value<string>("thm_pry_col"));
-                SecondaryColor secondaryColor = (SecondaryColor)Enum.Parse(typeof(SecondaryColor), responseContentObj.Value<string>("thm_sec_col"));
+                Width = 600,
+                Height = 500
+            };
 
-                ColorLightFlag = baseTheme == BaseTheme.Light ? false : true;
-                CurrentPrimaryColor = PrimaryColors.FirstOrDefault(primary => primary.Name == primaryColor.ToString());
-                CurrentSecondaryColor = SecondaryColors.FirstOrDefault(secondary => secondary.Name == secondaryColor.ToString());
+            OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
+            if (result.Confirmed)
+                LogFileCatalogue = result.Directory.EndsWith("\\") == false ? result.Directory + "\\" : result.Directory;
+        }
+
+        public void Connection(string dataBaseIdentifierArg)
+        {
+            if (isConnectionStringChanged)
+                messageQueue.Enqueue("数据库设置已改变,请先应用再测试连接!");
+            else
+            {
+                DataBasePart dataBase = (DataBasePart)Enum.Parse(typeof(DataBasePart), dataBaseIdentifierArg);
+                dataBaseController = environmentMonitor.DataBaseSetting.GetContent(dataBase);
+                if (dataBaseController.Connection())
+                    messageQueue.Enqueue("连接成功!");
             }
         }
 
-        private static void ModifyTheme(Action<ITheme> modificationAction)
+        public void ConnectStringSetting(string dataBaseIdentifierArg)
         {
-            PaletteHelper paletteHelper = new PaletteHelper();
-            ITheme theme = paletteHelper.GetTheme();
-            modificationAction?.Invoke(theme);
+            DialogParameters connectStringParameter = new DialogParameters();
+            connectStringParameter.Add("DataBaseIdentifier", dataBaseIdentifierArg);
+            connectStringParameter.Add("ConnectionString", BAGLDBConnectString);
 
-            paletteHelper.SetTheme(theme);
-        }
-
-        public void OnOpenLogFileCatalogue()
-        {
-            
-        }
-
-        public void NativeDBConnection()
-        {
-
-        }
-
-        public void OnBAGLDBConnectString()
-        {
-
-        }
-
-        public void BAGLDBConnection()
-        {
-
+            dialogService.ShowDialog("Connection", connectStringParameter,
+                ret =>
+                {
+                    if (ret.Result == ButtonResult.OK)
+                        BAGLDBConnectString = ret.Parameters.GetValue<string>("ConnectionString");
+                });
         }
 
         public void OnDefault()
         {
+            pathManager.DeInit(PathPart.LogFileCatalogue);
+            logManager.DeInit(LogPart.Global);
 
+            LogFileCatalogue = pathManager.LogFileCatalogue;
+            GlobalLogEnabledFlag = logManager.GlobalLogEnabledFlag;
+            GlobalLogCurrentLevelName = logManager.GlobalLogLevel.ToString();
+
+            messageQueue.Enqueue("已恢复默认设置!");
         }
 
         public void OnApply()
         {
-            ModifyTheme(theme => theme.SetBaseTheme(ColorLightFlag ? Theme.Dark : Theme.Light));
-            ModifyTheme(theme => theme.SetPrimaryColor(CurrentPrimaryColor.BackGroundColor));
-            ModifyTheme(theme => theme.SetSecondaryColor(CurrentSecondaryColor.BackGroundColor));
+            isConnectionStringChanged = false;
+
+            pathManager.LogFileCatalogue = LogFileCatalogue;
+            dataBaseManager.BAGLDBConnectString = BAGLDBConnectString;
+            logManager.GlobalLogEnabledFlag = GlobalLogEnabledFlag;
+            logManager.GlobalLogLevel = GlobalLogCurrentLevel;
+
+            pathManager.Load(PathPart.All);
+            dataBaseManager.Load(DataBasePart.All);
+            logManager.Load(LogPart.All);
+
+            messageQueue.Enqueue("已应用设置!");
         }
 
         public void OnSave()
         {
+            pathManager.Save(PathPart.All);
+            dataBaseManager.Save(DataBasePart.All);
+            logManager.Save(LogPart.All);
 
+            messageQueue.Enqueue("已保存设置!");
         }
     }
 }

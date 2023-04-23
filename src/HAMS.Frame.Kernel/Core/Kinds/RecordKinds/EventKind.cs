@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace HAMS.Frame.Kernel.Core
 {
-    public abstract class EventServiceKind : RecordKind
+    public abstract class EventKind : RecordKind
     {
         /// <summary>
         /// 服务代码
@@ -21,40 +20,43 @@ namespace HAMS.Frame.Kernel.Core
         /// 服务类型
         /// </summary>
         [JsonProperty(PropertyName = "svc_type", Order = 3)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public virtual EventServiceTypePart Type { get; set; }
+        public virtual string Type { get; set; }
+
+        /// <summary>
+        /// 服务行为类型
+        /// </summary>
+        [JsonProperty(PropertyName = "svc_bhvr_type", Order = 4)]
+        public virtual string Behaviour { get; set; }
 
         /// <summary>
         /// 服务序号
         /// </summary>
-        [JsonProperty(PropertyName = "msg_code", Order = 4)]
+        [JsonProperty(PropertyName = "msg_code", Order = 5)]
         public override string Code { get; set; }
 
         /// <summary>
         /// 服务源模块名称
         /// </summary>
-        [JsonProperty(PropertyName = "souc_mod_name", Order = 5)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public FrameModulePart SourceModuleName { get; set; }
+        [JsonProperty(PropertyName = "souc_mdl", Order = 6)]
+        public string SourceModule { get; set; }
 
         /// <summary>
         /// 应答服务目标模块名称
         /// </summary>
-        [JsonProperty(PropertyName = "tagt_mod_name", Order = 6)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public FrameModulePart TargetModuleName { get; set; }
+        [JsonProperty(PropertyName = "tagt_mdl", Order = 7)]
+        public string TargetModule { get; set; }
 
         /// <summary>
         /// 服务时间
         /// </summary>
-        [JsonProperty(PropertyName = "svc_time", Order = 7)]
+        [JsonProperty(PropertyName = "svc_time", Order = 8)]
         public override string RecordTime { get; set; }
 
         /// <summary>
         /// 服务内容
         /// </summary>
-        [JsonProperty(PropertyName = "svc_cont", Order = 8)]
-        public IEventServiceContent EventServiceContent { get; set; }
+        [JsonProperty(PropertyName = "svc_cont", Order = 9)]
+        public IEventContent EventContent { get; set; }
 
         [JsonIgnore]
         public override string Note { get; set; }

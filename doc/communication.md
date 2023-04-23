@@ -1,58 +1,73 @@
 #  Module Communication Protocol Definition  
-The two types `RequestServiceEvent`,`ResponseServiceEvent` inherit from `PubSubEvent<string>` provide module communication support.The detail is as follow.
+The two types `RequestEvent`,`ResponseEvent` inherit from `PubSubEvent<string>` provide module communication support.The detail is as follow.
 
 ##  Request Message Format  
 | Number | Identification | Name | Type | Length | Description |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1 | svc_code      | event service number  | string | 4    | see the service definition |
-| 2 | svc_name      | event service name    | string | 50   | used for filter service |
-| 3 | svc_type      | event service type    | string | 10   | |
-| 4 | msg_code      | message number        | string | 30   | ULID number |
-| 5 | souc_mod_name | source module name    | string | 50   | |
-| 6 | tagt_mod_name | target module name    | string | 50   | |
-| 7 | svc_time      | event service time    | string | 20   | YYYY-MM-DD mm:hh:ss |
-| 8 | svc_cont      | event service content | string | 8000 | see the service content definition |
+| 1 | svc_code      | service number         | string | 4    | see the service definition |
+| 2 | svc_name      | service name           | string | 50   | used for filter service |
+| 3 | svc_type      | service type           | string | 1    | |
+| 4 | svc_bhvr_type | service behaviour type | string | 1    | |
+| 5 | msg_code      | message number         | string | 30   | ULID number |
+| 6 | souc_mdl      | source module          | string | 1    | |
+| 7 | tagt_mdl      | target module          | string | 1    | |
+| 8 | svc_time      | event service time     | string | 19   | YYYY-MM-DD mm:hh:ss |
+| 9 | svc_cont      | event service content  | string | 8000 | see the service content definition |
 
 ##  Response Message Format  
 | Number | Identification | Name | Type | Length | Memo |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1  | svc_code      | event service number  | string       | 4    | |
-| 2  | svc_name      | event service name    | string       | 50   | |
-| 3  | svc_type      | event service type    | string       | 10   | |
-| 4  | msg_code      | message number        | string       | 30   | |
-| 5  | souc_mod_name | source module name    | string       | 50   | |
-| 6  | tagt_mod_name | target module name    | string array | 100  | |
-| 7  | svc_time      | event service time    | string       | 20   | |
-| 8  | svc_cont      | event service content | string       | 8000 | |
-| 9  | ret_code      | event service number  | string       | 4    | 1:success 0:fail |
-| 10 | ret_msg       | error message         | string       | 500  | |
+| 1  | svc_code      | event service number   | string | 4    | |
+| 2  | svc_name      | event service name     | string | 50   | |
+| 3  | svc_type      | event service type     | string | 1    | |
+| 4  | svc_bhvr_type | service behaviour type | string | 1    | |
+| 5  | msg_code      | message number         | string | 30   | |
+| 6  | souc_mdl      | source module          | string | 1    | |
+| 7  | tagt_mdl      | target module          | string | 1    | |
+| 8  | svc_time      | event service time     | string | 19   | |
+| 9  | svc_cont      | event service content  | string | 8000 | |
+| 10 | ret_code      | event service number   | string | 4    | |
+| 11 | ret_msg       | error message          | string | 500  | |
 
  
 ##  Module Communication Service Definition
 | Number | Code | Name | Description |
 | :-- | :-- | :-- | :-- |
-| 1 | 1101 | EventInitializationService    | give framework modules notice that eventservice is initialzed |
-| 2 | 2101 | ApplicationAlterationService  | change appliction status                                      |
-| 3 | 2102 | ApplictionVerificationService | validate app licence                                          |
-| 4 | 3101 | AccountVerificationService    | validate account password                                     |
-| 5 | 3102 | AccountAuthenticationService  | get account rights                                            | 
-| 6 | 4101 | MenuInitializationService     | get account authorized menu list                              | 
-| 7 | 4102 | MenuActivationService         | active menu item                                              | 
+| 1 | 1101 | ApplicationEvent     | give framework modules notice that eventservice is initialzed |
+| 2 | 2101 | PathEvent            | change appliction status                                      |
+| 3 | 3101 | DataBaseEvent        | validate app licence                                          |
+| 4 | 4101 | LogEvent             | validate account password                                     |
+| 5 | 5101 | ThemeEvent           | get account rights                                            | 
+| 6 | 6101 | AccountEvent         | get account authorized menu list                              | 
+| 7 | 7101 | ExtensionModuleEvent | active menu item                                              | 
 
 ##   Module Communication Service Content Definition
-###  `1101` ApplicationAlterationService
+###  `1101.4` ApplicationAlterationEvent
 - Request String Format  
 
 | Number | Parameter Code | Parameter Type | Parameter Length | Dictionary | Description |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 1 | app_ctl_type | string | 2 | Y | |
-| 2 | app_act_flag | string | 2 | Y | |
+| 1 | app_ctl_type | string | 1 | Y | |
+| 2 | app_act_flag | string | 1 | Y | |
 
 - Response String Format  
 
 Empty
 
-###  `2101` AccountVerificationService
+###  `5101.1` ThemeDefaultInitializationEvent
+- Request String Format  
+
+| Number | Parameter Code | Parameter Type | Parameter Length | Dictionary | Description |
+| :-- | :-- | :-- | :-- | :-- | :-- |
+| 1 | thm_type | string | 1 | Y | |
+| 2 | thm_pry_col | string | 3 | Y | |
+| 2 | thm_sec_col | string | 3 | Y | |
+
+- Response String Format  
+
+Empty
+
+###  `6101` AccountEvent
 - Request String Format  
 
 | Number | Parameter Code | Parameter Type | Parameter Length | Dictionary | Description |
@@ -68,7 +83,7 @@ Empty
 | 2 | acct_pwd  | string | 8 | | |
 | 3 | acct_name | string | 8 | | |
 
-###  `3101` MenuInitializationService
+###  `7101` ExtensionModuleEvent
 - Request String Format  
 
 | Number | Parameter Code | Parameter Type | Parameter Length | Dictionary | Description |
@@ -103,17 +118,57 @@ Empty
 Empty
 
 ##  Module Communication Service Dictionary Definition  
-- `app_ctl_type` (application control type)  
+- `svc_type`
 
 | Code Value | Code Name |
 | :-- | :-- |
-| 01 | LoginWindow     |
-| 02 | MainWindow      |
-| 03 | MainLeftDrawer  |
+| 1 | Request  |
+| 2 | Response |
 
-- `app_act_flag` (application control active flag)  
+- `svc_bhvr_type`
+
+| Code Value | Code Name |
+| :-- | :-- |
+| 1 | DefaultInitialization |
+| 2 | Initialization        |
+| 3 | Addition              |
+| 4 | Alteration            |
+| 5 | Deletion              |
+| 6 | Activation            |
+| 7 | Persistence           |
+
+- `souc_mdl` / `tagt_mdl`  
+
+| Code Value | Code Name |
+| :-- | :-- |
+| 1 | All                      |
+| 2 | ApplictionModule         |
+| 3 | KernelModule             |
+| 4 | ServiceModule            |
+| 5 | LoginModule              |
+| 6 | MainHeaderModule         |
+| 7 | MainLeftDrawerModule     |
+| 8 | BasicConfigurationModule |
+
+- `app_ctl_type`  
+
+| Code Value | Code Name |
+| :-- | :-- |
+| 1 | LoginWindow     |
+| 2 | MainWindow      |
+| 3 | MainLeftDrawer  |
+
+- `app_act_flag`  
 
 | Code Value | Code Name |
 | :-- | :-- |
 | 0 | InActive |
 | 1 | Active   |
+
+- `thm_type`  
+
+| Code Value | Code Name |
+| :-- | :-- |
+| 0 | Inherit |
+| 1 | Light   |
+| 2 | Dark |

@@ -3747,7 +3747,7 @@ namespace HQMS.Extension.Control.Main.Models
         /// <summary>
         /// 749 年龄不足1周岁的年龄（天）
         /// </summary>
-        public int A16 { get; set; }
+        public string A16 { get; set; }
 
         /// <summary>
         /// 750 新生儿出生体重(克)

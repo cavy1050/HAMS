@@ -21,8 +21,8 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
 
         public DelegateCommand LoadedCommand { get; private set; }
         public DelegateCommand OpenLogFileCatalogueCommand { get; private set; }
-        public DelegateCommand NativeDBConnectionCommand { get; private set; }
-        public DelegateCommand BAGLDBConnectStringCommand { get; private set; }
+        public DelegateCommand<object> ConnectionCommand { get; private set; }
+        public DelegateCommand<object> ConnectStringSettingCommand { get; private set; }
         public DelegateCommand BAGLDBConnectionCommand { get; private set; }
         public DelegateCommand DefaultCommand { get; private set; }
         public DelegateCommand ApplyCommand { get; private set; }
@@ -41,9 +41,8 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
 
             LoadedCommand = new DelegateCommand(OnLoaded);
             OpenLogFileCatalogueCommand = new DelegateCommand(OnOpenLogFileCatalogue);
-            NativeDBConnectionCommand = new DelegateCommand(OnNativeDBConnection);
-            BAGLDBConnectStringCommand = new DelegateCommand(OnBAGLDBConnectString);
-            BAGLDBConnectionCommand = new DelegateCommand(OnBAGLDBConnection);
+            ConnectionCommand = new DelegateCommand<object>(OnConnection);
+            ConnectStringSettingCommand = new DelegateCommand<object>(OnConnectStringSetting);
             DefaultCommand = new DelegateCommand(OnDefault);
             ApplyCommand = new DelegateCommand(OnApply);
             SaveCommand = new DelegateCommand(OnSave);
@@ -59,19 +58,16 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
             BasicConfigurationModel.OnOpenLogFileCatalogue();
         }
 
-        private void OnNativeDBConnection()
+        private void OnConnection(object obj)
         {
-            BasicConfigurationModel.NativeDBConnection();
+            string dataBaseIdentifierArg = (string)obj;
+            BasicConfigurationModel.Connection(dataBaseIdentifierArg);
         }
 
-        private void OnBAGLDBConnectString()
+        private void OnConnectStringSetting(object obj)
         {
-            BasicConfigurationModel.OnBAGLDBConnectString();
-        }
-
-        private void OnBAGLDBConnection()
-        {
-            BasicConfigurationModel.BAGLDBConnection();
+            string dataBaseIdentifierArg = (string)obj;
+            BasicConfigurationModel.ConnectStringSetting(dataBaseIdentifierArg);
         }
 
         private void OnDefault()

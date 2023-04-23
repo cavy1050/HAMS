@@ -18,12 +18,10 @@ namespace HAMS.Frame.Control.Login.Models
         ISnackbarMessageQueue messageQueue;
         IEnvironmentMonitor environmentMonitor;
         IEventAggregator eventAggregator;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         string eventJsonSentence;
         object currentWindow;
-        AccountVerificationRequestContentKind accountVerificationRequestContent;
-        ApplicationAlterationContentKind applicationAlterationContent;
 
         string account;
         public string Account
@@ -44,13 +42,13 @@ namespace HAMS.Frame.Control.Login.Models
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            eventController = containerProviderArg.Resolve<IEventController>();
         }
 
         public void Loaded()
         {
             ShowValidatedServiceMessage();
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountVerificationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountVerificationService"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnAccountActivationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("AccountEvent"));
         }
 
         private void ShowValidatedServiceMessage()
@@ -65,10 +63,10 @@ namespace HAMS.Frame.Control.Login.Models
         public void Login(object windowArg)
         {
             currentWindow = windowArg;
-            RequestAccountVerificationService();
+            RequestAccountActivationEvent();
         }
 
-        private void RequestAccountVerificationService()
+        private void RequestAccountActivationEvent()
         {
             LoginContentModelValidator loginContentModelValidator = new LoginContentModelValidator();
             ValidationResult validationResult = loginContentModelValidator.Validate(this);
@@ -76,21 +74,20 @@ namespace HAMS.Frame.Control.Login.Models
                 validationResult.Errors.ForEach(msg => messageQueue.Enqueue(msg.ErrorMessage));
             else
             {
-                accountVerificationRequestContent = new AccountVerificationRequestContentKind
+                eventJsonSentence = eventController.Request(EventPart.AccountEvent, EventBehaviourPart.Activation, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, new AccountActivationRequestContentKind
                 {
-                    Account = Account,
-                    Password = Password
-                };
+                    Account = this.Account,
+                    Password = this.Password
+                });
 
-                eventJsonSentence = eventServiceController.Request(EventServicePart.AccountVerificationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, accountVerificationRequestContent);
-                eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+                eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
             }
         }
 
-        private void OnAccountVerificationResponseService(string responseServiceTextArg)
+        private void OnAccountActivationResponseEvent(string responseEvnetTextArg)
         {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+            JObject responseObj = JObject.Parse(responseEvnetTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
 
             if (targetModule == FrameModulePart.LoginModule)
             {
@@ -101,22 +98,21 @@ namespace HAMS.Frame.Control.Login.Models
                     if (currentWindow != null)
                     {
                         SystemCommands.CloseWindow(currentWindow as Window);
-                        RequestApplicationAlterationService();
+                        RequestApplicationAlterationEvent();
                     }
                 }
             }
         }
 
-        private void RequestApplicationAlterationService()
+        private void RequestApplicationAlterationEvent()
         {
-            applicationAlterationContent = new ApplicationAlterationContentKind
+            eventJsonSentence = eventController.Request(EventPart.ApplicationEvent, EventBehaviourPart.Alteration, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, new ApplicationContentKind
             {
-                ApplicationControlType = ControlTypePart.LoginWindow,
-                ApplicationActiveFlag = ActiveFlagPart.InActive
-            };
+                ApplicationControlType = Convert.ToInt32(ControlTypePart.LoginWindow).ToString(),
+                ApplicationActiveFlag = Convert.ToInt32(ActiveFlagPart.InActive).ToString()
+            });
 
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ApplicationAlterationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, applicationAlterationContent);
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+            eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
         }
     }
 }

@@ -19,11 +19,15 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
     {
         IEventAggregator eventAggregator;
         ISnackbarMessageQueue messageQueue;
-        IEventServiceController eventServiceController;
+        IEventController eventController;
 
         string eventJsonSentence;
 
         List<ExtensionModuleKind> extensionModuleHub;
+
+        JObject responseObj, responseContentObj;
+        FrameModulePart targetModule;
+        EventBehaviourPart eventBehaviour;
 
         ObservableCollection<ModuleNodeKind> rootNodes;
         public ObservableCollection<ModuleNodeKind> RootNodes
@@ -38,30 +42,36 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
             eventAggregator = containerProviderArg.Resolve<IEventAggregator>();
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
-            eventServiceController = containerProviderArg.Resolve<IEventServiceController>();
+            eventController = containerProviderArg.Resolve<IEventController>();
         }
 
         public void Loaded()
         {
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseModuleInitializationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleInitializationService"));
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseModuleActivationService, ThreadOption.PublisherThread, false, x => x.Contains("ModuleActivationService"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnExtensionModuleInitializationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleEvent"));
+            eventAggregator.GetEvent<ResponseEvent>().Subscribe(OnExtensionModuleActivationResponseEvent, ThreadOption.PublisherThread, false, x => x.Contains("ExtensionModuleEvent"));
             RequestExtensionModuleNodeData();
         }
 
         private void RequestExtensionModuleNodeData()
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleInitializationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule, new EmptyContentKind());
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+            eventJsonSentence = eventController.Request(EventPart.ExtensionModuleEvent, EventBehaviourPart.Initialization , FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule, new EmptyContentKind());
+            eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
         }
 
-        private void OnResponseModuleInitializationService(string responseServiceTextArg)
+        private void OnExtensionModuleInitializationResponseEvent(string responseEventTextArg)
         {
-            JObject responseObj = JObject.Parse(responseServiceTextArg);
-            JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
-            JArray extensionModules = responseContentObj.Value<JArray>("menus");
+            responseObj = JObject.Parse(responseEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
+            EventBehaviourPart eventBehaviour = (EventBehaviourPart)Enum.Parse(typeof(EventBehaviourPart), responseObj.Value<string>("svc_bhvr_type"));
 
-            extensionModuleHub = JsonConvert.DeserializeObject<List<ExtensionModuleKind>>(extensionModules.ToString());
-            LoadRootModuleData(extensionModuleHub);
+            if (targetModule == FrameModulePart.MainLeftDrawerModule && eventBehaviour == EventBehaviourPart.Initialization)
+            {
+                responseContentObj = responseObj.Value<JObject>("svc_cont");
+
+                JArray extensionModules = responseContentObj.Value<JArray>("menus");
+                extensionModuleHub = JsonConvert.DeserializeObject<List<ExtensionModuleKind>>(extensionModules.ToString());
+                LoadRootModuleData(extensionModuleHub);
+            }
         }
 
         private void LoadRootModuleData(List<ExtensionModuleKind> moduleArgs)
@@ -110,8 +120,8 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         private void NextModuleNodeSelected(object sender, NodeSelectedEventArgs noteArg)
         {
-            eventJsonSentence = eventServiceController.Request(EventServicePart.ModuleActivationService, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
-                new ModuleActivationRequestContentKind
+            eventJsonSentence = eventController.Request(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation , FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
+                new ExtensionModuleActivationRequestContentKind
                 {
                     Code = noteArg.Code,
                     Name = noteArg.Name,
@@ -120,15 +130,16 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                     ModuleType = noteArg.ModuleType,
                 });
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(eventJsonSentence);
+            eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);
         }
 
-        private void OnResponseModuleActivationService(string requestServiceTextArg)
+        private void OnExtensionModuleActivationResponseEvent(string responseEventTextArg)
         {
-            JObject responseObj = JObject.Parse(requestServiceTextArg);
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mod_name"));
+            responseObj = JObject.Parse(responseEventTextArg);
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
+            EventBehaviourPart eventBehaviour = (EventBehaviourPart)Enum.Parse(typeof(EventBehaviourPart), responseObj.Value<string>("svc_bhvr_type"));
 
-            if (targetModule == FrameModulePart.MainLeftDrawerModule)
+            if (targetModule == FrameModulePart.MainLeftDrawerModule && eventBehaviour == EventBehaviourPart.Activation)
             {
                 if (!responseObj.Value<bool>("ret_rst"))
                     messageQueue.Enqueue("启动程序扩展模块错误,详细信息请参阅日志!");
