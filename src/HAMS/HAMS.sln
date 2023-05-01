@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Extension.Control.Conf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Extension.Control.BasicConfiguration", "..\HAMS.Extension.Control.BasicConfiguration\HAMS.Extension.Control.BasicConfiguration.csproj", "{92DA1268-09B5-41AD-9346-AA4A5E04F643}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAMS.Extension.Control.ExtensionConfiguration", "..\HAMS.Extension.Control.ExtensionConfiguration\HAMS.Extension.Control.ExtensionConfiguration.csproj", "{161D65E5-7AF5-4A68-AF2D-AB2253AD31A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDMS.Extension.Control.InfluenzaSurveillance", "..\IDMS.Extension.Control.InfluenzaSurveillance\IDMS.Extension.Control.InfluenzaSurveillance.csproj", "{7E19AC6D-B3BC-4D6D-B1BA-184772049CCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{92DA1268-09B5-41AD-9346-AA4A5E04F643}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92DA1268-09B5-41AD-9346-AA4A5E04F643}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92DA1268-09B5-41AD-9346-AA4A5E04F643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161D65E5-7AF5-4A68-AF2D-AB2253AD31A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161D65E5-7AF5-4A68-AF2D-AB2253AD31A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161D65E5-7AF5-4A68-AF2D-AB2253AD31A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161D65E5-7AF5-4A68-AF2D-AB2253AD31A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E19AC6D-B3BC-4D6D-B1BA-184772049CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E19AC6D-B3BC-4D6D-B1BA-184772049CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E19AC6D-B3BC-4D6D-B1BA-184772049CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E19AC6D-B3BC-4D6D-B1BA-184772049CCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

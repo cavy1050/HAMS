@@ -28,25 +28,28 @@
     </i:Interaction.Triggers>
 
     <DockPanel Margin="8">
-        <md:Card DockPanel.Dock="Top"
-                 Margin="0 8 0 0"
-                 Padding="4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0"
+            <Border Grid.Row="0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                            Text="路径设置" />
 
-                    <Separator Grid.Row="1"
-                           Margin="32 0 32 0"
-                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+                    <Separator Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" 
+                           Background="{StaticResource PrimaryHueDarkBrush}"/>
 
-                    <StackPanel Grid.Row="2">
+                    <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="程序运行目录"
                                    Width="160"
@@ -69,140 +72,246 @@
                                  Text="{Binding BasicConfigurationModel.NativeDataBaseFilePath}"
                                  IsEnabled="False"/>
                         </StackPanel>
+
                         <StackPanel Margin="0 4 0 0"
                                 Orientation="Horizontal">
                             <TextBlock Text="日志文件目录"
                                    Width="160"
                                    TextAlignment="Right"                  
                                    Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                            <TextBox Margin="32 0 0 0"
+                            <TextBox x:Name="LogFileCatalogueText"
+                                 Margin="32 0 0 0"
                                  Width="600"
                                  Text="{Binding BasicConfigurationModel.LogFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Margin="32 0 0 0"
+                            <Button Margin="32 0 0 0"
                                 Style="{StaticResource MaterialDesignToolButton}"
-                                Command="{Binding OpenLogFileCatalogueCommand}">
-                            <md:PackIcon>
-                                <md:PackIcon.Style>
-                                    <Style TargetType="md:PackIcon"
+                                Command="{Binding OpenFileCatalogueCommand}"
+                                CommandParameter="{Binding ElementName=LogFileCatalogueText,Path=Text,Mode=OneWay}"
+                                ToolTip="点击设置目录信息">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
                                            BasedOn="{StaticResource {x:Type md:PackIcon}}">
-                                        <Setter Property="Kind" Value="DotsHorizontal" />
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                    </Style>
-                                </md:PackIcon.Style>
-                            </md:PackIcon>
-                        </Button>
+                                            <Setter Property="Kind" Value="DotsHorizontal" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                            <TextBlock Text="导出文件目录"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox x:Name="ExportFileCatalogueText"
+                                 Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.ExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Margin="32 0 0 0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding OpenFileCatalogueCommand}"
+                                CommandParameter="{Binding ElementName=ExportFileCatalogueText,Path=Text,Mode=OneWay}"
+                                ToolTip="点击设置目录信息">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                            <Setter Property="Kind" Value="DotsHorizontal" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
-                </Grid>
-            </md:Card>
+                </StackPanel>
+            </Border>
 
-        <md:Card DockPanel.Dock="Top"
-                     Margin="0 8 0 0"
-                     Padding="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0"
+            <Border Grid.Row="1"
+                Margin="0 8 0 0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                            Text="数据库设置" />
 
-                <Separator Grid.Row="1"
-                           Margin="32 0 32 0"
-                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+                    <Separator Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" 
+                           Background="{StaticResource PrimaryHueDarkBrush}"/>
 
-                <StackPanel Grid.Row="2">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="本地数据库"
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="本地数据库"
                                    Width="160"
                                    TextAlignment="Right"                  
                                    Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Margin="32 0 0 0"
+                            <TextBox Margin="32 0 0 0"
                                  Width="600"
                                  Text="{Binding BasicConfigurationModel.NativeConnectString}"
                                  IsEnabled="False"/>
-                        <Button Margin="88 0 0 0"
+                            <Button Margin="88 0 0 0"
                                 Style="{StaticResource MaterialDesignToolButton}"
                                 Command="{Binding ConnectionCommand}"
-                                CommandParameter="Native">
-                            <md:PackIcon>
-                                <md:PackIcon.Style>
-                                    <Style TargetType="md:PackIcon"
+                                CommandParameter="Native"
+                                ToolTip="点击测试数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
                                            BasedOn="{StaticResource {x:Type md:PackIcon}}">
-                                        <Setter Property="Kind" Value="Connection" />
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                    </Style>
-                                </md:PackIcon.Style>
-                            </md:PackIcon>
-                        </Button>
-                    </StackPanel>
+                                            <Setter Property="Kind" Value="Connection" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                        </StackPanel>
 
-                    <StackPanel Margin="0 4 0 0"
+                        <StackPanel Margin="0 4 0 0"
                                 Orientation="Horizontal">
-                        <TextBlock Text="病案管理数据库"
+                            <TextBlock Text="病案管理数据库"
                                    Width="160"
                                    TextAlignment="Right"                  
                                    Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Margin="32 0 0 0"
+                            <TextBox Margin="32 0 0 0"
                                  Width="600"
                                  Text="{Binding BasicConfigurationModel.BAGLDBConnectString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Margin="32 0 0 0"
+                            <Button Margin="32 0 0 0"
                                 Style="{StaticResource MaterialDesignToolButton}"
                                 Command="{Binding ConnectStringSettingCommand}"
-                                CommandParameter="BAGLDB">
-                            <md:PackIcon>
-                                <md:PackIcon.Style>
-                                    <Style TargetType="md:PackIcon"
+                                CommandParameter="BAGLDB"
+                                ToolTip="点击编辑数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
                                            BasedOn="{StaticResource {x:Type md:PackIcon}}">
-                                        <Setter Property="Kind" Value="DotsHorizontal" />
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                    </Style>
-                                </md:PackIcon.Style>
-                            </md:PackIcon>
-                        </Button>
-                        <Button Margin="32 0 0 0"
+                                            <Setter Property="Kind" Value="DotsHorizontal" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                            <Button Margin="32 0 0 0"
                                     Style="{StaticResource MaterialDesignToolButton}"
                                     Command="{Binding ConnectionCommand}"
-                                    CommandParameter="BAGLDB">
-                            <md:PackIcon>
-                                <md:PackIcon.Style>
-                                    <Style TargetType="md:PackIcon"
+                                    CommandParameter="BAGLDB"
+                                    ToolTip="点击测试数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
                                            BasedOn="{StaticResource {x:Type md:PackIcon}}">
-                                        <Setter Property="Kind" Value="Connection" />
-                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                    </Style>
-                                </md:PackIcon.Style>
-                            </md:PackIcon>
-                        </Button>
+                                            <Setter Property="Kind" Value="Connection" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                            <TextBlock Text="临床管理数据库(门诊)"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.MZCISDBConnectString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Margin="32 0 0 0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding ConnectStringSettingCommand}"
+                                CommandParameter="MZCISDB"
+                                ToolTip="点击编辑数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                            <Setter Property="Kind" Value="DotsHorizontal" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                            <Button Margin="32 0 0 0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding ConnectionCommand}"
+                                    CommandParameter="MZCISDB"
+                                    ToolTip="点击测试数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                            <Setter Property="Kind" Value="Connection" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 4 0 0"
+                                Orientation="Horizontal">
+                            <TextBlock Text="临床管理数据库(住院)"
+                                   Width="160"
+                                   TextAlignment="Right"                  
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Margin="32 0 0 0"
+                                 Width="600"
+                                 Text="{Binding BasicConfigurationModel.ZYCISDBConnectString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Margin="32 0 0 0"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Command="{Binding ConnectStringSettingCommand}"
+                                CommandParameter="ZYCISDB"
+                                ToolTip="点击编辑数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                            <Setter Property="Kind" Value="DotsHorizontal" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                            <Button Margin="32 0 0 0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding ConnectionCommand}"
+                                    CommandParameter="ZYCISDB"
+                                    ToolTip="点击测试数据库连接">
+                                <md:PackIcon>
+                                    <md:PackIcon.Style>
+                                        <Style TargetType="md:PackIcon"
+                                           BasedOn="{StaticResource {x:Type md:PackIcon}}">
+                                            <Setter Property="Kind" Value="Connection" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                        </Style>
+                                    </md:PackIcon.Style>
+                                </md:PackIcon>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </Grid>
-        </md:Card>
+            </Border>
 
-        <md:Card DockPanel.Dock="Top"
-                     Margin="0 8 0 0"
-                     Padding="4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0"
+            <Border Grid.Row="2"
+                Margin="0 8 0 0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                            Text="日志设置" />
 
-                    <Separator Grid.Row="1"
-                           Margin="32 0 32 0"
-                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+                    <Separator Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}"
+                           Background="{StaticResource PrimaryHueDarkBrush}"/>
 
-                    <StackPanel Grid.Row="2"
-                            Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="全局日志"
                                Width="160"
                                TextAlignment="Right"                  
@@ -223,92 +332,88 @@
                               SelectedItem="{Binding BasicConfigurationModel.GlobalLogCurrentLevelName}"
                               IsEnabled="{Binding IsChecked,ElementName=GlobalLogEnabledFlag,Mode=OneWay}"/>
                     </StackPanel>
-                </Grid>
-            </md:Card>
+                </StackPanel>
+            </Border>
 
-        <md:Card DockPanel.Dock="Top"
-                     Margin="0 8 0 0"
-                     Padding="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0"
+            <Border Grid.Row="3"
+                Margin="0 8 0 0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                            Text="主题设置(暂未实现)" />
 
-                <Separator Grid.Row="1"
-                           Margin="32 0 32 0"
-                           Style="{StaticResource MaterialDesignDarkSeparator}" />
+                    <Separator Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}"
+                           Background="{StaticResource PrimaryHueDarkBrush}"/>
 
-                <StackPanel Grid.Row="2"
-                            Orientation="Horizontal">
-                    <TextBlock Text="调色板"
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="调色板"
                                Width="160"
                                TextAlignment="Right"                  
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                    <TextBlock Margin="32 0 0 0"
+                        <TextBlock Margin="32 0 0 0"
                                Text="明暗模式"       
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                    <TextBlock Margin="8 0 0 0"
+                        <TextBlock Margin="8 0 0 0"
                                Text="浅"       
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                    <ToggleButton Margin="8 0 0 0"
+                        <ToggleButton Margin="8 0 0 0"
                                   IsChecked="{Binding BasicConfigurationModel.ColorLightFlag,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                   Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"/>
-                    <TextBlock Margin="8 0 0 0"
+                        <TextBlock Margin="8 0 0 0"
                                Text="深"       
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
 
-                    <TextBlock Margin="32 0 0 0"
+                        <TextBlock Margin="32 0 0 0"
                                Text="主要色"       
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                    <ComboBox Margin="8 0 0 0"
+                        <ComboBox Margin="8 0 0 0"
                               Width="100"
                               ItemsSource="{Binding BasicConfigurationModel.PrimaryColors}"
                               SelectedItem="{Binding BasicConfigurationModel.CurrentPrimaryColor}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}"
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"
                                            Style="{StaticResource MaterialDesignTextBlock}">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
-                                    </TextBlock.Foreground>
-                                    <TextBlock.Background>
-                                        <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
-                                    </TextBlock.Background>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
+                                        </TextBlock.Foreground>
+                                        <TextBlock.Background>
+                                            <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                    <TextBlock Margin="32 0 0 0"
+                        <TextBlock Margin="32 0 0 0"
                                Text="次要色"       
                                Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                    <ComboBox Margin="8 0 0 0"
+                        <ComboBox Margin="8 0 0 0"
                               Width="100"
                               ItemsSource="{Binding BasicConfigurationModel.SecondaryColors}"
                               SelectedItem="{Binding BasicConfigurationModel.CurrentSecondaryColor}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}"
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"
                                            Style="{StaticResource MaterialDesignTextBlock}">
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
-                                    </TextBlock.Foreground>
-                                    <TextBlock.Background>
-                                        <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
-                                    </TextBlock.Background>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ForeGroundColor, Mode=OneTime}"/>
+                                        </TextBlock.Foreground>
+                                        <TextBlock.Background>
+                                            <SolidColorBrush Color="{Binding BackGroundColor, Mode=OneTime}"/>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
-            </Grid>
-        </md:Card>
+            </Border>
+        </Grid>
 
         <md:Card DockPanel.Dock="Bottom"
                  Padding="8"

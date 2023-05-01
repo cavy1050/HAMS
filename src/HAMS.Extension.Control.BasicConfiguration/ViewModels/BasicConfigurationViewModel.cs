@@ -20,7 +20,7 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
         }
 
         public DelegateCommand LoadedCommand { get; private set; }
-        public DelegateCommand OpenLogFileCatalogueCommand { get; private set; }
+        public DelegateCommand<object> OpenFileCatalogueCommand { get; private set; }
         public DelegateCommand<object> ConnectionCommand { get; private set; }
         public DelegateCommand<object> ConnectStringSettingCommand { get; private set; }
         public DelegateCommand BAGLDBConnectionCommand { get; private set; }
@@ -40,7 +40,7 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
             BasicConfigurationModel = new BasicConfigurationModel(containerProviderArg);
 
             LoadedCommand = new DelegateCommand(OnLoaded);
-            OpenLogFileCatalogueCommand = new DelegateCommand(OnOpenLogFileCatalogue);
+            OpenFileCatalogueCommand = new DelegateCommand<object>(OnOpenFileCatalogue);
             ConnectionCommand = new DelegateCommand<object>(OnConnection);
             ConnectStringSettingCommand = new DelegateCommand<object>(OnConnectStringSetting);
             DefaultCommand = new DelegateCommand(OnDefault);
@@ -53,9 +53,10 @@ namespace HAMS.Extension.Control.BasicConfiguration.ViewModels
             BasicConfigurationModel.OnLoaded();
         }
 
-        private void OnOpenLogFileCatalogue()
+        private void OnOpenFileCatalogue(object obj)
         {
-            BasicConfigurationModel.OnOpenLogFileCatalogue();
+            string fileCatalogueIdentifierArg = (string)obj;
+            BasicConfigurationModel.OnOpenFileCatalogue(fileCatalogueIdentifierArg);
         }
 
         private void OnConnection(object obj)

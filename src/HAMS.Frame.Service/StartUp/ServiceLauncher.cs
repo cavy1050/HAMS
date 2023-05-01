@@ -21,7 +21,7 @@ namespace HAMS.Frame.Service
         IEventResponseController extensionModuleControler;
         IEventResponseController themeController;
 
-        string eventJsonSentence, targetModule;
+        string eventJsonSentence;
         JObject requestObj;
 
         public ServiceLauncher(IContainerProvider containerProviderArg)

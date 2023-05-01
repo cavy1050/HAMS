@@ -109,6 +109,24 @@ namespace HAMS.Frame.Kernel.Services
             }
         }
 
+        public void Init(LogPart logPartArg, params object[] costomLogArgs)
+        {
+            if (logPartArg != LogPart.Global)
+                throw new ArgumentException("自定义日志类型参数只能是<全局日志>!", nameof(logPartArg));
+            {
+                bool costomLogEnabledFlag = Convert.ToBoolean(costomLogArgs.FirstOrDefault());
+                string costomLogLevelText = costomLogArgs.LastOrDefault().ToString();
+
+                switch (logPartArg)
+                {
+                    case LogPart.Global:
+                        GlobalLogEnabledFlag = costomLogEnabledFlag;
+                        GlobalLogLevel = (LogLevelPart)Enum.Parse(typeof(LogLevelPart), costomLogLevelText);
+                        break;
+                }
+            }
+        }
+
         public void Load(LogPart logPartArg)
         {
             switch (logPartArg)
@@ -124,11 +142,9 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(LogPart.Global),
                             EnabledFlag = GlobalLogEnabledFlag
                         });
-                    else
-                    {
-                        environmentMonitor.LogSetting[LogPart.Global].EnabledFlag = GlobalLogEnabledFlag;
-                        environmentMonitor.LogSetting[LogPart.Global].Content = GlobalLogLevel.ToString();
-                    }
+
+                    environmentMonitor.LogSetting[LogPart.Global].EnabledFlag = GlobalLogEnabledFlag;
+                    environmentMonitor.LogSetting[LogPart.Global].Content = GlobalLogLevel.ToString();
                     break;
 
                 case LogPart.Application:
@@ -142,12 +158,10 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(LogPart.Application),
                             EnabledFlag = true
                         });
-                    else
-                        environmentMonitor.LogSetting[LogPart.Application].Content = ApplicationLogFilePath;
 
+                    environmentMonitor.LogSetting[LogPart.Application].Content = ApplicationLogFilePath;
                     errorLogController = containerProvider.Resolve<ILogController>(LogPart.Application.ToString());
                     environmentMonitor.LogSetting[LogPart.Application].LogController = errorLogController;
-
                     break;
 
                 case LogPart.DataBase:
@@ -161,12 +175,10 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(LogPart.DataBase),
                             EnabledFlag = true
                         });
-                    else
-                        environmentMonitor.LogSetting[LogPart.DataBase].Content = DataBaseLogFilePath;
-
+                                    
+                    environmentMonitor.LogSetting[LogPart.DataBase].Content = DataBaseLogFilePath;
                     dataBaseLogController = containerProvider.Resolve<ILogController>(LogPart.DataBase.ToString());
                     environmentMonitor.LogSetting[LogPart.DataBase].LogController = dataBaseLogController;
-
                     break;
 
                 case LogPart.ServicEvent:
@@ -180,11 +192,10 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(LogPart.ServicEvent),
                             EnabledFlag = true
                         });
+                    
                     environmentMonitor.LogSetting[LogPart.ServicEvent].Content = ServicEventLogFilePath;
-
                     servicEventLogController = containerProvider.Resolve<ILogController>(LogPart.ServicEvent.ToString());
                     environmentMonitor.LogSetting[LogPart.ServicEvent].LogController = servicEventLogController;
-
                     break;
 
                 case LogPart.All:

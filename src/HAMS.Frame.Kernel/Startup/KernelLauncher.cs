@@ -34,6 +34,8 @@ namespace HAMS.Frame.Kernel
 
             containerRegistryArg.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
             containerRegistryArg.Register<IDataBaseController, BAGLDBBaseController>(DataBasePart.BAGLDB.ToString());
+            containerRegistryArg.Register<IDataBaseController, MZCISDBBaseController>(DataBasePart.MZCISDB.ToString());
+            containerRegistryArg.Register<IDataBaseController, ZYCISDBBaseController>(DataBasePart.ZYCISDB.ToString());
 
             containerRegistryArg.Register<ICipherColltroller, CipherColltroller>();
 

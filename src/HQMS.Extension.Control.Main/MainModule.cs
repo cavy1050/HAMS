@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Modularity;
-using HAMS.Frame.Kernel.Core;
-using HAMS.Frame.Kernel.Services;
 using HQMS.Extension.Control.Main.Views;
 
 namespace HQMS.Extension.Control.Main

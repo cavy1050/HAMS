@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using Prism.Mvvm;
-using Npoi.Mapper.Attributes;
+﻿using Npoi.Mapper.Attributes;
 
 namespace HQMS.Extension.Control.Main.Models
 {
-    public class MasterKind : BindableBase
+    public class MasterKind
     {
         [Ignore]
         public bool IsSelected { get; set; }

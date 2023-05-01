@@ -31,6 +31,11 @@ namespace HAMS.Frame.Kernel.Services
         /// </summary>
         public string LogFileCatalogue { get; set; }
 
+        /// <summary>
+        /// 导出文件目录
+        /// </summary>
+        public string ExportFileCatalogue { get; set; }
+
         public PathManager(IContainerProvider containerProviderArg)
         {
             containerProvider = containerProviderArg;
@@ -53,10 +58,15 @@ namespace HAMS.Frame.Kernel.Services
                     LogFileCatalogue = AppDomain.CurrentDomain.BaseDirectory + "Log\\";
                     break;
 
+                case PathPart.ExportFileCatalogue:
+                    ExportFileCatalogue = AppDomain.CurrentDomain.BaseDirectory + "Export\\";
+                    break;
+
                 case PathPart.All:
                     DeInit(PathPart.ApplictionCatalogue);
                     DeInit(PathPart.NativeDataBaseFilePath);
                     DeInit(PathPart.LogFileCatalogue);
+                    DeInit(PathPart.ExportFileCatalogue);
                     break;
             }
         }
@@ -66,6 +76,8 @@ namespace HAMS.Frame.Kernel.Services
             if (pathPartArg == PathPart.ApplictionCatalogue || pathPartArg == PathPart.NativeDataBaseFilePath)
                 throw new ArgumentException("自定义路径类型参数不能是<程序运行目录>或<本地数据库文件路径>!", nameof(pathPartArg));
             {
+                string costomLogFileCatalogue, costomExportFileCatalogue;
+
                 nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
                 sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_PathSetting WHERE DefaultFlag = False";
                 nativeBaseController.QueryNoLog<SettingKind>(sqlSentence, out costomPathSettingHub);
@@ -74,15 +86,45 @@ namespace HAMS.Frame.Kernel.Services
                 {
                     //如果自定义日志目录不为空则覆盖默认值,否则保持默认值
                     case PathPart.LogFileCatalogue:
-                        string costomLogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
+                        costomLogFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GPSK8EY3VD74Y0508D7KP2Z4").Content;
 
                         if (!string.IsNullOrEmpty(costomLogFileCatalogue))
                             LogFileCatalogue = costomLogFileCatalogue;
                         break;
 
+                    case PathPart.ExportFileCatalogue:
+                        costomExportFileCatalogue = costomPathSettingHub.FirstOrDefault(x => x.Code == "01GZ8C9VQ9YSAYNZ64H7N8TS9V").Content;
+
+                        if (!string.IsNullOrEmpty(costomExportFileCatalogue))
+                            ExportFileCatalogue = costomExportFileCatalogue;
+                        break;
+
                     case PathPart.All:
                         Init(PathPart.LogFileCatalogue);
+                        Init(PathPart.ExportFileCatalogue);
                         break;
+                }
+            }
+        }
+
+        public void Init(PathPart pathPartArg, params object[] costomPathArgs)
+        {
+            if (pathPartArg == PathPart.ApplictionCatalogue || pathPartArg == PathPart.NativeDataBaseFilePath || pathPartArg == PathPart.All)
+                throw new ArgumentException("自定义路径类型参数不能是<程序运行目录>,<本地数据库文件路径>,<全部路径>!", nameof(pathPartArg));
+            {
+                string costomPath = costomPathArgs.FirstOrDefault().ToString();
+                if (!string.IsNullOrEmpty(costomPath))
+                {
+                    switch (pathPartArg)
+                    {
+                        case PathPart.LogFileCatalogue:
+                            LogFileCatalogue = costomPath;
+                            break;
+
+                        case PathPart.ExportFileCatalogue:
+                            ExportFileCatalogue = costomPath;
+                            break;
+                    }
                 }
             }
         }
@@ -128,14 +170,30 @@ namespace HAMS.Frame.Kernel.Services
                             Rank = Convert.ToInt32(PathPart.LogFileCatalogue),
                             EnabledFlag = true
                         });
-                    else
-                        environmentMonitor.PathSetting[PathPart.LogFileCatalogue].Content = LogFileCatalogue;
+
+                    environmentMonitor.PathSetting[PathPart.LogFileCatalogue].Content = LogFileCatalogue;
+                    break;
+
+                case PathPart.ExportFileCatalogue:
+                    if (!environmentMonitor.PathSetting.Exists(x => x.Code == "01GZ8C9VQ9YSAYNZ64H7N8TS9V"))
+                        environmentMonitor.PathSetting.Add(new SettingKind
+                        {
+                            Code = "01GZ8C9VQ9YSAYNZ64H7N8TS9V",
+                            Item = PathPart.ExportFileCatalogue.ToString(),
+                            Name = EnumExtension.GetDescription(PathPart.ExportFileCatalogue),
+                            Content = ExportFileCatalogue,
+                            Rank = Convert.ToInt32(PathPart.ExportFileCatalogue),
+                            EnabledFlag = true
+                        });
+                    
+                    environmentMonitor.PathSetting[PathPart.ExportFileCatalogue].Content = ExportFileCatalogue;
                     break;
 
                 case PathPart.All:
                     Load(PathPart.ApplictionCatalogue);
                     Load(PathPart.NativeDataBaseFilePath);
                     Load(PathPart.LogFileCatalogue);
+                    Load(PathPart.ExportFileCatalogue);
                     break;
             }
         }
@@ -159,10 +217,16 @@ namespace HAMS.Frame.Kernel.Services
                     nativeBaseController.ExecNoLog(sqlSentence);
                     break;
 
+                case PathPart.ExportFileCatalogue:
+                    sqlSentence = "UPDATE System_PathSetting SET Content='" + ExportFileCatalogue + "' WHERE Code='01GZ8C9VQ9YSAYNZ64H7N8TS9V'";
+                    nativeBaseController.ExecNoLog(sqlSentence);
+                    break;
+
                 case PathPart.All:
                     Save(PathPart.ApplictionCatalogue);
                     Save(PathPart.NativeDataBaseFilePath);
                     Save(PathPart.LogFileCatalogue);
+                    Save(PathPart.ExportFileCatalogue);
                     break;
             }
         }

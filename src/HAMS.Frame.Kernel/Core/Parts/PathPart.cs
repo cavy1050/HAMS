@@ -16,6 +16,9 @@ namespace HAMS.Frame.Kernel.Core
         NativeDataBaseFilePath,
 
         [Description("日志文件目录")]
-        LogFileCatalogue
+        LogFileCatalogue,
+
+        [Description("导出文件目录")]
+        ExportFileCatalogue
     }
 }

@@ -10,7 +10,6 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 测试连接
         /// </summary>
-        /// <returns></returns>
         bool Connection();
 
         /// <summary>

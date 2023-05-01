@@ -8,13 +8,12 @@ using System.Windows;
 using System.Windows.Controls;
 using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Events;
 using Prism.Services.Dialogs;
-using Newtonsoft.Json.Linq;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignExtensions.Controls;
 using HAMS.Frame.Kernel.Core;
+using HAMS.Frame.Kernel.Controls;
 using HAMS.Frame.Kernel.Services;
 
 namespace HAMS.Extension.Control.BasicConfiguration.Models
@@ -53,6 +52,13 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             set => SetProperty(ref logFileCatalogue, value);
         }
 
+        string exportFileCatalogue;
+        public string ExportFileCatalogue
+        {
+            get => exportFileCatalogue;
+            set => SetProperty(ref exportFileCatalogue, value);
+        }        
+
         string nativeConnectString;
         public string NativeConnectString
         {
@@ -72,6 +78,28 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             {
                 isConnectionStringChanged = true;
                 SetProperty(ref baglDBConnectString, value);
+            }
+        }
+
+        string mzcisDBConnectString;
+        public string MZCISDBConnectString
+        {
+            get => mzcisDBConnectString;
+            set
+            {
+                isConnectionStringChanged = true;
+                SetProperty(ref mzcisDBConnectString, value);
+            }
+        }
+
+        string zycisDBConnectString;
+        public string ZYCISDBConnectString
+        {
+            get => zycisDBConnectString;
+            set
+            {
+                isConnectionStringChanged = true;
+                SetProperty(ref zycisDBConnectString, value);
             }
         }
 
@@ -153,12 +181,15 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             ApplictionCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.ApplictionCatalogue);
             NativeDataBaseFilePath = environmentMonitor.PathSetting.GetContent(PathPart.NativeDataBaseFilePath);
             LogFileCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.LogFileCatalogue);
+            ExportFileCatalogue = environmentMonitor.PathSetting.GetContent(PathPart.ExportFileCatalogue);
         }
 
         private void LoadDataBaseSetting()
         {
             NativeConnectString = environmentMonitor.DataBaseSetting[DataBasePart.Native].Content;
             BAGLDBConnectString = environmentMonitor.DataBaseSetting[DataBasePart.BAGLDB].Content;
+            MZCISDBConnectString = environmentMonitor.DataBaseSetting[DataBasePart.MZCISDB].Content;
+            ZYCISDBConnectString= environmentMonitor.DataBaseSetting[DataBasePart.ZYCISDB].Content;
         }
 
         private void LoadLogSetting()
@@ -205,12 +236,13 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             isConnectionStringChanged = false;
         }
 
-        public async void OnOpenLogFileCatalogue()
+        public async void OnOpenFileCatalogue(string fileCatalogueIdentifierArg)
         {
             OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
             {
                 Width = 600,
-                Height = 500
+                Height = 500,
+                CurrentDirectory = fileCatalogueIdentifierArg
             };
 
             OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
@@ -235,13 +267,40 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
         {
             DialogParameters connectStringParameter = new DialogParameters();
             connectStringParameter.Add("DataBaseIdentifier", dataBaseIdentifierArg);
-            connectStringParameter.Add("ConnectionString", BAGLDBConnectString);
+
+            switch (dataBaseIdentifierArg)
+            {
+                case "BAGLDB":
+                    connectStringParameter.Add("ConnectionString", BAGLDBConnectString);
+                    break;
+                case "MZCISDB":
+                    connectStringParameter.Add("ConnectionString", MZCISDBConnectString);
+                    break;
+                case "ZYCISDB":
+                    connectStringParameter.Add("ConnectionString",ZYCISDBConnectString);
+                    break;
+            }
 
             dialogService.ShowDialog("Connection", connectStringParameter,
                 ret =>
                 {
                     if (ret.Result == ButtonResult.OK)
-                        BAGLDBConnectString = ret.Parameters.GetValue<string>("ConnectionString");
+                    {
+                        string dataBaseIdentifier = ret.Parameters.GetValue<string>("DataBaseIdentifier");
+
+                        switch (dataBaseIdentifier)
+                        {
+                            case "BAGLDB":
+                                BAGLDBConnectString = ret.Parameters.GetValue<string>("ConnectionString");
+                                break;
+                            case "MZCISDB":
+                                MZCISDBConnectString = ret.Parameters.GetValue<string>("ConnectionString");
+                                break;
+                            case "ZYCISDB":
+                                ZYCISDBConnectString = ret.Parameters.GetValue<string>("ConnectionString");
+                                break;
+                        }
+                    }
                 });
         }
 
@@ -262,7 +321,12 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
             isConnectionStringChanged = false;
 
             pathManager.LogFileCatalogue = LogFileCatalogue;
+            pathManager.ExportFileCatalogue = ExportFileCatalogue;
+
             dataBaseManager.BAGLDBConnectString = BAGLDBConnectString;
+            dataBaseManager.MZCISDBConnectString = MZCISDBConnectString;
+            dataBaseManager.ZYCISDBConnectString = ZYCISDBConnectString;
+
             logManager.GlobalLogEnabledFlag = GlobalLogEnabledFlag;
             logManager.GlobalLogLevel = GlobalLogCurrentLevel;
 

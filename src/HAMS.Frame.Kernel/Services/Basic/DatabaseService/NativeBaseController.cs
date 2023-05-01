@@ -2,7 +2,6 @@
 using Prism.Ioc;
 using System.Data.SQLite;
 using HAMS.Frame.Kernel.Core;
-using System.Diagnostics;
 
 namespace HAMS.Frame.Kernel.Services
 {
@@ -16,7 +15,6 @@ namespace HAMS.Frame.Kernel.Services
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
 
             nativeConnectionString = environmentMonitor.DataBaseSetting[DataBasePart.Native].Content;
-            Debug.WriteLine(nativeConnectionString);
             base.DBConnection = new SQLiteConnection(nativeConnectionString);
         }
     }

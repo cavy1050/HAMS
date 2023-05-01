@@ -16,6 +16,7 @@ namespace HAMS.Frame.Control.MainHeader.Models
         IEventController eventController;
 
         string eventJsonSentence;
+        JObject responseObj, responseContentObj;
 
         bool isLeftDrawerSwitch;
         public bool IsLeftDrawerSwitch
@@ -59,18 +60,18 @@ namespace HAMS.Frame.Control.MainHeader.Models
 
         private void OnApplicationAlterationResponseEvent(string responseEventTextArg)
         {
-            JObject responseObj = JObject.Parse(responseEventTextArg);
-            JObject responseContentObj = responseObj.Value<JObject>("svc_cont");
-            string targetModule = responseObj.Value<string>("tagt_mdl");
+            responseObj = JObject.Parse(responseEventTextArg);
+            responseContentObj = responseObj.Value<JObject>("svc_cont");
+            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), responseObj.Value<string>("tagt_mdl"));
 
-            if (targetModule == "05")
+            if (targetModule == FrameModulePart.MainHeaderModule)
             {
-                string responseControlType = responseContentObj.Value<string>("app_ctl_type");
-                string responseActiveFlag = responseContentObj.Value<string>("app_act_flag");
+                ControlTypePart responseControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), responseContentObj["app_ctl_type"].Value<string>());
+                ActiveFlagPart responseActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), responseContentObj["app_act_flag"].Value<string>());
 
-                if (responseControlType == "3")
+                if (responseControlType == ControlTypePart.MainLeftDrawer)
                 {
-                    if (responseActiveFlag == "0")
+                    if (responseActiveFlag == ActiveFlagPart.InActive)
                         IsLeftDrawerSwitch = false;
                 }
             }

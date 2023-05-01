@@ -60,7 +60,6 @@ namespace HAMS.Frame.Service.Peripherals
                     ret = true;
                     environmentMonitor.UserSetting = userSettingHub.FirstOrDefault();
                 }
-
             }
 
             return ret;

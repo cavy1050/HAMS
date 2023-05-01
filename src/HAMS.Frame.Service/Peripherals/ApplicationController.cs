@@ -15,7 +15,10 @@ namespace HAMS.Frame.Service.Peripherals
         IEnvironmentMonitor environmentMonitor;
         IEventController eventController;
 
+        JObject requestObj, requestContentObj;
+
         FrameModulePart sourceModule, targetModule;
+        EventBehaviourPart targetEventBehaviour;
         ControlTypePart requestControlType;
         ActiveFlagPart requestActiveFlag;
 
@@ -29,10 +32,11 @@ namespace HAMS.Frame.Service.Peripherals
 
         private void Analyze(string requestServiceTextArg)
         {
-            JObject requestObj = JObject.Parse(requestServiceTextArg);
-            JObject requestContentObj = requestObj.Value<JObject>("svc_cont");
+            requestObj = JObject.Parse(requestServiceTextArg);
+            requestContentObj = requestObj.Value<JObject>("svc_cont");
 
             sourceModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("souc_mdl"));
+            targetEventBehaviour = (EventBehaviourPart)Enum.Parse(typeof(EventBehaviourPart), requestObj.Value<string>("svc_bhvr_type"));
             requestControlType = (ControlTypePart)Enum.Parse(typeof(ControlTypePart), requestContentObj.Value<string>("app_ctl_type"));
             requestActiveFlag = (ActiveFlagPart)Enum.Parse(typeof(ActiveFlagPart), requestContentObj.Value<string>("app_act_flag"));
         }
@@ -92,7 +96,7 @@ namespace HAMS.Frame.Service.Peripherals
             GenerateTargetModules();
             SynchronizeServices();
 
-            eventJsonSentence = eventController.Response(EventPart.ApplicationEvent, EventBehaviourPart.Initialization, FrameModulePart.ServiceModule, targetModule,
+            eventJsonSentence = eventController.Response(EventPart.ApplicationEvent, targetEventBehaviour, FrameModulePart.ServiceModule, targetModule,
                                         new ApplicationContentKind
                                         {
                                             ApplicationControlType = Convert.ToInt32(requestControlType).ToString(),

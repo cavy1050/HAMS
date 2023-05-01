@@ -14,10 +14,16 @@ namespace HAMS.Frame.Kernel.Core
         /// </summary>
         All,
 
-        [Description("本地配置数据库")]
+        [Description("本地数据库")]
         Native,
 
         [Description("病案管理数据库")]
-        BAGLDB
+        BAGLDB,
+
+        [Description("临床管理数据库(门诊)")]
+        MZCISDB,
+
+        [Description("临床管理数据库(住院)")]
+        ZYCISDB
     }
 }

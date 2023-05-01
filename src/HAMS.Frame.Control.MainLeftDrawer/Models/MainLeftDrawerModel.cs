@@ -26,8 +26,6 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
         List<ExtensionModuleKind> extensionModuleHub;
 
         JObject responseObj, responseContentObj;
-        FrameModulePart targetModule;
-        EventBehaviourPart eventBehaviour;
 
         ObservableCollection<ModuleNodeKind> rootNodes;
         public ObservableCollection<ModuleNodeKind> RootNodes

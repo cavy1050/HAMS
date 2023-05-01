@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HAMS.Views" 
-        xmlns:interaction="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -68,11 +67,11 @@
                                                 <Button DockPanel.Dock="Right"
                                                     Style="{DynamicResource MaterialDesignToolButton}" 
                                                     Content="{md:PackIcon Kind=Close}">
-                                                    <interaction:Interaction.Triggers>
-                                                        <interaction:EventTrigger EventName="Click">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
                                                             <ctl:CloseTabItemAction/>
-                                                        </interaction:EventTrigger>
-                                                    </interaction:Interaction.Triggers>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
                                             </DockPanel>
                                         </DataTemplate>
