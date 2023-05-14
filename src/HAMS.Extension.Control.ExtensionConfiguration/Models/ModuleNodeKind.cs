@@ -8,7 +8,7 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Commands;
 
-namespace HAMS.Frame.Control.MainLeftDrawer.Models
+namespace HAMS.Extension.Control.ExtensionConfiguration.Models
 {
     public class ModuleNodeKind : BindableBase
     {
@@ -40,18 +40,11 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
             set => SetProperty(ref moduleRef, value);
         }
 
-        string moduleType;
+        string moduletype;
         public string ModuleType
         {
-            get => moduleType;
-            set => SetProperty(ref moduleType, value);
-        }
-
-        string moduleDependency;
-        public string ModuleDependency
-        {
-            get => moduleDependency;
-            set => SetProperty(ref moduleDependency, value);
+            get => moduletype;
+            set => SetProperty(ref moduletype, value);
         }
 
         bool isSelected;
@@ -63,7 +56,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                 SetProperty(ref isSelected, value);
 
                 if (isSelected)
-                    OnNodeSelected(Code, Name, ModuleName, ModuleRef, ModuleType, ModuleDependency);
+                    OnNodeSelected(Code, Name, ModuleName, ModuleRef, ModuleType);
             }
         }
 
@@ -78,7 +71,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         public event EventHandler<NodeSelectedEventArgs> NodeSelected;
 
-        public void OnNodeSelected(string codeArg, string nameArg, string moduleNameArg, string moduleRefArg, string moduleTypeArg, string moduleDependencyArg)
+        public void OnNodeSelected(string codeArg, string nameArg, string moduleNameArg, string moduleRefArg, string moduleTypeArg)
         {
             NodeSelected?.Invoke(this, new NodeSelectedEventArgs
             {
@@ -86,8 +79,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                 Name = nameArg,
                 ModuleName = moduleNameArg,
                 ModuleRef = moduleRefArg,
-                ModuleType = moduleTypeArg,
-                ModuleDependency = moduleDependencyArg
+                ModuleType = moduleTypeArg
             });
         }
     }

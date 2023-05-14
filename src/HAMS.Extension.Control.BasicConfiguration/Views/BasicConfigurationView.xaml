@@ -79,15 +79,14 @@
                                    Width="160"
                                    TextAlignment="Right"                  
                                    Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                            <TextBox x:Name="LogFileCatalogueText"
-                                 Margin="32 0 0 0"
-                                 Width="600"
-                                 Text="{Binding BasicConfigurationModel.LogFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Margin="32 0 0 0"
+                                     Width="600"
+                                     Text="{Binding BasicConfigurationModel.LogFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                             <Button Margin="32 0 0 0"
-                                Style="{StaticResource MaterialDesignToolButton}"
-                                Command="{Binding OpenFileCatalogueCommand}"
-                                CommandParameter="{Binding ElementName=LogFileCatalogueText,Path=Text,Mode=OneWay}"
-                                ToolTip="点击设置目录信息">
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding OpenFileCatalogueCommand}"
+                                    CommandParameter="LogFileCatalogue"
+                                    ToolTip="点击设置目录信息">
                                 <md:PackIcon>
                                     <md:PackIcon.Style>
                                         <Style TargetType="md:PackIcon"
@@ -106,14 +105,13 @@
                                    Width="160"
                                    TextAlignment="Right"                  
                                    Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                            <TextBox x:Name="ExportFileCatalogueText"
-                                 Margin="32 0 0 0"
-                                 Width="600"
-                                 Text="{Binding BasicConfigurationModel.ExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Margin="32 0 0 0"
+                                     Width="600"
+                                     Text="{Binding BasicConfigurationModel.ExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                             <Button Margin="32 0 0 0"
-                                Style="{StaticResource MaterialDesignToolButton}"
-                                Command="{Binding OpenFileCatalogueCommand}"
-                                CommandParameter="{Binding ElementName=ExportFileCatalogueText,Path=Text,Mode=OneWay}"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    Command="{Binding OpenFileCatalogueCommand}"
+                                    CommandParameter="ExportFileCatalogue"
                                 ToolTip="点击设置目录信息">
                                 <md:PackIcon>
                                     <md:PackIcon.Style>

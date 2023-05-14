@@ -85,6 +85,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                     ModuleName = module.Item,
                     ModuleRef = module.Content,
                     ModuleType = module.Description,
+                    ModuleDependency = module.Note,
                     NextNodes = LoadNextModuleCollection(module.Code)
                 }));
             }
@@ -106,6 +107,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                     moduleNode.ModuleName = module.Item;
                     moduleNode.ModuleRef = module.Content;
                     moduleNode.ModuleType = module.Description;
+                    moduleNode.ModuleDependency= module.Note;
                     moduleNode.NextNodes = LoadNextModuleCollection(module.Code);
                     moduleNode.NodeSelected += NextModuleNodeSelected;
 
@@ -118,7 +120,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
 
         private void NextModuleNodeSelected(object sender, NodeSelectedEventArgs noteArg)
         {
-            eventJsonSentence = eventController.Request(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation , FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
+            eventJsonSentence = eventController.Request(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation, FrameModulePart.MainLeftDrawerModule, FrameModulePart.ServiceModule,
                 new ExtensionModuleActivationRequestContentKind
                 {
                     Code = noteArg.Code,
@@ -126,6 +128,7 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
                     ModuleName = noteArg.ModuleName,
                     ModuleRef = noteArg.ModuleRef,
                     ModuleType = noteArg.ModuleType,
+                    ModuleDependency = noteArg.ModuleDependency
                 });
 
             eventAggregator.GetEvent<RequestEvent>().Publish(eventJsonSentence);

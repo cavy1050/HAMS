@@ -10,6 +10,8 @@ using MaterialDesignThemes.Wpf;
 using MaterialDesignExtensions.Controls;
 using HAMS.Frame.Kernel.Core;
 using HAMS.Frame.Kernel.Services;
+using HAMS.Frame.Kernel.Extensions;
+using HQMS.Extension.Kernel.Core;
 
 namespace HQMS.Extension.Control.Configuration.Models
 {
@@ -20,37 +22,22 @@ namespace HQMS.Extension.Control.Configuration.Models
         ISnackbarMessageQueue messageQueue;
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
-        IDataBaseController BAGLDBController;
+        ISetting setting;
 
-        List<TyydmkKind> TyydmkHub;
-        List<SettingKind> customHub;
+        List<SettingKind> hospitalAreaSettingHub;
 
-        ObservableCollection<TyydmkKind> hospitals;
-        public ObservableCollection<TyydmkKind> Hospitals
+        ObservableCollection<SettingKind> hospitals;
+        public ObservableCollection<SettingKind> Hospitals
         {
             get => hospitals;
             set => SetProperty(ref hospitals, value);
         }
 
-        string currentHospitalCode;
-        public string CurrentHospitalCode
+        SettingKind currentHospital;
+        public SettingKind CurrentHospital
         {
-            get => currentHospitalCode;
-            set => SetProperty(ref currentHospitalCode, value);
-        }
-
-        int currentHospitalIndex;
-        public int CurrentHospitalIndex
-        {
-            get => currentHospitalIndex;
-            set => SetProperty(ref currentHospitalIndex, value);
-        }
-
-        string exportFileCatalogue;
-        public string ExportFileCatalogue
-        {
-            get => exportFileCatalogue;
-            set => SetProperty(ref exportFileCatalogue, value);
+            get => currentHospital;
+            set => SetProperty(ref currentHospital, value);
         }
 
         string upLoadFileCatalogue;
@@ -58,6 +45,20 @@ namespace HQMS.Extension.Control.Configuration.Models
         {
             get => upLoadFileCatalogue;
             set => SetProperty(ref upLoadFileCatalogue, value);
+        }
+
+        ObservableCollection<DisplayModeKind> displayModes;
+        public ObservableCollection<DisplayModeKind> DisplayModes
+        {
+            get => displayModes;
+            set => SetProperty(ref displayModes, value);
+        }
+
+        DisplayModeKind currentDisplayMode;
+        public DisplayModeKind CurrentDisplayMode
+        {
+            get => currentDisplayMode;
+            set => SetProperty(ref currentDisplayMode, value);
         }
 
         string masterExportFileCatalogue;
@@ -78,65 +79,43 @@ namespace HQMS.Extension.Control.Configuration.Models
         {
             messageQueue = containerProviderArg.Resolve<ISnackbarMessageQueue>();
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
-
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
-            BAGLDBController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.BAGLDB);
+            setting = containerProviderArg.Resolve<ISetting>();
 
-            Hospitals = new ObservableCollection<TyydmkKind>();
+            Hospitals = new ObservableCollection<SettingKind>();
+            DisplayModes = new ObservableCollection<DisplayModeKind>();
         }
 
         public void Loaded()
         {
-            LoadHospitalData();
+            LoadDictionaryData();
             LoadCustomData();
         }
 
-        private void LoadHospitalData()
+        private void LoadDictionaryData()
         {
-            string hospitalCode;
+            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM System_HospitalAreaSetting WHERE EnabledFlag = True";
 
-            sqlSentence = "SELECT fyydm,fyymc FROM dbo.Tyydmk";
-
-            if (!BAGLDBController.Query<TyydmkKind>(sqlSentence, out TyydmkHub))
+            if (!nativeBaseController.Query<SettingKind>(sqlSentence, out hospitalAreaSettingHub))
                 messageQueue.Enqueue("获取医院基础字典数据错误!");
             else
-                Hospitals.AddRange(TyydmkHub);
+                Hospitals.AddRange(hospitalAreaSettingHub);
 
-            sqlSentence = "SELECT Code,Item,Name,Content,Description,Note,Rank,DefaultFlag,EnabledFlag FROM HQMS_DictionarySetting WHERE CategoryCode = '01GVGA3FQM9M5H3ZRP14H3ZJSX' AND EnabledFlag = True";
-            if (!nativeBaseController.Query<SettingKind>(sqlSentence, out customHub))
-                messageQueue.Enqueue("获取医院自定义数据错误!");
-            else
+            foreach (DisplayModePart displayMode in Enum.GetValues(typeof(DisplayModePart)))
             {
-                hospitalCode = customHub.FirstOrDefault(setting => setting.Code == "01GVGA3FQNHBTC5HWAYHGCVT45").Content;
-
-                switch (hospitalCode)
+                DisplayModes.Add(new DisplayModeKind
                 {
-                    case "01": CurrentHospitalIndex = 0; break;
-                    case "02": CurrentHospitalIndex = 1; break;
-                    case "03": CurrentHospitalIndex = 2; break;
-                }
+                    Item = displayMode.ToString(),
+                    Name = EnumExtension.GetDescription(displayMode)
+                });
             }
         }
 
         private void LoadCustomData()
         {
-            ExportFileCatalogue = customHub.FirstOrDefault(setting => setting.Code == "01GVGA3FQNBZ9YZ9R2PVEBXZKC").Content;
-            UpLoadFileCatalogue= customHub.FirstOrDefault(setting => setting.Code == "01GVGA3FQN1W8600ZFKR4K74MY").Content;
-            MasterExportFileCatalogue = customHub.FirstOrDefault(setting => setting.Code == "01GVGA3FQNHVVFEM8KQ6FDCYFS").Content;
-            DetailExportFileCatalogue = customHub.FirstOrDefault(setting => setting.Code == "01GVGAG8VD3GYZMXG1MQZ2YW1T").Content;
-        }
-
-        public async void OpenExportFileCatalogue()
-        {
-            OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
-            {
-                Width = 600,
-                Height = 500
-            };
-
-            OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
-            if (result.Confirmed)
-                ExportFileCatalogue = result.Directory+"\\";
+            CurrentHospital = Hospitals.FirstOrDefault(item => item.Item == setting.HospitalCode);
+            UpLoadFileCatalogue = setting.UpLoadFileCatalogue;
+            CurrentDisplayMode = DisplayModes.FirstOrDefault(item => item.Item == setting.DisplayMode.ToString());
         }
 
         public async void OpenUpLoadFileCatalogue()
@@ -149,64 +128,26 @@ namespace HQMS.Extension.Control.Configuration.Models
 
             OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
             if (result.Confirmed)
-                UpLoadFileCatalogue = result.Directory + "\\";
-        }
-
-        public async void OpenMasterExportFileCatalogue()
-        {
-            OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
-            {
-                Width = 600,
-                Height = 500
-            };
-
-            OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
-            if (result.Confirmed)
-                MasterExportFileCatalogue = result.Directory + "\\";
-        }
-
-        public async void OpenDetailExportFileCatalogue()
-        {
-            OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
-            {
-                Width = 600,
-                Height = 500
-            };
-
-            OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
-            if (result.Confirmed)
-                DetailExportFileCatalogue = result.Directory + "\\";
+                UpLoadFileCatalogue = result.Directory.EndsWith("\\") == false ? result.Directory + "\\" : result.Directory;
         }
 
         public void Save()
         {
-            sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + CurrentHospitalCode + "' WHERE Code='01GVGA3FQNHBTC5HWAYHGCVT45'";
+            sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + CurrentHospital.Item + "' WHERE Code='01GVGA3FQNHBTC5HWAYHGCVT45'";
             if (!nativeBaseController.Execute(sqlSentence))
                 messageQueue.Enqueue("保存医院代码自定义数据错误!");
             else
             {
-                sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + ExportFileCatalogue + "' WHERE Code='01GVGA3FQNBZ9YZ9R2PVEBXZKC'";
+                sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + UpLoadFileCatalogue + "' WHERE Code='01GVGA3FQN1W8600ZFKR4K74MY'";
                 if (!nativeBaseController.Execute(sqlSentence))
-                    messageQueue.Enqueue("保存导出文件目录自定义数据错误!");
+                    messageQueue.Enqueue("保存上传文件目录自定义数据错误!");
                 else
                 {
-                    sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + UpLoadFileCatalogue + "' WHERE Code='01GVGA3FQN1W8600ZFKR4K74MY'";
+                    sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + CurrentDisplayMode.Item + "' WHERE Code='01GVGA3FQNHVVFEM8KQ6FDCYFS'";
                     if (!nativeBaseController.Execute(sqlSentence))
-                        messageQueue.Enqueue("保存上传文件目录自定义数据错误!");
+                        messageQueue.Enqueue("保存显示模式自定义数据错误!");
                     else
-                    {
-                        sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + MasterExportFileCatalogue + "' WHERE Code='01GVGA3FQNHVVFEM8KQ6FDCYFS'";
-                        if (!nativeBaseController.Execute(sqlSentence))
-                            messageQueue.Enqueue("保存汇总文件导出目录自定义数据错误!");
-                        else
-                        {
-                            sqlSentence = "UPDATE HQMS_DictionarySetting SET Content='" + DetailExportFileCatalogue + "' WHERE Code='01GVGAG8VD3GYZMXG1MQZ2YW1T'";
-                            if (!nativeBaseController.Execute(sqlSentence))
-                                messageQueue.Enqueue("保存明细文件导出目录自定义数据错误!");
-                            else
-                                messageQueue.Enqueue("保存成功!");
-                        }
-                    }
+                        messageQueue.Enqueue("保存成功!");
                 }
             }
         }

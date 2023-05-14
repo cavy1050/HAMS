@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HQMS.Extension.Control.Configuration.Models
 {
-    public class TyydmkKind
+    public class DisplayModeKind
     {
-        public string fyydm { get; set; }
-        public string fyymc { get; set; }
+        public string Item { get; set; }
+        public string Name { get; set; }
     }
 }

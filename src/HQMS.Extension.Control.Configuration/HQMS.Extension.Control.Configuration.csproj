@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationModule.cs" />
     <Compile Include="Models\ConfigurationModel.cs" />
-    <Compile Include="Models\Kinds\TyydmkKind.cs" />
+    <Compile Include="Models\Kinds\DisplayModeKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +104,10 @@
     <ProjectReference Include="..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj">
       <Project>{754a02f3-71b3-43dd-8239-3d039205f8d7}</Project>
       <Name>HAMS.Frame.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HQMS.Extension.Kernel\HQMS.Extension.Kernel.csproj">
+      <Project>{91de834a-734c-4ef0-8b53-f58bc37424ea}</Project>
+      <Name>HQMS.Extension.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

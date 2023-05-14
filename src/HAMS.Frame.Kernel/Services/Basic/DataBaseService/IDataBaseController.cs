@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace HAMS.Frame.Kernel.Services
 {
@@ -25,7 +26,7 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 提供对简单查询操作、表值函数查询的基本支持，并记录操作日志
         /// </summary>
-        bool Query<T>(string sqlSentenceArg, out List<T> tHub);
+        bool Query<T>(string sqlSentenceArg, out List<T> tHub, int? commandTimeoutArg = null);
 
         /// <summary>
         /// 提供简单数据操作支持，并记录操作日志
@@ -35,7 +36,7 @@ namespace HAMS.Frame.Kernel.Services
         /// <summary>
         /// 提供对查询操作执行的支持，记录操作日志及执行结果
         /// </summary>
-        bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub,out string retStringArg);
+        bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub, out string retStringArg);
 
         /// <summary>
         /// 提供对数据操作的执行支持,记录操作日志及执行结果

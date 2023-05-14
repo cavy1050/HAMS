@@ -18,8 +18,6 @@ namespace HQMS.Extension.Control.Main
 
         public void RegisterTypes(IContainerRegistry containerRegistryArg)
         {
-            containerRegistryArg.RegisterSingleton<IConfigurator, Configurator>();
-
             containerRegistryArg.RegisterForNavigation<MainView>("MainModule");
             containerRegistryArg.RegisterForNavigation<DataMappingView>();
             containerRegistryArg.RegisterForNavigation<DataQueryingView>();

@@ -11,44 +11,49 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
-    <Grid Margin="0 8 0 0">
+    <Grid Margin="8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0"
-                 ItemsSource="{Binding MainModel.Menus}"
-                 Style="{DynamicResource MaterialDesignChoiceChipListBox}"
-                 DisplayMemberPath="Name"
-                 SelectedValuePath="Item"
-                 SelectedValue="{Binding MainModel.CurrentItem}">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}"
-                       BasedOn="{StaticResource MaterialDesignChoiceChipListBoxItem}">
-                    <Setter Property="Margin" Value="32 0 0 0"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding MenuSelectedChangedCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ListBox>
-
-        <Separator Grid.Row="1"
-                   Style="{StaticResource MaterialDesignSeparator}"
-                   Background="{DynamicResource PrimaryHueLightBrush}"
-                   Margin="32 0 32 0" />
+        <md:Card Grid.Row="0"
+                 Padding="8">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="数据匹配"
+                             Style="{DynamicResource MaterialDesignTabRadioButtonBottom}"
+                             GroupName="Menus">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding DataMatchingCheckedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+                <RadioButton Margin="32 0 0 0"
+                             Content="数据查询"
+                             Style="{DynamicResource MaterialDesignTabRadioButtonBottom}"
+                             GroupName="Menus">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding DataQueryingCheckedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+                <RadioButton Margin="32 0 0 0"
+                             Content="数据导出"
+                             Style="{DynamicResource MaterialDesignTabRadioButtonBottom}"
+                             GroupName="Menus">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding DataExportingCheckedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </RadioButton>
+            </StackPanel>
+        </md:Card>
 
         <ContentControl Grid.Row="2" 
+                        Margin="0 8 0 0"
                         prism:RegionManager.RegionName="HQMS.MainContentRegion"/>
     </Grid>
 </UserControl>

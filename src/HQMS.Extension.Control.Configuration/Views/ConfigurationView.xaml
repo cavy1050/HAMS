@@ -18,109 +18,74 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Margin="16">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <DockPanel Margin="8">
+        <Border DockPanel.Dock="Top"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+            <StackPanel>
+                <TextBlock Margin="32 0 0 0"
+                           Text="公立医院绩效考核设置"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
 
-        <TextBlock Grid.Row="0"
-                   Margin="0 8 0 0"
-                   Text="公立医院绩效考核设置"
-                   FontWeight="ExtraBold"
-                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+                <Separator Margin="32 0 32 0"
+                           Style="{StaticResource MaterialDesignDarkSeparator}" 
+                           Background="{StaticResource PrimaryHueDarkBrush}"/>
 
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="1"
-                    Margin="0 32 0 0">
-            <TextBlock Text="医院代码"
-                       Width="128"
-                       TextAlignment="Right"
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            <ComboBox Margin="32 0 0 0"
-                      Width="400"
-                      ItemsSource="{Binding ConfigurationModel.Hospitals}"
-                      DisplayMemberPath="fyymc"
-                      SelectedValue="{Binding ConfigurationModel.CurrentHospitalCode}"
-                      SelectedValuePath="fyydm"
-                      SelectedIndex="{Binding ConfigurationModel.CurrentHospitalIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="医院代码"
+                               Width="160"
+                               TextAlignment="Right"
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="32 0 0 0"
+                              Width="400"
+                              ItemsSource="{Binding ConfigurationModel.Hospitals}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding ConfigurationModel.CurrentHospital,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
 
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="2"
-                    Margin="0 32 0 0">
-            <TextBlock Text="导出文件目录"
-                       Width="128"
-                       TextAlignment="Right"                      
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            <TextBox Margin="32 0 0 0"
-                     Width="400"
-                     Text="{Binding ConfigurationModel.ExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Margin="8 0 0 0"
-                    Style="{StaticResource MaterialDesignToolButton}"
-                    Content="{md:PackIcon DotsHorizontal}"
-                    Command="{Binding OpenExportFileCatalogueCommand}"/>
-        </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 4 0 0">
+                    <TextBlock Text="上传文件目录"
+                               Width="160"
+                               TextAlignment="Right"
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <TextBox Margin="32 0 0 0"
+                             Width="400"
+                             Text="{Binding ConfigurationModel.UpLoadFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Margin="32 0 0 0"
+                            Style="{StaticResource MaterialDesignToolButton}"
+                            Content="{md:PackIcon DotsHorizontal}"
+                            Command="{Binding OpenUpLoadFileCatalogueCommand}"
+                            ToolTip="点击设置目录信息"/>
+                </StackPanel>
 
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="3"
-                    Margin="0 32 0 0">
-            <TextBlock Text="上传文件目录"
-                       Width="128"
-                       TextAlignment="Right"
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            <TextBox Margin="32 0 0 0"
-                     Width="400"
-                     Text="{Binding ConfigurationModel.UpLoadFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Margin="8 0 0 0"
-                    Style="{StaticResource MaterialDesignToolButton}"
-                    Content="{md:PackIcon DotsHorizontal}"
-                    Command="{Binding OpenUpLoadFileCatalogueCommand}"/>
-        </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 4 0 0">
+                    <TextBlock Text="显示模式"
+                               Width="160"
+                               TextAlignment="Right"
+                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="32 0 0 0"
+                              Width="100"
+                              ItemsSource="{Binding ConfigurationModel.DisplayModes}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding ConfigurationModel.CurrentDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
 
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="4"
-                    Margin="0 32 0 0">
-            <TextBlock Text="汇总文件导出目录"
-                       Width="128"
-                       TextAlignment="Right"
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            <TextBox Margin="32 0 0 0"
-                     Width="400"
-                     Text="{Binding ConfigurationModel.MasterExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Margin="8 0 0 0"
-                    Style="{StaticResource MaterialDesignToolButton}"
-                    Content="{md:PackIcon DotsHorizontal}"
-                    Command="{Binding OpenMasterExportFileCatalogueCommand}"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="5"
-                    Margin="0 32 0 0">
-            <TextBlock Text="明细文件导出目录"
-                       Width="128"
-                       TextAlignment="Right"
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            <TextBox Margin="32 0 0 0"
-                     Width="400"
-                     Text="{Binding ConfigurationModel.DetailExportFileCatalogue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Margin="8 0 0 0"
-                    Style="{StaticResource MaterialDesignToolButton}"
-                    Content="{md:PackIcon DotsHorizontal}"
-                    Command="{Binding OpenDetailExportFileCatalogueCommand}"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="6"
-                    Margin="400 128 0 0">
-            <Button Style="{DynamicResource MaterialDesignOutlinedLightButton}"
-                    Content="保存"
-                    Command="{Binding SaveCommand}"/>
-        </StackPanel>
-    </Grid>
+        <md:Card DockPanel.Dock="Bottom"
+                 Padding="8"
+                 VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Margin="32 0 32 0"
+                        Content="保存"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </md:Card>
+    </DockPanel>
 </UserControl>

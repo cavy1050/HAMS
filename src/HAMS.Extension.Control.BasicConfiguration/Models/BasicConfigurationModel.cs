@@ -238,16 +238,40 @@ namespace HAMS.Extension.Control.BasicConfiguration.Models
 
         public async void OnOpenFileCatalogue(string fileCatalogueIdentifierArg)
         {
+            string currentDirectory = string.Empty;
+
+            switch (fileCatalogueIdentifierArg)
+            {
+                case "LogFileCatalogue":
+                    currentDirectory = LogFileCatalogue;
+                    break;
+                case "ExportFileCatalogue":
+                    currentDirectory = ExportFileCatalogue;
+                    break;
+            }
+
             OpenDirectoryDialogArguments openDirectoryDialogArguments = new OpenDirectoryDialogArguments
             {
                 Width = 600,
                 Height = 500,
-                CurrentDirectory = fileCatalogueIdentifierArg
+                CurrentDirectory = currentDirectory
             };
 
             OpenDirectoryDialogResult result = await OpenDirectoryDialog.ShowDialogAsync("MainDialog", openDirectoryDialogArguments);
             if (result.Confirmed)
-                LogFileCatalogue = result.Directory.EndsWith("\\") == false ? result.Directory + "\\" : result.Directory;
+            {
+                string retDirectory = result.Directory.EndsWith("\\") == false ? result.Directory + "\\" : result.Directory;
+
+                switch (fileCatalogueIdentifierArg)
+                {
+                    case "LogFileCatalogue":
+                        LogFileCatalogue = retDirectory;
+                        break;
+                    case "ExportFileCatalogue":
+                        ExportFileCatalogue = retDirectory;
+                        break;
+                }
+            }
         }
 
         public void Connection(string dataBaseIdentifierArg)

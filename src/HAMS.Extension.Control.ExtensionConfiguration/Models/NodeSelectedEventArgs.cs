@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HAMS.Frame.Control.MainLeftDrawer.Models
+namespace HAMS.Extension.Control.ExtensionConfiguration.Models
 {
     public class NodeSelectedEventArgs : EventArgs
     {
@@ -13,6 +13,5 @@ namespace HAMS.Frame.Control.MainLeftDrawer.Models
         public string ModuleName { get; set; }
         public string ModuleRef { get; set; }
         public string ModuleType { get; set; }
-        public string ModuleDependency { get; set; }
     }
 }

@@ -27,8 +27,16 @@ namespace HAMS.Frame.Service.Peripherals
         string sqlSentence, eventJsonSentence;
         JObject requestObj, requestContentObj;
         ExtensionModuleKind extensionModule;
+        ExtensionModuleKind dependencyModule;
         ExtensionModuleCatalog extensionModuleCatalog;
-        List<ExtensionModuleKind> extensionModuleHub;
+        List<ExtensionModuleKind> extensionModuleSettingHub;
+        FrameModulePart requestTargetModule, requestSourceModule;
+        EventBehaviourPart requestEventBehaviour;
+
+        /// <summary>
+        /// 静态扩展模块清单,缓存扩展模块信息
+        /// </summary>
+        public static List<ExtensionModuleKind> ExtensionModuleSetting { get; set; }
 
         public ExtensionModuleController(IContainerProvider containerProviderArg)
         {
@@ -41,7 +49,7 @@ namespace HAMS.Frame.Service.Peripherals
             eventController = containerProviderArg.Resolve<IEventController>();
         }
 
-        private bool Navigate(out string errorMessageArg)
+        private bool LoadModule(out string errorMessageArg)
         {
             bool ret = false;
             errorMessageArg = string.Empty;
@@ -50,13 +58,50 @@ namespace HAMS.Frame.Service.Peripherals
             {
                 if (!moduleCatalog.Exists(extensionModule.Item))
                 {
+                    if (!string.IsNullOrEmpty(extensionModule.Note))
+                    {
+                        foreach (string dependencyModuleItem in extensionModule.Note.Split(','))
+                        {
+                            if (!moduleCatalog.Exists(dependencyModuleItem))
+                                dependencyModule = new ExtensionModuleKind
+                                {
+                                    Code = ExtensionModuleSetting.FirstOrDefault(item => item.Item == dependencyModuleItem).Code,
+                                    Name = ExtensionModuleSetting.FirstOrDefault(item => item.Item == dependencyModuleItem).Name,
+                                    Item = dependencyModuleItem,
+                                    Content = ExtensionModuleSetting.FirstOrDefault(item => item.Item == dependencyModuleItem).Content,
+                                    Description = ExtensionModuleSetting.FirstOrDefault(item => item.Item == dependencyModuleItem).Description
+                                };
+
+                            extensionModuleCatalog = new ExtensionModuleCatalog(containerProvider, dependencyModule);
+                            extensionModuleCatalog.Load();
+                        }
+                    }
+
                     extensionModuleCatalog = new ExtensionModuleCatalog(containerProvider, extensionModule);
                     extensionModuleCatalog.Load();
                     moduleManager.Run();
                 }
+            }
+            catch (Exception ex)
+            {
+                errorMessageArg = ex.Message;
+            }
+            finally
+            {
+                ret = true;
+            }
 
+            return ret;
+        }
+
+        private bool Navigate(out string errorMessageArg)
+        {
+            bool ret = false;
+            errorMessageArg = string.Empty;
+
+            try
+            {
                 regionManager.RequestNavigate("MainContentRegion", extensionModule.Item);
-
                 ret = true;
             }
             catch (Exception ex)
@@ -73,20 +118,26 @@ namespace HAMS.Frame.Service.Peripherals
 
             requestObj = JObject.Parse(requestServiceTextArg);
             requestContentObj = requestObj.Value<JObject>("svc_cont");
-            FrameModulePart targetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
-            EventBehaviourPart eventBehaviour = (EventBehaviourPart)Enum.Parse(typeof(EventBehaviourPart), requestObj.Value<string>("svc_bhvr_type"));
 
-            if (targetModule == FrameModulePart.ServiceModule)
+            requestSourceModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("souc_mdl"));
+            requestTargetModule = (FrameModulePart)Enum.Parse(typeof(FrameModulePart), requestObj.Value<string>("tagt_mdl"));
+            requestEventBehaviour = (EventBehaviourPart)Enum.Parse(typeof(EventBehaviourPart), requestObj.Value<string>("svc_bhvr_type"));
+
+            if (requestTargetModule == FrameModulePart.ServiceModule)
             {
-                if (eventBehaviour == EventBehaviourPart.Initialization)
+                if (requestEventBehaviour == EventBehaviourPart.Initialization)
                 {
-                    sqlSentence = "SELECT Code,Item,Name,Content,Description,SuperCode,SuperItem,Note,Rank,DefaultFlag,EnabledFlag FROM System_ExtensionModuleSetting WHERE EnabledFlag=True";
-                    nativeBaseController.Query<ExtensionModuleKind>(sqlSentence, out extensionModuleHub);
+                    if (ExtensionModuleSetting == null)
+                    {
+                        sqlSentence = "SELECT Code,Item,Name,Content,Description,SuperCode,SuperItem,Note,Rank,DefaultFlag,EnabledFlag FROM System_ExtensionModuleSetting WHERE EnabledFlag=True";
+                        nativeBaseController.Query<ExtensionModuleKind>(sqlSentence, out extensionModuleSettingHub);
+                        ExtensionModuleSetting = extensionModuleSettingHub;
+                    }
 
                     eventJsonSentence = eventController.Response(EventPart.ExtensionModuleEvent, EventBehaviourPart.Initialization, FrameModulePart.ServiceModule,
-                        FrameModulePart.MainLeftDrawerModule, new ExtensionModuleInitializationResponseContentKind { ExtensionModules = extensionModuleHub.ToList() }, true, string.Empty);
+                        requestSourceModule, new ExtensionModuleInitializationResponseContentKind { ExtensionModules = ExtensionModuleSetting.ToList() }, true, string.Empty);
                 }
-                else if (eventBehaviour == EventBehaviourPart.Activation)
+                else if (requestEventBehaviour == EventBehaviourPart.Activation)
                 {
                     extensionModule = new ExtensionModuleKind
                     {
@@ -95,14 +146,24 @@ namespace HAMS.Frame.Service.Peripherals
                         Item = requestContentObj.Value<string>("menu_mod_name"),
                         Content = requestContentObj.Value<string>("menu_mod_ref"),
                         Description = requestContentObj.Value<string>("menu_mod_type"),
+                        Note = requestContentObj.Value<string>("menu_mod_dep")
                     };
 
-                    if (Navigate(out errorMessage))
-                        eventJsonSentence = eventController.Response(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
-                            FrameModulePart.MainLeftDrawerModule, new EmptyContentKind(), true, string.Empty);
+                    if (LoadModule(out errorMessage))
+                    {
+                        if (Navigate(out errorMessage))
+                            eventJsonSentence = eventController.Response(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
+                                requestSourceModule, new EmptyContentKind(), true, string.Empty);
+                        else
+                            eventJsonSentence = eventController.Response(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
+                                requestSourceModule, new EmptyContentKind(), false, errorMessage);
+                    }
                     else
+                    {
                         eventJsonSentence = eventController.Response(EventPart.ExtensionModuleEvent, EventBehaviourPart.Activation, FrameModulePart.ServiceModule,
-                            FrameModulePart.MainLeftDrawerModule, new EmptyContentKind(), false, errorMessage);
+                            requestSourceModule, new EmptyContentKind(), false, errorMessage);
+                    }
+
                 }
             }
 

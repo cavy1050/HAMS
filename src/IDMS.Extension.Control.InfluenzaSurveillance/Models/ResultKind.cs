@@ -19,6 +19,9 @@ namespace IDMS.Extension.Control.InfluenzaSurveillance.Models
         [Column("就诊日期")]
         public string JZRQ { get; set; }
 
+        [Column("就诊科室")]
+        public string KSMC { get; set; }
+
         [Column("体温")]
         public string TW { get; set; }
 

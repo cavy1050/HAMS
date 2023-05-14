@@ -90,7 +90,7 @@
   <ItemGroup>
     <Compile Include="InfluenzaSurveillanceModule.cs" />
     <Compile Include="Models\InfluenzaSurveillanceModel.cs" />
-    <Compile Include="Models\Kinds\ResultKind.cs" />
+    <Compile Include="Models\ResultKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

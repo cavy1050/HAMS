@@ -27,10 +27,7 @@ namespace HQMS.Extension.Control.Configuration.ViewModels
         }
 
         public DelegateCommand LoadedCommand { get; private set; }
-        public DelegateCommand OpenExportFileCatalogueCommand { get; private set; }
         public DelegateCommand OpenUpLoadFileCatalogueCommand { get; private set; }
-        public DelegateCommand OpenMasterExportFileCatalogueCommand { get; private set; }
-        public DelegateCommand OpenDetailExportFileCatalogueCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
 
         public ConfigurationViewModel(IContainerProvider containerProviderArg)
@@ -38,10 +35,7 @@ namespace HQMS.Extension.Control.Configuration.ViewModels
             ConfigurationModel = new ConfigurationModel(containerProviderArg);
 
             LoadedCommand = new DelegateCommand(OnLoaded);
-            OpenExportFileCatalogueCommand = new DelegateCommand(OnOpenExportFileCatalogue);
             OpenUpLoadFileCatalogueCommand = new DelegateCommand(OnOpenUpLoadFileCatalogue);
-            OpenMasterExportFileCatalogueCommand = new DelegateCommand(OnOpenMasterExportFileCatalogue);
-            OpenDetailExportFileCatalogueCommand = new DelegateCommand(OnOpenDetailExportFileCatalogue);
             SaveCommand = new DelegateCommand(OnSave);
         }
 
@@ -50,24 +44,9 @@ namespace HQMS.Extension.Control.Configuration.ViewModels
             ConfigurationModel.Loaded();
         }
 
-        private void OnOpenExportFileCatalogue()
-        {
-            ConfigurationModel.OpenExportFileCatalogue();
-        }
-
         private void OnOpenUpLoadFileCatalogue()
         {
             ConfigurationModel.OpenUpLoadFileCatalogue();
-        }
-
-        private void OnOpenMasterExportFileCatalogue()
-        {
-            ConfigurationModel.OpenMasterExportFileCatalogue();
-        }
-
-        private void OnOpenDetailExportFileCatalogue()
-        {
-            ConfigurationModel.OpenDetailExportFileCatalogue();
         }
 
         private void OnSave()

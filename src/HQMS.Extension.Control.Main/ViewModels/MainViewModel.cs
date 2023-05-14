@@ -22,39 +22,32 @@ namespace HQMS.Extension.Control.Main.ViewModels
             set => SetProperty(ref extensionModuleName, value);
         }
 
-        MainModel mainModel;
-        public MainModel MainModel
-        {
-            get => mainModel;
-            set => SetProperty(ref mainModel, value);
-        }
-
-        public DelegateCommand LoadedCommand { get; private set; }
-        public DelegateCommand MenuSelectedChangedCommand { get; private set; }
+        public DelegateCommand DataMatchingCheckedCommand { get; private set; }
+        public DelegateCommand DataQueryingCheckedCommand { get; private set; }
+        public DelegateCommand DataExportingCheckedCommand { get; private set; }
 
         public MainViewModel(IContainerProvider containerProviderArg)
         {
-            MainModel = new MainModel(containerProviderArg);
-
             regionManager = containerProviderArg.Resolve<IRegionManager>();
 
-            LoadedCommand = new DelegateCommand(OnLoaded);
-            MenuSelectedChangedCommand = new DelegateCommand(OnMenuSelectedChanged);
+            DataMatchingCheckedCommand = new DelegateCommand(OnDataMatchingChecked);
+            DataQueryingCheckedCommand = new DelegateCommand(OnDataQueryingChecked);
+            DataExportingCheckedCommand = new DelegateCommand(OnDataExportingChecked);
         }
 
-        private void OnLoaded()
+        private void OnDataMatchingChecked()
         {
-            MainModel.Loaded();
+            regionManager.RequestNavigate("HQMS.MainContentRegion", "DataMappingView");
         }
 
-        private void OnMenuSelectedChanged()
+        private void OnDataQueryingChecked()
         {
-            switch (MainModel.CurrentItem)
-            {
-                case "DataMapping": regionManager.RequestNavigate("HQMS.MainContentRegion", "DataMappingView"); break;
-                case "DataQuerying": regionManager.RequestNavigate("HQMS.MainContentRegion", "DataQueryingView"); break;
-                case "DataExporting": regionManager.RequestNavigate("HQMS.MainContentRegion", "DataExportingView"); break;
-            }
+            regionManager.RequestNavigate("HQMS.MainContentRegion", "DataQueryingView");
+        }
+
+        private void OnDataExportingChecked()
+        {
+            regionManager.RequestNavigate("HQMS.MainContentRegion", "DataExportingView");
         }
     }
 }

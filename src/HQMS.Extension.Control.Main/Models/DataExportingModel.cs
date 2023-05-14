@@ -31,7 +31,6 @@ namespace HQMS.Extension.Control.Main.Models
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeBaseController;
         IDataBaseController BAGLDBController;
-        IConfigurator configurator;
 
         ObservableCollection<CategoryKind> years;
         public ObservableCollection<CategoryKind> Years
@@ -81,7 +80,6 @@ namespace HQMS.Extension.Control.Main.Models
             environmentMonitor = containerProviderArg.Resolve<IEnvironmentMonitor>();
             nativeBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native);
             BAGLDBController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.BAGLDB);
-            configurator = containerProviderArg.Resolve<IConfigurator>();
 
             Masters = new ObservableCollection<MasterKind>();
             Details = new ObservableCollection<DetailKind>();
@@ -162,16 +160,12 @@ namespace HQMS.Extension.Control.Main.Models
 
         public void ExprotMasterData()
         {
-            masterExportFilePath = configurator.MasterExportFileCatalogue + "\\汇总数据.xls";
-
             Mapper mapper = new Mapper();
             mapper.Save(masterExportFilePath, Masters, sheetIndex: 1, overwrite: true, xlsx: false);
         }
 
         public void ExprotDetailData()
         {
-            detailExportFilePath = configurator.DetailExportFileCatalogue + "\\明细数据.xls";
-
             Mapper mapper = new Mapper();
             mapper.Save(detailExportFilePath, Details, sheetIndex: 1, overwrite: true, xlsx: false);
         }

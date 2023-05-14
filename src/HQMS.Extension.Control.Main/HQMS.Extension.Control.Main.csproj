@@ -114,11 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainModule.cs" />
-    <Compile Include="Configurator\Configurator.cs" />
+    <Compile Include="Models\Converters\ExtensionModeConverter.cs" />
+    <Compile Include="Models\Converters\FullModeConverter.cs" />
     <Compile Include="Models\DataExportingModel.cs" />
     <Compile Include="Models\DataMappingModel.cs" />
     <Compile Include="Models\DataQueryingModel.cs" />
-    <Compile Include="Configurator\IConfigurator.cs" />
     <Compile Include="Models\Kinds\CatalogKind.cs" />
     <Compile Include="Models\Kinds\DetailKind.cs" />
     <Compile Include="Models\Kinds\LocalKind.cs" />
@@ -126,7 +126,6 @@
     <Compile Include="Models\Kinds\MatchedKind.cs" />
     <Compile Include="Models\Kinds\ResultKind.cs" />
     <Compile Include="Models\Kinds\StandardKind.cs" />
-    <Compile Include="Models\MainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -144,6 +143,7 @@
     <Compile Include="ViewModels\DataMappingViewModel.cs" />
     <Compile Include="ViewModels\DataQueryingViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\BindingProxy.cs" />
     <Compile Include="Views\DataExportingView.xaml.cs">
       <DependentUpon>DataExportingView.xaml</DependentUpon>
     </Compile>
@@ -189,6 +189,10 @@
     <ProjectReference Include="..\HAMS.Frame.Kernel\HAMS.Frame.Kernel.csproj">
       <Project>{754a02f3-71b3-43dd-8239-3d039205f8d7}</Project>
       <Name>HAMS.Frame.Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HQMS.Extension.Kernel\HQMS.Extension.Kernel.csproj">
+      <Project>{91de834a-734c-4ef0-8b53-f58bc37424ea}</Project>
+      <Name>HQMS.Extension.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -112,18 +112,18 @@ namespace IDMS.Extension.Control.InfluenzaSurveillance.Models
 
             if (CurrentVisitCategoryItem == "OutPatient")
             {
-                if (!mzcisdbBaseController.QueryWithMessage<ResultKind>(sqlSentence, out resultHub, out retMessage))
+                if (!mzcisdbBaseController.Query<ResultKind>(sqlSentence, out resultHub,commandTimeoutArg:300))
                     messageQueue.Enqueue(retMessage);
             }
             else
             {
-                if (!zycisdbBaseController.QueryWithMessage<ResultKind>(sqlSentence, out resultHub, out retMessage))
+                if (!zycisdbBaseController.Query<ResultKind>(sqlSentence, out resultHub, commandTimeoutArg: 300))
                     messageQueue.Enqueue(retMessage);
             }
 
             CurrentPage = 1;
 
-            TotalRecordCount = resultHub.Count;
+            TotalRecordCount = resultHub.Count();
             DisplayRecordPage();
         }
 
@@ -133,9 +133,9 @@ namespace IDMS.Extension.Control.InfluenzaSurveillance.Models
 
             int currentRecordCount = (CurrentPage - 1) * PageRecordCount;
 
-            Results.AddRange(resultHub.GetRange(currentRecordCount, (TotalRecordCount - currentRecordCount) / PageRecordCount > 0 ? PageRecordCount : (TotalRecordCount - currentRecordCount) % PageRecordCount));
+            Results.AddRange(resultHub.ToList().GetRange(currentRecordCount, (TotalRecordCount - currentRecordCount) / PageRecordCount > 0 ? PageRecordCount : (TotalRecordCount - currentRecordCount) % PageRecordCount));
         }
-
+        
         public void ExportData()
         {
             if (resultHub == null)

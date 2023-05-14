@@ -9,6 +9,7 @@
         LoginModule,
         MainHeaderModule,
         MainLeftDrawerModule,
-        BasicConfigurationModule
+        BasicConfigurationModule,
+        ExtensionConfigurationModule
     }
 }

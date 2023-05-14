@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace HAMS.Frame.Service.Extension
 {
     public class ExtensionModuleCatalog : ModuleCatalog
     {
+        ModuleInfo moduleInfo;
         ExtensionModuleKind extensionModule;
         IModuleCatalog moduleCatalog;
 
@@ -24,13 +26,23 @@ namespace HAMS.Frame.Service.Extension
         {
             if (extensionModule != null)
             {
-                ModuleInfo moduleInfo = new ModuleInfo
-                {
-                    ModuleName = extensionModule.Item,
-                    ModuleType = extensionModule.Description,
-                    Ref = GetFileAbsoluteUri(extensionModule.Content),
-                    InitializationMode = InitializationMode.WhenAvailable
-                };
+                if (string.IsNullOrEmpty(extensionModule.Note))
+                    moduleInfo = new ModuleInfo
+                    {
+                        ModuleName = extensionModule.Item,
+                        ModuleType = extensionModule.Description,
+                        Ref = GetFileAbsoluteUri(extensionModule.Content),
+                        InitializationMode = InitializationMode.WhenAvailable
+                    };
+                else
+                    moduleInfo = new ModuleInfo
+                    {
+                        ModuleName = extensionModule.Item,
+                        ModuleType = extensionModule.Description,
+                        Ref = GetFileAbsoluteUri(extensionModule.Content),
+                        DependsOn = new Collection<string>(extensionModule.Note.Split(',')),
+                        InitializationMode = InitializationMode.WhenAvailable
+                    };
 
                 moduleCatalog.AddModule(moduleInfo);
             }

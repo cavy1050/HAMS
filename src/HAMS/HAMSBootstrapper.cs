@@ -21,7 +21,6 @@ namespace HAMS
             containerRegistryArgs.RegisterSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>();
         }
 
-
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalogArgs)
         {
             Type kernelModuleType = typeof(KernelModule);

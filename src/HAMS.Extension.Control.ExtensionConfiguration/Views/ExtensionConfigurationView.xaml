@@ -7,11 +7,101 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:local="clr-namespace:HAMS.Extension.Control.ExtensionConfiguration.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid>
-        <TextBlock Text="ExtensionConfiguration"/>
-    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <DockPanel Margin="8">
+        <ListBox DockPanel.Dock="Top"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
+                 ItemsSource="{Binding ExtensionConfigurationModel.RootNodes}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 8"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="1"
+                                        Padding="8">
+                                    <StackPanel>
+                                        <TextBlock Margin="32 0 0 0"
+                                                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                                   Text="{Binding Name}"/>
+
+                                        <Separator Margin="32 0 32 0"
+                                                   Style="{StaticResource MaterialDesignDarkSeparator}" 
+                                                   Background="{StaticResource PrimaryHueDarkBrush}"/>
+
+                                        <DataGrid ItemsSource="{Binding NextNodes, Mode=OneWay}"
+                                                  CanUserAddRows="False"
+                                                  CanUserDeleteRows="False"
+                                                  IsReadOnly="True"
+                                                  AutoGenerateColumns="False"
+                                                  HeadersVisibility="All"
+                                                  HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  SelectionMode="Single">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="扩展项标识"
+                                                                    Binding="{Binding ModuleName}" 
+                                                                    IsReadOnly="True"
+                                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                                <DataGridTextColumn Header="扩展项名称"
+                                                                    Binding="{Binding Name}" 
+                                                                    IsReadOnly="True"
+                                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                                <DataGridTextColumn Header="程序集名称"
+                                                                    Binding="{Binding ModuleRef}" 
+                                                                    IsReadOnly="True"
+                                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                                <DataGridTextColumn Header="程序集类型"
+                                                                    Binding="{Binding ModuleType}" 
+                                                                    IsReadOnly="True"
+                                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <md:Card DockPanel.Dock="Bottom"
+                 Padding="8"
+                 VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Margin="0 0 32 0"
+                        Content="新增"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding AdditionCommand}"/>
+                <Button Margin="0 0 32 0"
+                        Content="修改"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding AlterationCommand}"/>
+                <Button Margin="0 0 32 0"
+                        Content="删除"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding DeletionCommand}"/>
+                <Button Margin="0 0 32 0"
+                        Content="保存"
+                        HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </md:Card>
+    </DockPanel>
 </UserControl>

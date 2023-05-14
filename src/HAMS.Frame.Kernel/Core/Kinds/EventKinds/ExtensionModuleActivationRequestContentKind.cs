@@ -18,5 +18,8 @@ namespace HAMS.Frame.Kernel.Core
 
         [JsonProperty(PropertyName = "menu_mod_type", Order = 5)]
         public string ModuleType { get; set; }
+
+        [JsonProperty(PropertyName = "menu_mod_dep", Order = 6)]
+        public string ModuleDependency { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using Prism.Ioc;
@@ -14,6 +15,7 @@ namespace HAMS.Frame.Kernel.Services
         protected IDbConnection DBConnection { get; set; }
         ILogController dataBaseLogController;
         IDataReader reader;
+        CommandDefinition commandDefinition;
 
         public DataBaseControllerBase(IContainerProvider containerProviderArg)
         {
@@ -29,10 +31,6 @@ namespace HAMS.Frame.Kernel.Services
                 DBConnection.Open();
                 if (DBConnection.State == ConnectionState.Open)
                     ret = true;
-            }
-            catch
-            {
-
             }
             finally
             {
@@ -76,15 +74,18 @@ namespace HAMS.Frame.Kernel.Services
             return ret;
         }
 
-        public virtual bool Query<T>(string sqlSentenceArg, out List<T> tHub)
+        public virtual bool Query<T>(string sqlSentenceArg, out List<T> tHub, int? commandTimeoutArg = null)
         {
             bool ret = false;
             tHub = default(List<T>);
-            dataBaseLogController= environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
+            dataBaseLogController = environmentMonitor.LogSetting.GetContent(LogPart.DataBase);
 
             if (environmentMonitor.ValidationResult.IsValid)
             {
-                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
+                if (commandTimeoutArg == null)
+                    commandDefinition = new CommandDefinition(sqlSentenceArg);
+                else
+                    commandDefinition = new CommandDefinition(sqlSentenceArg, commandTimeout: commandTimeoutArg);
 
                 try
                 {
@@ -141,7 +142,7 @@ namespace HAMS.Frame.Kernel.Services
             return ret;
         }
 
-        public virtual bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub , out string retStringArg)
+        public virtual bool QueryWithMessage<T>(string sqlSentenceArg, out List<T> tHub, out string retStringArg)
         {
             bool ret = false;
             tHub = default(List<T>);
@@ -150,7 +151,7 @@ namespace HAMS.Frame.Kernel.Services
 
             if (environmentMonitor.ValidationResult.IsValid)
             {
-                CommandDefinition commandDefinition = new CommandDefinition(sqlSentenceArg);
+                commandDefinition = new CommandDefinition(sqlSentenceArg);
 
                 try
                 {
@@ -163,7 +164,7 @@ namespace HAMS.Frame.Kernel.Services
                         reader.Close();
                         tHub = SqlMapper.Query<T>(DBConnection, commandDefinition).AsList();
                         ret = true;
-                    } 
+                    }
                     else
                     {
                         retStringArg = reader.GetString(1);

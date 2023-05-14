@@ -25,11 +25,11 @@ namespace HAMS.Frame.Kernel.Core
         [JsonProperty(PropertyName = "menu_mod_type", Order = 7)]
         public override string Description { get; set; }
 
+        [JsonProperty(PropertyName = "menu_mod_dep", Order = 7)]
+        public override string Note { get; set; }
+
         [JsonProperty(PropertyName = "menu_rank", Order = 8)]
         public override int Rank { get; set; }
-
-        [JsonIgnore]
-        public override string Note { get; set; }
 
         [JsonIgnore]
         public override bool EnabledFlag { get; set; }
