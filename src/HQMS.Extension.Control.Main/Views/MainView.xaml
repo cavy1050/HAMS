@@ -14,7 +14,7 @@
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <md:Card Grid.Row="0"
@@ -25,7 +25,7 @@
                              GroupName="Menus">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding DataMatchingCheckedCommand}"/>
+                            <i:InvokeCommandAction Command="{Binding DataMappingCheckedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </RadioButton>

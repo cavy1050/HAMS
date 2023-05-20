@@ -160,14 +160,41 @@ namespace HQMS.Extension.Control.Main.Models
 
         public void ExprotMasterData()
         {
+            masterExportFilePath = environmentMonitor.PathSetting.GetContent(PathPart.ExportFileCatalogue) + "公立医院绩效考核汇总数据.xls";
             Mapper mapper = new Mapper();
-            mapper.Save(masterExportFilePath, Masters, sheetIndex: 1, overwrite: true, xlsx: false);
+
+            try
+            {
+                mapper.Save(masterExportFilePath, Masters, sheetIndex: 1, overwrite: true, xlsx: false);
+            }
+            catch (Exception ex)
+            {
+                messageQueue.Enqueue(ex.Message);
+            }
+            finally
+            {
+                messageQueue.Enqueue("文件已成功导出至<" + masterExportFilePath + ">!");
+            }
+            
         }
 
         public void ExprotDetailData()
         {
+            detailExportFilePath = environmentMonitor.PathSetting.GetContent(PathPart.ExportFileCatalogue) + "公立医院绩效考核明细数据.xls";
             Mapper mapper = new Mapper();
-            mapper.Save(detailExportFilePath, Details, sheetIndex: 1, overwrite: true, xlsx: false);
+
+            try
+            {
+                mapper.Save(detailExportFilePath, Details, sheetIndex: 1, overwrite: true, xlsx: false);
+            }
+            catch (Exception ex)
+            {
+                messageQueue.Enqueue(ex.Message);
+            }
+            finally
+            {
+                messageQueue.Enqueue("文件已成功导出至<" + detailExportFilePath + ">!");
+            }
         }
     }
 }

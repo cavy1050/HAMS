@@ -22,7 +22,7 @@ namespace HQMS.Extension.Control.Main.ViewModels
             set => SetProperty(ref extensionModuleName, value);
         }
 
-        public DelegateCommand DataMatchingCheckedCommand { get; private set; }
+        public DelegateCommand DataMappingCheckedCommand { get; private set; }
         public DelegateCommand DataQueryingCheckedCommand { get; private set; }
         public DelegateCommand DataExportingCheckedCommand { get; private set; }
 
@@ -30,12 +30,12 @@ namespace HQMS.Extension.Control.Main.ViewModels
         {
             regionManager = containerProviderArg.Resolve<IRegionManager>();
 
-            DataMatchingCheckedCommand = new DelegateCommand(OnDataMatchingChecked);
+            DataMappingCheckedCommand = new DelegateCommand(OnDataMappingChecked);
             DataQueryingCheckedCommand = new DelegateCommand(OnDataQueryingChecked);
             DataExportingCheckedCommand = new DelegateCommand(OnDataExportingChecked);
         }
 
-        private void OnDataMatchingChecked()
+        private void OnDataMappingChecked()
         {
             regionManager.RequestNavigate("HQMS.MainContentRegion", "DataMappingView");
         }

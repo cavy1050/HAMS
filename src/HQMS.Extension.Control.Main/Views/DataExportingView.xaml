@@ -17,29 +17,33 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Margin="16">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal">
-            <TextBlock Text="年份"
-                       VerticalAlignment="Center"
-                       Style="{DynamicResource MaterialDesignTextBlock}"/>
-            <ComboBox Margin="8 0 0 0"
+        <Border Grid.Row="0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+            <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="年份"
+                           Margin="16 0 0 0"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="8 0 0 0"
                       md:HintAssist.Hint="请选择年份"
                       ItemsSource="{Binding DataExportingModel.Years}"
                       Width="100"
                       DisplayMemberPath="Name"
                       SelectedValue="{Binding DataExportingModel.CurrentYear}"
                       SelectedValuePath="Item"/>
-            <TextBlock Text="月份"
+                    <TextBlock Text="月份"
                        Margin="32 0 0 0"
                        VerticalAlignment="Center"
-                       Style="{DynamicResource MaterialDesignTextBlock}"/>
-            <ComboBox Margin="8 0 0 0"
+                       Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                    <ComboBox Margin="8 0 0 0"
                       md:HintAssist.Hint="请选择月份"
                       ItemsSource="{Binding DataExportingModel.Months}"
                       Width="100"
@@ -47,169 +51,185 @@
                       SelectedValue="{Binding DataExportingModel.CurrentMonth}"
                       SelectedValuePath="Item"/>
 
-            <Button Margin="32 0 0 0"
-                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    <Button Margin="32 0 0 0"
                     Content="汇总查询"
                     Command="{Binding MasterCommand}"/>
 
-            <Button Margin="32 0 0 0"
-                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    <Button Margin="32 0 0 0"
                     Content="明细查询"
                     Command="{Binding DetailCommand}"/>
 
-            <Button Margin="32 0 0 0"
-                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    <Button Margin="32 0 0 0"
                     Content="汇总导出"
                     Command="{Binding MasterExportCommand}"/>
 
-            <Button Margin="32 0 0 0"
-                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    <Button Margin="32 0 0 0"
                     Content="明细导出"
                     Command="{Binding DetailExportCommand}"/>
-        </StackPanel>
+                </StackPanel>
+            </Border>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              MaxHeight="800">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="540"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0"
-                  Header="汇总数据"
-                  Style="{DynamicResource MaterialDesignGroupBox}">
-                <DataGrid Margin="0 8 0 0"
+            <Border Grid.Column="0"
+                Margin="0 8 0 0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
+                           Style="{StaticResource MaterialDesignBody1TextBlock}"
+                           Text="汇总数据" />
+
+                    <DataGrid Margin="0 8 0 0"
                           ItemsSource="{Binding DataExportingModel.Masters}"
                           Style="{StaticResource MaterialDesignDataGrid}"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
                           HeadersVisibility="All"
-                          VerticalScrollBarVisibility="Auto">
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="选择"
+                          VerticalScrollBarVisibility="Auto"
+                          MaxHeight="760">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="选择"
                                                 Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
                                                 ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                                 EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
-                            <DataGridCheckBoxColumn.CellStyle>
-                                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
-                                    <Setter Property="IsEnabled" Value="{Binding FEXTEND}"/>
-                                    <!-- <EventSetter Event="CheckBox.Checked" Handler="OnChecked"/> -->
-                                </Style>
-                            </DataGridCheckBoxColumn.CellStyle>
-                        </DataGridCheckBoxColumn>
-                        <DataGridTextColumn Header="年月"
+                                <DataGridCheckBoxColumn.CellStyle>
+                                    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                        <Setter Property="IsEnabled" Value="{Binding FEXTEND}"/>
+                                        <!-- <EventSetter Event="CheckBox.Checked" Handler="OnChecked"/> -->
+                                    </Style>
+                                </DataGridCheckBoxColumn.CellStyle>
+                            </DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="年月"
                                             Binding="{Binding FREPORTDATESTR}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="项目"
+                            <DataGridTextColumn Header="项目"
                                             Binding="{Binding FNAME}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="内容"
+                            <DataGridTextColumn Header="内容"
                                             Binding="{Binding FCONTENT}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
 
-            <GroupBox Grid.Column="1"
-                  Header="明细数据"
-                  Style="{DynamicResource MaterialDesignGroupBox}">
-                <DataGrid Margin="0 8 0 0"
+            <Border Grid.Column="1"
+                Margin="8 8 0 0"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                Padding="8">
+                <StackPanel>
+                    <TextBlock Margin="32 0 0 0"
+                           Style="{StaticResource MaterialDesignBody1TextBlock}"
+                           Text="明细数据" />
+
+                    <DataGrid Margin="0 8 0 0"
                           ItemsSource="{Binding DataExportingModel.Details}"
                           Style="{StaticResource MaterialDesignDataGrid}"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
                           HeadersVisibility="All"
-                          VerticalScrollBarVisibility="Auto">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="年月"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          MaxHeight="760">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="年月"
                                             Binding="{Binding FREPORTDATESTR}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="住院号"
+                            <DataGridTextColumn Header="住院号"
                                             Binding="{Binding A48}"   
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="姓名"
+                            <DataGridTextColumn Header="姓名"
                                             Binding="{Binding A11}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="年龄(岁)"
+                            <DataGridTextColumn Header="年龄(岁)"
                                             Binding="{Binding A14}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="入院时间"
+                            <DataGridTextColumn Header="入院时间"
                                             Binding="{Binding B12}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="出院时间"
+                            <DataGridTextColumn Header="出院时间"
                                             Binding="{Binding B15}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="实际住院(天)"
+                            <DataGridTextColumn Header="实际住院(天)"
                                             Binding="{Binding B20}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="出院主要诊断编码"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="出院主要诊断编码"
+                                            Binding="{Binding C03C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="出院主要诊断名称"
-                                            Binding="{Binding A48}"   
+                            <DataGridTextColumn Header="出院主要诊断名称"
+                                            Binding="{Binding C04N}"   
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作编码"
-                                            Binding="{Binding A11}"
+                            <DataGridTextColumn Header="主要手术操作编码"
+                                            Binding="{Binding C14x01C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作名称"
-                                            Binding="{Binding A14}"
+                            <DataGridTextColumn Header="主要手术操作名称"
+                                            Binding="{Binding C15x01N}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作日期"
-                                            Binding="{Binding B12}"
+                            <DataGridTextColumn Header="主要手术操作日期"
+                                            Binding="{Binding C16x01}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作级别"
-                                            Binding="{Binding B15}"
+                            <DataGridTextColumn Header="主要手术操作级别"
+                                            Binding="{Binding C17x01}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作术者"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="主要手术操作术者"
+                                            Binding="{Binding C18x01}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作切口愈合等级"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="主要手术操作切口愈合等级"
+                                            Binding="{Binding C21x01C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="主要手术操作麻醉方式"
-                                            Binding="{Binding B12}"
+                            <DataGridTextColumn Header="主要手术操作麻醉方式"
+                                            Binding="{Binding C22x01C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="入院科别"
-                                            Binding="{Binding B15}"
+                            <DataGridTextColumn Header="入院科别"
+                                            Binding="{Binding B13C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="出院科别"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="出院科别"
+                                            Binding="{Binding B16C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="离院方式"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="离院方式"
+                                            Binding="{Binding B34C}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
-                        <DataGridTextColumn Header="住院总费用"
-                                            Binding="{Binding B20}"
+                            <DataGridTextColumn Header="住院总费用"
+                                            Binding="{Binding D01}"
                                             IsReadOnly="True"
                                             ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
 
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
-
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>
