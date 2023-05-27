@@ -141,12 +141,13 @@ namespace HQMS.Extension.Control.Main.Models
             CalcQueryDate();
 
             sqlSentence = "EXEC usp_hqms_getbasj '" + beginDate + "','" + endDate + "','" + setting.HospitalCode + "'";
-            BAGLDBController.QueryWithMessage<ResultKind>(sqlSentence, out resultHub,out retString);
+            if (BAGLDBController.Query<ResultKind>(sqlSentence, out resultHub, commandTimeoutArg: 60))
+            {
+                CurrentPage = 1;
 
-            CurrentPage = 1;
-
-            TotalRecordCount = resultHub.Count();
-            DisplayRecordPage();
+                TotalRecordCount = resultHub.Count();
+                DisplayRecordPage();
+            }
         }
 
         private void CalcQueryDate()
